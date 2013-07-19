@@ -1,0 +1,22 @@
+{
+	"name": "fullon",
+	"subdomain": "fullon2014",
+	"version": "0.0.0",
+	"description": "st phils full on website",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/alexreardon/fullon.git"
+	},
+	"keywords": [
+		"fullon",
+		"stphils"
+	],
+	"author": "Alex Reardon",
+	"license": "BSD",
+	"gitHead": "f3802a6ae66117735137d3e57a24d21285472786",
+	"readmeFilename": "README.md"
+}
