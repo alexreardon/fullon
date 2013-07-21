@@ -1,0 +1,41 @@
+doctype 5
+html
+	head
+		title Full On 2014 Coming Soon
+		link(rel='stylesheet', href='/style/countdown.css')
+
+	body
+		header
+			h1 FULL ON
+			h2 2014
+
+		section#countdown
+
+			#days.item
+				h3
+				h5 DAYS TO GO
+
+			#countdown_row
+				#hours.item
+					h3
+					h5 HOURS
+				#minutes.item
+					h3
+					h5 MINS
+				#seconds.item
+					h3
+					h5 SECS
+
+
+		script(src='/js/lib/jquery-2.0.3.js', type='text/javascript')
+		script(src='/js/lib/moment.js', type='text/javascript')
+		script(src='/js/lib/underscore.js', type='text/javascript')
+		script(src='/js/countdown.js', type='text/javascript')
+
+		//bootstrap application
+		script(type='text/javascript')
+			$(function(){
+				var countdown = new Countdown($('#countdown'));
+				countdown.start();
+			});
+

@@ -1,0 +1,64 @@
+@import "reset.css";
+@font-face {
+  font-family: 'bebas_neueregular';
+  src: url('../font/BebasNeue-webfont.eot');
+  src: url('../font/BebasNeue-webfont.eot?#iefix') format('embedded-opentype'), url('../font/BebasNeue-webfont.woff') format('woff'), url('../font/BebasNeue-webfont.ttf') format('truetype'), url('../font/BebasNeue-webfont.svg#bebas_neueregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+* {
+  box-sizing: border-box;
+}
+html {
+  font-family: 'bebas_neueregular';
+  background: black;
+  color: #dfdfdf;
+}
+body {
+  width: 640px;
+  margin: 0 auto;
+}
+header {
+  text-align: center;
+  color: #dfdfdf;
+}
+header h1 {
+  font-size: 12em;
+  letter-spacing: -0.02em;
+}
+header h2 {
+  margin-top: -0.4em;
+  font-size: 6em;
+  letter-spacing: 0.9em;
+  padding-left: 0.9em;
+  text-shadow: 0px 0px 10px #dfdfdf;
+}
+#countdown {
+  text-align: center;
+  font-family: "helvetica", "Myriad Pro", "Lucida Grande", "helvetica", "sans-serif";
+}
+#countdown #days.item h3 {
+  font-size: 6em;
+}
+#countdown #days.item h5 {
+  margin-top: -0.4em;
+  font-size: 2em;
+}
+#countdown #countdown_row {
+  margin-top: 30px;
+  color: #606060;
+}
+#countdown #countdown_row .item {
+  display: inline-block;
+  padding-right: 10px;
+}
+#countdown #countdown_row .item h3 {
+  font-size: 2.4000000000000004em;
+}
+#countdown #countdown_row .item h5 {
+  margin-top: -0.4em;
+  font-size: 0.8em;
+}
+#countdown #countdown_row .item:last-of-type {
+  padding-right: 0px;
+}
