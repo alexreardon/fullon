@@ -1,100 +1,137 @@
 @import "reset.css";
 
 @font_header: 'bebas_neueregular';
-@width: 640px; //640px - width of iphone 4
+@width: 640px;
+//640px - width of iphone 4
+@width_mobile: (@width / 2);
+
 @margin_top_text: -0.4em;
 @color_font: rgb(223, 223, 223);
 
+//MEDIA QUERIES
+@highdensity: ~"only screen and (-webkit-min-device-pixel-ratio: 1.5)", ~"only screen and (min--moz-device-pixel-ratio: 1.5)", ~"only screen and (-o-min-device-pixel-ratio: 3/2)", ~"only screen and (min-device-pixel-ratio: 1.5)";
+@mobile: ~"only screen and (max-width: 529px), screen and (max-device-width: 529px)";
+@mobile_landscape: @mobile ~" and (orientation : landscape)";
+@tablet: ~"only screen and (min-width: 530px) and (max-width: 949px)";
+@desktop: ~"only screen and (min-width: 950px) and (max-width: 1128px)";
+@desktop-xl: ~"only screen and (min-width: 1129px)";
+
 //MIXINS
-.text_shadow(@blur: 10px){
-  text-shadow: 0px 0px @blur @color_font;
+.text_shadow(@blur: 10px) {
+	text-shadow: 0px 0px @blur @color_font;
 }
 
-
 @font-face {
-  font-family: @font_header;
-  src: url('../font/BebasNeue-webfont.eot');
-  src: url('../font/BebasNeue-webfont.eot?#iefix') format('embedded-opentype'), url('../font/BebasNeue-webfont.woff') format('woff'), url('../font/BebasNeue-webfont.ttf') format('truetype'), url('../font/BebasNeue-webfont.svg#bebas_neueregular') format('svg');
-  font-weight: normal;
-  font-style: normal;
+	font-family: @font_header;
+	src: url('../font/BebasNeue-webfont.eot');
+	src: url('../font/BebasNeue-webfont.eot?#iefix') format('embedded-opentype'), url('../font/BebasNeue-webfont.woff') format('woff'), url('../font/BebasNeue-webfont.ttf') format('truetype'), url('../font/BebasNeue-webfont.svg#bebas_neueregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 
 * {
-  box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 html {
-  font-family: @font_header;
-  background: black;
-  color: @color_font;
+	font-family: @font_header;
+	background: black;
+	color: @color_font;
+
 }
 
 body {
-  width: @width;
-  margin: 0 auto;
+	width: @width;
+	margin: 0 auto;
+
+	@media @mobile {
+		font-size: 0.5em;
+		width: @width_mobile;
+	}
+
 
 }
 
 header {
 
-  text-align: center;
-  color: @color_font;
+	text-align: center;
+	color: @color_font;
+
+	h1 {
+		font-size: 12em;
+
+		letter-spacing: -0.02em;
+	}
+
+	h2 {
+		@letter_spacing: 0.9em;
+		margin-top: @margin_top_text;
+		font-size: 6em;
+		letter-spacing: @letter_spacing;
+		padding-left: @letter_spacing; //fix for centering text
 
 
 
-  h1 {
-	font-size: 12em;
-	letter-spacing: -0.02em;
-  }
+		.text_shadow();
+	}
 
-  h2 {
-	@letter_spacing: 0.9em;
-	margin-top: @margin_top_text;
-	font-size: 6em;
-	letter-spacing: @letter_spacing;
-	padding-left: @letter_spacing; //fix for centering text
-
-	.text_shadow();
-  }
+	#ring {
+		background-image: url('/images/ring.png');
+		background-repeat: no-repeat;
+	}
 }
 
 #countdown {
+
+	//stick to bottom
+	position: absolute;
+	width: @width;
+	bottom: 100px;
+
+	@media @mobile {
+		width: @width_mobile;
+	}
+
+	@media @mobile_landscape {
+		bottom: 50px;
+	}
+
 	text-align: center;
-  font-family: "helvetica", "Myriad Pro", "Lucida Grande", "helvetica", "sans-serif";
+	font-family: "helvetica", "Myriad Pro", "Lucida Grande", "helvetica", "sans-serif";
 
-  .item_style(@multiplier: 1){
+	.item_style(@multiplier: 1) {
 
-	h3 {
-		font-size: 3em * @multiplier;
-	}
-	h5 {
-	  	margin-top: @margin_top_text;
-		font-size: 1em * @multiplier;
-	}
-
-  }
-
-  #days.item {
-	.item_style(2);
-  }
-
-  #countdown_row {
-	margin-top: 30px;
-	color: darken(@color_font, 50%);
-
-	.item {
-	  .item_style(0.8);
-
-	  display: inline-block;
-	  padding-right: 10px;
-
-	  &:last-of-type {
-		padding-right: 0px;
-	  }
+		h3 {
+			font-size: 3em * @multiplier;
+		}
+		h5 {
+			margin-top: @margin_top_text;
+			font-size: 1em * @multiplier;
+		}
 
 	}
-}
 
+	#days.item {
+		.item_style(2);
+	}
+
+	#countdown_row {
+
+		margin-top: 20px;
+		color: darken(@color_font, 50%);
+
+		.item {
+			.item_style(0.8);
+
+			display: inline-block;
+			padding-right: 10px;
+
+			&:last-of-type {
+				padding-right: 0px;
+			}
+
+		}
+	}
 
 }
 

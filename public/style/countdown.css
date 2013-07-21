@@ -18,6 +18,12 @@ body {
   width: 640px;
   margin: 0 auto;
 }
+@media only screen and (max-width: 529px), screen and (max-device-width: 529px) {
+  body {
+    font-size: 0.5em;
+    width: 320px;
+  }
+}
 header {
   text-align: center;
   color: #dfdfdf;
@@ -33,9 +39,26 @@ header h2 {
   padding-left: 0.9em;
   text-shadow: 0px 0px 10px #dfdfdf;
 }
+header #ring {
+  background-image: url('/images/ring.png');
+  background-repeat: no-repeat;
+}
 #countdown {
+  position: absolute;
+  width: 640px;
+  bottom: 100px;
   text-align: center;
   font-family: "helvetica", "Myriad Pro", "Lucida Grande", "helvetica", "sans-serif";
+}
+@media only screen and (max-width: 529px), screen and (max-device-width: 529px) {
+  #countdown {
+    width: 320px;
+  }
+}
+@media only screen and (max-width: 529px), screen and (max-device-width: 529px)  and (orientation : landscape) {
+  #countdown {
+    bottom: 50px;
+  }
 }
 #countdown #days.item h3 {
   font-size: 6em;
@@ -45,7 +68,7 @@ header h2 {
   font-size: 2em;
 }
 #countdown #countdown_row {
-  margin-top: 30px;
+  margin-top: 20px;
   color: #606060;
 }
 #countdown #countdown_row .item {

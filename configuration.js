@@ -8,7 +8,7 @@ exports.init = function(express, app){
 
 
 //views
-	app.set('port', process.env.PORT || 4000);
+	app.set('port', process.env.PORT || 80);
 	app.set('views', __dirname + '/views');
 	app.set('view engine', 'jade');
 
@@ -21,11 +21,15 @@ exports.init = function(express, app){
 	app.use(express.session());
 
 //static file serving
+	app.use(require('less-middleware')({ src: __dirname + '/public' }));
 	app.use(express.static(path.join(__dirname, 'public')));
 
 //middleware - flow
 	app.use(app.router);
-	app.use(require('less-middleware')({ src: __dirname + '/public' }));
+
+	//TODO: routeNotFound
+	//app.use(routeNotFound);
+
 
 
 //development
