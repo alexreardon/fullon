@@ -46,7 +46,7 @@ header #ring {
 #countdown {
   position: absolute;
   width: 640px;
-  bottom: 100px;
+  top: 335px;
   text-align: center;
   font-family: "helvetica", "Myriad Pro", "Lucida Grande", "helvetica", "sans-serif";
 }
