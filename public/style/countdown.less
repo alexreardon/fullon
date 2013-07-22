@@ -21,6 +21,17 @@
 	text-shadow: 0px 0px @blur @color_font;
 }
 
+.animation(@parameters) {
+	animation: @parameters;
+	-moz-animation: @parameters;
+	-webkit-animation: @parameters;
+	-o-animation: @parameters;
+}
+
+.fadein {
+	//keyframes
+}
+
 @font-face {
 	font-family: @font_header;
 	src: url('../font/BebasNeue-webfont.eot');
@@ -41,6 +52,15 @@ html {
 }
 
 body {
+	//hidden until ready
+	opacity: 0;
+
+	.animation(fadein 2s);
+
+	&.ready{
+		opacity: 1;
+	}
+
 	width: @width;
 	margin: 0 auto;
 
@@ -49,8 +69,9 @@ body {
 		width: @width_mobile;
 	}
 
-
 }
+
+
 
 header {
 
