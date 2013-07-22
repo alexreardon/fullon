@@ -4,29 +4,22 @@ var Backbone = require('backbone'),
 
 _.extend(Backbone.Model.prototype, validation.mixin);
 
-var SomeModel = Backbone.Model.extend({
+var FormModel = Backbone.Model.extend({
 	validation: {
 		name: {
 			required: true
 		},
-		'address.street': {
-			required: true
-		},
-		'address.zip': {
-			length: 4
-		},
 		age: {
-			range: [1, 80]
+			range: [10, 80]
 		},
 		email: {
 			pattern: 'email'
-		},
-		someAttribute: function(value) {
-			if(value !== 'somevalue') {
-				return 'Error message';
-			}
 		}
 	}
 });
+
+var FormView = Backbone.View.extend({});
+
+var view = new FormView({model: new FormModel()});
 
 exports.form = {};
