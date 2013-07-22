@@ -24,7 +24,9 @@
     "express": "~3.3.4",
     "jade": "~0.33.0",
     "less-middleware": "~0.1.12",
-    "backbone-forms": "~0.12.0"
+    "backbone": "~1.0.0",
+    "backbone-validation": "~0.8.0",
+    "underscore": "~1.5.1"
   },
   "engines": {
     "node": "0.8.x"
