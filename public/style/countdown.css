@@ -15,16 +15,8 @@ html {
   color: #dfdfdf;
 }
 body {
-  opacity: 0;
-  animation: fadein 2s;
-  -moz-animation: fadein 2s;
-  -webkit-animation: fadein 2s;
-  -o-animation: fadein 2s;
   width: 640px;
   margin: 0 auto;
-}
-body.ready {
-  opacity: 1;
 }
 @media only screen and (max-width: 529px), screen and (max-device-width: 529px) {
   body {
@@ -33,8 +25,17 @@ body.ready {
   }
 }
 header {
+  -webkit-transition: opacity 2s ease-in 0;
+  -moz-transition: opacity 2s ease-in 0;
+  -o-transition: opacity 2s ease-in 0;
+  -ms-transition: opacity 2s ease-in 0;
+  transition: opacity 2s ease-in 0;
+  opacity: 0;
   text-align: center;
   color: #dfdfdf;
+}
+body.ready header {
+  opacity: 1;
 }
 header h1 {
   font-size: 12em;
@@ -52,11 +53,20 @@ header #ring {
   background-repeat: no-repeat;
 }
 #countdown {
+  -webkit-transition: opacity 2s ease-in 1s;
+  -moz-transition: opacity 2s ease-in 1s;
+  -o-transition: opacity 2s ease-in 1s;
+  -ms-transition: opacity 2s ease-in 1s;
+  transition: opacity 2s ease-in 1s;
+  opacity: 0;
   position: absolute;
   width: 640px;
   top: 335px;
   text-align: center;
   font-family: "helvetica", "Myriad Pro", "Lucida Grande", "helvetica", "sans-serif";
+}
+body.ready #countdown {
+  opacity: 1;
 }
 @media only screen and (max-width: 529px), screen and (max-device-width: 529px) {
   #countdown {

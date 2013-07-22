@@ -21,16 +21,27 @@
 	text-shadow: 0px 0px @blur @color_font;
 }
 
-.animation(@parameters) {
-	animation: @parameters;
-	-moz-animation: @parameters;
-	-webkit-animation: @parameters;
-	-o-animation: @parameters;
+.fadein(@delay: 0){
+
+	.transition(~'opacity 2s ease-in @{delay}');
+
+	opacity: 0;
+
+	//at body ready
+	body.ready & {
+
+		opacity: 1;
+	}
 }
 
-.fadein {
-	//keyframes
+.transition(@parameters) {
+	-webkit-transition: @parameters;
+	-moz-transition: @parameters;
+	-o-transition: @parameters;
+	-ms-transition: @parameters;
+	transition: @parameters;
 }
+
 
 @font-face {
 	font-family: @font_header;
@@ -51,15 +62,9 @@ html {
 
 }
 
+
+
 body {
-	//hidden until ready
-	opacity: 0;
-
-	.animation(fadein 2s);
-
-	&.ready{
-		opacity: 1;
-	}
 
 	width: @width;
 	margin: 0 auto;
@@ -74,6 +79,8 @@ body {
 
 
 header {
+
+	.fadein();
 
 	text-align: center;
 	color: @color_font;
@@ -103,6 +110,8 @@ header {
 }
 
 #countdown {
+
+	.fadein(1s);
 
 	//stick to bottom
 	position: absolute;
