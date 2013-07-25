@@ -1,16 +1,16 @@
 {
   "name": "stphils-fullon2014",
   "subdomain": "stphils-fullon2014",
-  "version": "0.0.1-2",
+  "version": "0.0.1-3",
   "description": "st phils full on website",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
-    "url": "https://alexreardon@bitbucket.org/alexreardon/fullon2014.git"
+    "url": "https://github.com/alexreardon/fullon.git"
   },
   "keywords": [
     "fullon",
@@ -24,7 +24,8 @@
     "express": "~3.3.4",
     "jade": "~0.33.0",
     "less-middleware": "~0.1.12",
-    "validator": "~1.3.0"
+    "validator": "~1.3.0",
+    "mongodb": "~1.3.12"
   },
   "engines": {
     "node": "0.8.x"

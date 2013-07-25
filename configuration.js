@@ -5,7 +5,7 @@ exports.init = function(express, app){
 
 //global variables
 	app.set('cookie_secret', 'fknbteblptfurgmmpzcuhvqiqdnvxpvssptkzjyrjiyklxyiepkrpevwfedoucwvmbuokktqgjocuvdxfwxfyyrezcfntjqmkydbuarfntxzlspdeaynggumaumvgmkq');
-
+	app.set('db_connection', process.env.db_connection || 'http://localhost:27017/test')
 
 //views
 	app.set('port', process.env.PORT || 80);

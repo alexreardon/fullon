@@ -14,7 +14,6 @@ var routes = {
 app.get('/', routes.home.countdown);
 app.get('/register', routes.register.index);
 
-//start the server
-app.listen(app.get('port'), function(){
-	console.log('Full On now listening on port ' + app.get('port'));
-});
+
+//export app
+module.exports = app;
