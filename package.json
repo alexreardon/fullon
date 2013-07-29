@@ -1,32 +1,33 @@
 {
-  "name": "stphils-fullon2014",
-  "subdomain": "stphils-fullon2014",
-  "version": "0.0.1-2",
-  "description": "st phils full on website",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "https://alexreardon@bitbucket.org/alexreardon/fullon2014.git"
-  },
-  "keywords": [
-    "fullon",
-    "stphils"
-  ],
-  "author": "Alex Reardon",
-  "license": "BSD",
-  "gitHead": "f3802a6ae66117735137d3e57a24d21285472786",
-  "readmeFilename": "README.md",
-  "dependencies": {
-    "express": "~3.3.4",
-    "jade": "~0.33.0",
-    "less-middleware": "~0.1.12",
-    "validator": "~1.3.0"
-  },
-  "engines": {
-    "node": "0.8.x"
-  }
+	"name": "stphils-fullon2014",
+	"subdomain": "stphils-fullon2014",
+	"version": "0.0.1-2",
+	"description": "st phils full on website",
+	"main": "app.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start": "node app.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://alexreardon@bitbucket.org/alexreardon/fullon2014.git"
+	},
+	"keywords": [
+		"fullon",
+		"stphils"
+	],
+	"author": "Alex Reardon",
+	"license": "BSD",
+	"gitHead": "f3802a6ae66117735137d3e57a24d21285472786",
+	"readmeFilename": "README.md",
+	"dependencies": {
+		"express": "~3.3.4",
+		"jade": "~0.33.0",
+		"less-middleware": "~0.1.12",
+		"validator": "~1.3.0"
+	},
+	"engines": {
+		"npm": "1.2.x",
+		"node": "0.10.x"
+	}
 }
