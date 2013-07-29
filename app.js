@@ -1,17 +1,9 @@
 var express = require('express'),
 	config = require('./config'),
 	path = require('path'),
-app = express();
+	app = express();
 
-//global variables
-app.set('cookie_secret', config.cookie_secret);
-app.set('db_connection', config.db_connection);
-
-app.set('google_username', config.google_username);
-app.set('google_password', config.google_password);
-
-//views
-app.set('port', config.port);
+//view engine
 app.set('views', __dirname + '/views');
 app.set('view engine', 'jade');
 
@@ -60,6 +52,10 @@ var routes = {
 app.get('/', routes.home.countdown);
 app.get('/register', routes.register.index);
 
+//start the server
+app.listen(config.port, function(){
+	console.log('Full On now listening on port ' + config.port);
+});
 
 //export app
 module.exports = app;

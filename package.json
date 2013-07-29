@@ -3,10 +3,10 @@
   "subdomain": "stphils-fullon2014",
   "version": "0.0.1-3",
   "description": "st phils full on website",
-  "main": "server.js",
+  "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
