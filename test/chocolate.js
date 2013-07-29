@@ -1,24 +1,12 @@
 var expect = require('expect.js'),
 	chocolate = require('../jobs/chocolate'),
 	config = require('../config'),
-_ = require('underscore');
+	_ = require('underscore');
 
 describe('Get Chocolate Data', function(){
 
 	describe.skip('Talking with Google', function(){
-		it('should authenticate', function(){
-
-		});
-
-		it('should throw an error when authentication fails', function(){
-
-		});
-
-		it('should load a google doc', function(){
-
-		});
-
-		it('should load an error if it fails to load doc', function(){
+		it('should get data from google', function(){
 
 		});
 	});
@@ -160,13 +148,13 @@ describe('Get Chocolate Data', function(){
 			expect(seller).to.have.property('sold', 1);
 			expect(seller).to.have.property('attributed', 0);
 
-			var benificiary = _.find(people, function(person){
+			var beneficiary = _.find(people, function(person){
 				return (person.firstname === data[2].attributedfirstname &&
 					person.lastname === data[2].attributedlastname);
 			});
 
-			expect(benificiary).to.have.property('sold', 0);
-			expect(benificiary).to.have.property('attributed', 1);
+			expect(beneficiary).to.have.property('sold', 0);
+			expect(beneficiary).to.have.property('attributed', 1);
 
 		});
 
@@ -229,13 +217,41 @@ describe('Get Chocolate Data', function(){
 				}
 			];
 
+		function findPersonInDatabase(firstname, lastname){
+			MongoClient.connect(config.db_connection, function(err, db){
+				if(err){
+					expect().fail();
+				}
+				var collection = db.collection('chocolate');
+				collection.find({firstname: firstname, lastname: lastname}).toArray(function(err, docs){
+					return docs[0];
+				});
+			});
+		}
 
-		it('should drop the current collection', function(){
-			chocolate._save(people);
+
+
+
+		it('should save the people in the database', function(done){
+			chocolate._save(people, function(notadded, added){
+				if(notadded && notadded.length > 0){
+					console.error(notadded);
+					expect(true).to.be(false);
+				}
+
+				var sort = function(item){
+					return item.firstname;
+				};
+
+				expect(added.length).to.be(people.length);
+				expect(_.isEqual(added, people)).to.be(true);
+
+				done();
+
+			});
 		});
 
 
 	});
 
 });
-

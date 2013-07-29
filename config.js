@@ -1,7 +1,7 @@
 module.exports = {
 
 	//database
-	db_connection: process.env.fullon_db_connection || 'http://localhost:27017/test',
+	db_connection: process.env.fullon_db_connection || 'mongodb://127.0.0.1:27017/test',
 
 	//google
 	google_username: process.env.fullon_google_username,

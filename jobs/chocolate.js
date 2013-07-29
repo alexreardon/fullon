@@ -25,7 +25,6 @@ function getSpreadSheet(){
 }
 
 
-
 function Person(firstname, lastname, sold, attributed){
 	this.firstname = firstname;
 	this.lastname = lastname;
@@ -75,50 +74,62 @@ function getPerson(people, firstname, lastname){
 	return person;
 }
 
-function save(people){
+function updatePerson(person, collection, cb){
+
+	collection.update(
+		{firstname: person.firstname, lastname: person.lastname}, //query
+		{$set: { sold: person.sold, attributed: person.attributed}}, //change values
+		{upsert: true}, //options - upsert: create if none found
+		function(err){
+
+			if(err){
+				cb(err);
+			}
+
+			cb(null, person);
+		}
+	);
+}
+
+function save(people, cb){
 	//save people into monogodb
 	console.log('trying to connect');
+
+	var finished = 0,
+		errors = [],
+		added = [];
+
 	MongoClient.connect(config.db_connection, function(err, db){
 		if(err){
-			console.log(err);
-			throw err;
+			errors.push({
+				data: null,
+				err: err
+			});
+			cb(errors);
+			return;
 		}
 
 		var collection = db.collection('chocolate');
 
-		console.log('about to insert');
+		console.log('about to start inserting');
 
-		_.each(people, function(person){
-			collection.update(
-				{firstname: person.firstname, lastname: person.lastname}, //query
-				{$set: { sold: person.sold, attributed: person.attributed}}, //change values
-				{upsert: true}, //options - upsert: create if none found
-				function(err){
-					if(err){
-						throw err;
-					}
-					console.log(format('successfully updated: %s %s', person.firstname, person.lastname));
+		for(var i = 0; i < people.length; i++) {
+			updatePerson(people[i], collection, function(err, person){
+				if(err){
+					errors.push({
+						data: person,
+						err: err
+					});
+				} else {
+					added.push(person);
 				}
-			);
-		});
 
-		//1. drop all existing data
-		//2. insert new data
-//		collection.drop(function(err, result){
-//			if(err){
-//				throw err;
-//			}
-//			//for each row in people:
-//			//collection.insert(person...
-//
-////			collection.insert(people, function(err, docs) {
-////				if(err){
-////					throw err;
-////				}
-////				console.log('successfully inserted people into database');
-////				db.close();
-////			});
-//		});
+				finished++;
+				if(finished === people.length){
+					cb(errors, added);
+				}
+			});
+		}
 
 	});
 }
@@ -135,18 +146,3 @@ module.exports = {
 	_save: save
 
 };
-//
-//save([
-//	{
-//		firstname: 'alex',
-//		lastname: 'test',
-//		sold: 1,
-//		attributed: 1
-//	},
-//	{
-//		firstname: 'Jane',
-//		lastname: 'Smith',
-//		sold: 2,
-//		attributed: 3
-//	}
-//]);
