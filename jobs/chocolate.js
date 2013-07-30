@@ -126,6 +126,7 @@ function save(people, cb){
 
 				finished++;
 				if(finished === people.length){
+					db.close();
 					cb(errors, added);
 				}
 			});

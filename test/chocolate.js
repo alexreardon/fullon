@@ -1,7 +1,8 @@
 var expect = require('expect.js'),
 	chocolate = require('../jobs/chocolate'),
 	config = require('../config'),
-	_ = require('underscore');
+	_ = require('underscore'),
+	MongoClient = require('mongodb').MongoClient;
 
 describe('Get Chocolate Data', function(){
 
@@ -217,14 +218,18 @@ describe('Get Chocolate Data', function(){
 				}
 			];
 
-		function findPersonInDatabase(firstname, lastname){
+		afterEach(function(){
+			//clear collection
+		});
+
+		function findPersonInDatabase(firstname, lastname, cb){
 			MongoClient.connect(config.db_connection, function(err, db){
 				if(err){
 					expect().fail();
 				}
 				var collection = db.collection('chocolate');
 				collection.find({firstname: firstname, lastname: lastname}).toArray(function(err, docs){
-					return docs[0];
+					cb(docs[0]);
 				});
 			});
 		}
@@ -232,7 +237,7 @@ describe('Get Chocolate Data', function(){
 
 
 
-		it('should save the people in the database', function(done){
+		it('should return the saved people in the database', function(done){
 			chocolate._save(people, function(notadded, added){
 				if(notadded && notadded.length > 0){
 					console.error(notadded);
@@ -251,7 +256,32 @@ describe('Get Chocolate Data', function(){
 			});
 		});
 
+		it('should persist saved people in the database', function(done){
+			chocolate._save(people, function(notadded, added){
+				if(notadded && notadded.length > 0){
+					console.error(notadded);
+					expect(true).to.be(false);
+				}
 
+				findPersonInDatabase(people[0].firstname, people[0].lastname, function(person){
+					var count = 0;
+					_.each(people, function(person, i){
+						if(people[i].firstname === person.firstname &&
+							people[i].lastname === person.lastname &&
+							people[i].sold === person.sold &&
+							people[i].attributed === person.attributed){
+							count++;
+						}
+					});
+					expect(count).to.be(people.length);
+
+					done();
+				});
+
+
+			});
+
+		});
 	});
 
 });
