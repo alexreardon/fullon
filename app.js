@@ -45,12 +45,16 @@ if('production' === app.get('env')){
 //Routes
 var routes = {
 	home: require('./routes/home'),
-	register: require('./routes/register')
+	register: require('./routes/register'),
+	jobs: require('./routes/jobs')
 };
 
 
 app.get('/', routes.home.countdown);
 app.get('/register', routes.register.index);
+
+//jobs trigger
+app.get('/jobs/getspreadsheet', routes.jobs.getspreadsheet)
 
 //start the server
 app.listen(config.port, function(){
