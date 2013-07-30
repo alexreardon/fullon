@@ -2,37 +2,35 @@ var GoogleSpreadsheet = require("google-spreadsheet"),
 	_ = require('underscore'),
 	config = require('../config'),
 	MongoClient = require('mongodb').MongoClient,
-	format = require('util').format;
+	format = require('util').format,
+	Person = require('../models/Person');
 
-function getSpreadSheet(){
+
+
+
+function getSpreadSheet(cb){
 
 	var sheet = new GoogleSpreadsheet(config.google_spreadsheet_key);
 
 	sheet.setAuth(config.google_username, config.google_password, function(err){
 		if(err){
-			throw new Error('error with authentication: ' + err);
+			cb(err);
 		}
 
 		sheet.getRows(1, function(err, data){
 			if(err){
-				throw new Error('error getting spreadsheet: ' + err);
+				cb(err);
 			}
-			return data;
+			cb(null, data);
 		});
 	});
 
 
 }
 
+//Process Google Data
 
-function Person(firstname, lastname, sold, attributed){
-	this.firstname = firstname;
-	this.lastname = lastname;
-	this.sold = sold || 0;
-	this.attributed = attributed || 0;
-}
-
-function process(rows){
+function processSpreadsheet(rows){
 
 	var people = [];
 
@@ -74,22 +72,7 @@ function getPerson(people, firstname, lastname){
 	return person;
 }
 
-function updatePerson(person, collection, cb){
-
-	collection.update(
-		{firstname: person.firstname, lastname: person.lastname}, //query
-		{$set: { sold: person.sold, attributed: person.attributed}}, //change values
-		{upsert: true}, //options - upsert: create if none found
-		function(err){
-
-			if(err){
-				cb(err);
-			}
-
-			cb(null, person);
-		}
-	);
-}
+//Save Processed Data
 
 function save(people, cb){
 	//save people into monogodb
@@ -135,15 +118,54 @@ function save(people, cb){
 	});
 }
 
+function updatePerson(person, collection, cb){
+
+	collection.update(
+		{firstname: person.firstname, lastname: person.lastname}, //query
+		{$set: { sold: person.sold, attributed: person.attributed}}, //change values
+		{upsert: true}, //options - upsert: create if none found
+		function(err){
+
+			if(err){
+				cb(err);
+			}
+
+			cb(null, person);
+		}
+	);
+}
+
+function run(cb){
+	//application flow
+
+	getSpreadSheet(function(err, data){
+		if(err){
+			cb(err);
+		}
+		save(processSpreadsheet(data), function(notadded, added){
+			if(notadded){
+				console.error('people not saved', notadded);
+			}
+			console.log(format('%d people saved', added.length));
+			cb(null);
+		});
+	})
+}
+
 
 module.exports = {
 	//public api:
-	process: process,
+	run: run,
+
+
+
 
 
 	//test api
+	_processSpreadsheet: processSpreadsheet,
 	_getPerson: getPerson,
 	_Person: Person,
-	_save: save
+	_save: save,
+	_getSpreadSheet: getSpreadSheet
 
 };

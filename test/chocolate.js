@@ -6,11 +6,7 @@ var expect = require('expect.js'),
 
 describe('Get Chocolate Data', function(){
 
-	describe.skip('Talking with Google', function(){
-		it('should get data from google', function(){
-
-		});
-	});
+	;
 
 
 	describe('getPerson', function(){
@@ -111,7 +107,7 @@ describe('Get Chocolate Data', function(){
 		it('should update the sold amount for the seller', function(){
 
 
-			var people = chocolate.process([data[0]]);
+			var people = chocolate._processSpreadsheet([data[0]]);
 
 			expect(people[0]).to.be.a(chocolate._Person);
 			expect(people[0]).to.have.property('sold', 1);
@@ -121,7 +117,7 @@ describe('Get Chocolate Data', function(){
 		it('should update the count of an existing person if they exist', function(){
 
 			var rows = [data[0], data[0]];
-			var people = chocolate.process(rows);
+			var people = chocolate._processSpreadsheet(rows);
 
 			expect(people).to.have.length(1);
 			expect(people[0]).to.have.property('sold', rows.length);
@@ -129,7 +125,7 @@ describe('Get Chocolate Data', function(){
 
 		it('should update the attribute amount to the seller if no attributed to name is given', function(){
 
-			var people = chocolate.process([data[0]]);
+			var people = chocolate._processSpreadsheet([data[0]]);
 
 			expect(people[0]).to.have.property('sold', 1);
 			expect(people[0]).to.have.property('attributed', 1);
@@ -137,7 +133,7 @@ describe('Get Chocolate Data', function(){
 
 		it('should update the attributed amount for the attributed name and not for the seller', function(){
 
-			var people = chocolate.process([data[2]]);
+			var people = chocolate._processSpreadsheet([data[2]]);
 
 			expect(people).to.have.length(2);
 
@@ -186,7 +182,7 @@ describe('Get Chocolate Data', function(){
 			var count = 0;
 
 			_.each(items, function(item){
-				if(chocolate.process([item]).length){
+				if(chocolate._processSpreadsheet([item]).length){
 					count++;
 				}
 			});
@@ -197,7 +193,6 @@ describe('Get Chocolate Data', function(){
 		});
 
 	});
-
 
 	describe('Save data', function(){
 
@@ -219,7 +214,13 @@ describe('Get Chocolate Data', function(){
 			];
 
 		afterEach(function(){
-			//clear collection
+			MongoClient.connect(config.db_connection, function(err, db){
+				if(err){
+					expect().fail();
+				}
+				var collection = db.collection('chocolate');
+				collection.drop();
+			});
 		});
 
 		function findPersonInDatabase(firstname, lastname, cb){
@@ -233,8 +234,6 @@ describe('Get Chocolate Data', function(){
 				});
 			});
 		}
-
-
 
 
 		it('should return the saved people in the database', function(done){
@@ -283,5 +282,38 @@ describe('Get Chocolate Data', function(){
 
 		});
 	});
+
+
+	describe('Long running tests', function(){
+
+		var timeout = 10000; //10 seconds
+
+		it('should get data from google', function(done){
+			this.timeout(timeout);
+
+			chocolate._getSpreadSheet(function(err, data){
+				if(err){
+					expect(false).to.be(true);
+					throw err;
+				}
+				expect(data).to.be.ok();
+				done();
+			});
+		});
+
+		it('should run', function(done){
+			this.timeout(timeout);
+
+			chocolate.run(function(err){
+				if(err){
+					expect(true).to.be(false);
+				}
+				expect(true).to.be(true);
+				done();
+			})
+		});
+
+	})
+
 
 });
