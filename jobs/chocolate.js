@@ -6,19 +6,17 @@ var GoogleSpreadsheet = require("google-spreadsheet"),
 	Person = require('../models/Person');
 
 
-
-
-function getSpreadSheet(cb){
+function getSpreadSheet(cb) {
 
 	var sheet = new GoogleSpreadsheet(config.google_spreadsheet_key);
 
-	sheet.setAuth(config.google_username, config.google_password, function(err){
-		if(err){
+	sheet.setAuth(config.google_username, config.google_password, function (err) {
+		if (err) {
 			cb(err);
 		}
 
-		sheet.getRows(1, function(err, data){
-			if(err){
+		sheet.getRows(1, function (err, data) {
+			if (err) {
 				cb(err);
 			}
 			cb(null, data);
@@ -30,22 +28,22 @@ function getSpreadSheet(cb){
 
 //Process Google Data
 
-function processSpreadsheet(rows){
+function processSpreadsheet(rows) {
 
 	var people = [];
 
-	_.each(rows, function(row, i){
+	_.each(rows, function (row, i) {
 
 		// required fields:
 		// datareceived, sellerfirstname, sellerlastname
-		if(!row.datereceived || !row.sellerfirstname || !row.sellerlastname){
+		if (!row.datereceived || !row.sellerfirstname || !row.sellerlastname) {
 			return false;
 		}
 
 		var seller = getPerson(people, row.sellerfirstname, row.sellerlastname);
 		seller.sold++;
 
-		if(row.attributedfirstname && row.attributedlastname){
+		if (row.attributedfirstname && row.attributedlastname) {
 			var beneficiary = getPerson(people, row.attributedfirstname, row.attributedlastname);
 			beneficiary.attributed++;
 		} else {
@@ -57,14 +55,14 @@ function processSpreadsheet(rows){
 
 }
 
-function getPerson(people, firstname, lastname){
-	var person = _.find(people, function(item){
+function getPerson(people, firstname, lastname) {
+	var person = _.find(people, function (item) {
 		return (item.firstname === firstname &&
 			item.lastname === lastname)
 	});
 
 	//if none found - add it
-	if(!person){
+	if (!person) {
 		person = new Person(firstname, lastname);
 		people.push(person);
 	}
@@ -74,16 +72,15 @@ function getPerson(people, firstname, lastname){
 
 //Save Processed Data
 
-function save(people, cb){
+function save(people, cb) {
 	//save people into monogodb
-	console.log('trying to connect');
 
 	var finished = 0,
 		errors = [],
 		added = [];
 
-	MongoClient.connect(config.db_connection, function(err, db){
-		if(err){
+	MongoClient.connect(config.db_connection, function (err, db) {
+		if (err) {
 			errors.push({
 				data: null,
 				err: err
@@ -94,11 +91,9 @@ function save(people, cb){
 
 		var collection = db.collection('chocolate');
 
-		console.log('about to start inserting');
-
-		for(var i = 0; i < people.length; i++) {
-			updatePerson(people[i], collection, function(err, person){
-				if(err){
+		for (var i = 0; i < people.length; i++) {
+			updatePerson(people[i], collection, function (err, person) {
+				if (err) {
 					errors.push({
 						data: person,
 						err: err
@@ -108,7 +103,7 @@ function save(people, cb){
 				}
 
 				finished++;
-				if(finished === people.length){
+				if (finished === people.length) {
 					db.close();
 					cb(errors, added);
 				}
@@ -118,15 +113,15 @@ function save(people, cb){
 	});
 }
 
-function updatePerson(person, collection, cb){
+function updatePerson(person, collection, cb) {
 
 	collection.update(
 		{firstname: person.firstname, lastname: person.lastname}, //query
 		{$set: { sold: person.sold, attributed: person.attributed}}, //change values
 		{upsert: true}, //options - upsert: create if none found
-		function(err){
+		function (err) {
 
-			if(err){
+			if (err) {
 				cb(err);
 			}
 
@@ -135,30 +130,26 @@ function updatePerson(person, collection, cb){
 	);
 }
 
-function run(cb){
+function run(cb) {
 	//application flow
 
-	getSpreadSheet(function(err, data){
-		if(err){
+	getSpreadSheet(function (err, data) {
+		if (err) {
 			cb(err);
 		}
-		save(processSpreadsheet(data), function(notadded, added){
-			if(notadded){
+		save(processSpreadsheet(data), function (notadded, added) {
+			if (notadded.length) {
 				console.error('people not saved', notadded);
 			}
-			console.log(format('%d people saved', added.length));
 			cb(null);
 		});
-	})
+	});
 }
 
 
 module.exports = {
 	//public api:
 	run: run,
-
-
-
 
 
 	//test api

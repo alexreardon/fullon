@@ -13,6 +13,6 @@ module.exports = {
 
 	//web
 	port: process.env.PORT || 80,
-	cookie_secret: process.env.fullon_cookie_secret || 'some secret text'
+	cookie_secret: process.env.fullon_cookie_secret || 'some secret key'
 
 };

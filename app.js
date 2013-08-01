@@ -26,18 +26,17 @@ app.use(app.router);
 //app.use(routeNotFound);
 
 
-
 //development
-if('development' === app.get('env')){
+if ('development' === app.get('env')) {
 	app.use(express.errorHandler());
 }
 
 //production
-var errorHandler = function(err, req, res, next){
+var errorHandler = function (err, req, res, next) {
 	//TODO: load error view
 };
 
-if('production' === app.get('env')){
+if ('production' === app.get('env')) {
 	app.use(errorHandler);
 }
 
@@ -54,10 +53,10 @@ app.get('/', routes.home.countdown);
 app.get('/register', routes.register.index);
 
 //jobs trigger
-app.get('/jobs/getspreadsheet', routes.jobs.getspreadsheet)
+app.get('/jobs/getspreadsheet', express.basicAuth('username', 'password'), routes.jobs.getspreadsheet)
 
 //start the server
-app.listen(config.port, function(){
+app.listen(config.port, function () {
 	console.log('Full On now listening on port ' + config.port);
 });
 

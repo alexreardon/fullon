@@ -4,19 +4,17 @@ var expect = require('expect.js'),
 	_ = require('underscore'),
 	MongoClient = require('mongodb').MongoClient;
 
-describe('Get Chocolate Data', function(){
-
-	;
+describe('Get Chocolate Data', function () {
 
 
-	describe('getPerson', function(){
+	describe('getPerson', function () {
 
 		var people,
 			firstname = 'Bob',
 			lastname = 'Smith',
 			length;
 
-		beforeEach(function(){
+		beforeEach(function () {
 
 			//reset for each test
 			people = [
@@ -38,25 +36,25 @@ describe('Get Chocolate Data', function(){
 
 		});
 
-		it('should find a match', function(){
+		it('should find a match', function () {
 			var person = chocolate._getPerson(people, firstname, lastname);
 			expect(person).to.equal(people[0]);
 		});
 
-		it('should not create a new person when a match is found', function(){
+		it('should not create a new person when a match is found', function () {
 
 			var person = chocolate._getPerson(people, 'Bob', 'Smith');
 			expect(people).to.have.length(length);
 		});
 
-		it('should create a new person when a match is not found', function(){
+		it('should create a new person when a match is not found', function () {
 
 			var person = chocolate._getPerson(people, firstname + 'newText', lastname + 'newText');
 			expect(people).to.have.length(length + 1);
 		});
 	});
 
-	describe('Process data', function(){
+	describe('Process data', function () {
 
 		var data = [
 			{
@@ -104,7 +102,7 @@ describe('Get Chocolate Data', function(){
 		];
 
 
-		it('should update the sold amount for the seller', function(){
+		it('should update the sold amount for the seller', function () {
 
 
 			var people = chocolate._processSpreadsheet([data[0]]);
@@ -114,7 +112,7 @@ describe('Get Chocolate Data', function(){
 
 		});
 
-		it('should update the count of an existing person if they exist', function(){
+		it('should update the count of an existing person if they exist', function () {
 
 			var rows = [data[0], data[0]];
 			var people = chocolate._processSpreadsheet(rows);
@@ -123,7 +121,7 @@ describe('Get Chocolate Data', function(){
 			expect(people[0]).to.have.property('sold', rows.length);
 		});
 
-		it('should update the attribute amount to the seller if no attributed to name is given', function(){
+		it('should update the attribute amount to the seller if no attributed to name is given', function () {
 
 			var people = chocolate._processSpreadsheet([data[0]]);
 
@@ -131,13 +129,13 @@ describe('Get Chocolate Data', function(){
 			expect(people[0]).to.have.property('attributed', 1);
 		});
 
-		it('should update the attributed amount for the attributed name and not for the seller', function(){
+		it('should update the attributed amount for the attributed name and not for the seller', function () {
 
 			var people = chocolate._processSpreadsheet([data[2]]);
 
 			expect(people).to.have.length(2);
 
-			var seller = _.find(people, function(person){
+			var seller = _.find(people, function (person) {
 				return (person.firstname === data[2].sellerfirstname &&
 					person.lastname === data[2].sellerlastname);
 			});
@@ -145,7 +143,7 @@ describe('Get Chocolate Data', function(){
 			expect(seller).to.have.property('sold', 1);
 			expect(seller).to.have.property('attributed', 0);
 
-			var beneficiary = _.find(people, function(person){
+			var beneficiary = _.find(people, function (person) {
 				return (person.firstname === data[2].attributedfirstname &&
 					person.lastname === data[2].attributedlastname);
 			});
@@ -156,7 +154,7 @@ describe('Get Chocolate Data', function(){
 		});
 
 
-		it('should not process a row without required columns (date received, sellerfirstname, sellerlastname)', function(){
+		it('should not process a row without required columns (date received, sellerfirstname, sellerlastname)', function () {
 
 			var items = [
 				{},
@@ -181,8 +179,8 @@ describe('Get Chocolate Data', function(){
 
 			var count = 0;
 
-			_.each(items, function(item){
-				if(chocolate._processSpreadsheet([item]).length){
+			_.each(items, function (item) {
+				if (chocolate._processSpreadsheet([item]).length) {
 					count++;
 				}
 			});
@@ -194,7 +192,7 @@ describe('Get Chocolate Data', function(){
 
 	});
 
-	describe('Save data', function(){
+	describe('Save data', function () {
 
 		var firstname = 'Bob',
 			lastname = 'Smith',
@@ -213,9 +211,9 @@ describe('Get Chocolate Data', function(){
 				}
 			];
 
-		afterEach(function(){
-			MongoClient.connect(config.db_connection, function(err, db){
-				if(err){
+		afterEach(function () {
+			MongoClient.connect(config.db_connection, function (err, db) {
+				if (err) {
 					expect().fail();
 				}
 				var collection = db.collection('chocolate');
@@ -223,27 +221,27 @@ describe('Get Chocolate Data', function(){
 			});
 		});
 
-		function findPersonInDatabase(firstname, lastname, cb){
-			MongoClient.connect(config.db_connection, function(err, db){
-				if(err){
+		function findPersonInDatabase(firstname, lastname, cb) {
+			MongoClient.connect(config.db_connection, function (err, db) {
+				if (err) {
 					expect().fail();
 				}
 				var collection = db.collection('chocolate');
-				collection.find({firstname: firstname, lastname: lastname}).toArray(function(err, docs){
+				collection.find({firstname: firstname, lastname: lastname}).toArray(function (err, docs) {
 					cb(docs[0]);
 				});
 			});
 		}
 
 
-		it('should return the saved people in the database', function(done){
-			chocolate._save(people, function(notadded, added){
-				if(notadded && notadded.length > 0){
+		it('should return the saved people in the database', function (done) {
+			chocolate._save(people, function (notadded, added) {
+				if (notadded && notadded.length > 0) {
 					console.error(notadded);
 					expect(true).to.be(false);
 				}
 
-				var sort = function(item){
+				var sort = function (item) {
 					return item.firstname;
 				};
 
@@ -255,20 +253,20 @@ describe('Get Chocolate Data', function(){
 			});
 		});
 
-		it('should persist saved people in the database', function(done){
-			chocolate._save(people, function(notadded, added){
-				if(notadded && notadded.length > 0){
+		it('should persist saved people in the database', function (done) {
+			chocolate._save(people, function (notadded, added) {
+				if (notadded && notadded.length > 0) {
 					console.error(notadded);
 					expect(true).to.be(false);
 				}
 
-				findPersonInDatabase(people[0].firstname, people[0].lastname, function(person){
+				findPersonInDatabase(people[0].firstname, people[0].lastname, function (person) {
 					var count = 0;
-					_.each(people, function(person, i){
-						if(people[i].firstname === person.firstname &&
+					_.each(people, function (person, i) {
+						if (people[i].firstname === person.firstname &&
 							people[i].lastname === person.lastname &&
 							people[i].sold === person.sold &&
-							people[i].attributed === person.attributed){
+							people[i].attributed === person.attributed) {
 							count++;
 						}
 					});
@@ -284,15 +282,15 @@ describe('Get Chocolate Data', function(){
 	});
 
 
-	describe('Long running tests', function(){
+	describe.skip('Long running tests', function () {
 
 		var timeout = 10000; //10 seconds
 
-		it('should get data from google', function(done){
+		it('should get data from google', function (done) {
 			this.timeout(timeout);
 
-			chocolate._getSpreadSheet(function(err, data){
-				if(err){
+			chocolate._getSpreadSheet(function (err, data) {
+				if (err) {
 					expect(false).to.be(true);
 					throw err;
 				}
@@ -301,19 +299,19 @@ describe('Get Chocolate Data', function(){
 			});
 		});
 
-		it('should run', function(done){
+		it('should run', function (done) {
 			this.timeout(timeout);
 
-			chocolate.run(function(err){
-				if(err){
+			chocolate.run(function (err) {
+				if (err) {
 					expect(true).to.be(false);
 				}
 				expect(true).to.be(true);
 				done();
-			})
+			});
 		});
 
-	})
+	});
 
 
 });
