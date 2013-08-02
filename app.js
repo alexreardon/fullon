@@ -1,6 +1,7 @@
 var express = require('express'),
 	config = require('./config'),
 	path = require('path'),
+	format = require('util').format,
 	app = express();
 
 //view engine
@@ -53,7 +54,7 @@ app.get('/', routes.home.countdown);
 app.get('/register', routes.register.index);
 
 //jobs trigger
-app.get('/jobs/getspreadsheet', express.basicAuth('username', 'password'), routes.jobs.getspreadsheet)
+app.get('/jobs/getspreadsheet', express.basicAuth('username', 'password'), routes.jobs.getspreadsheet);
 
 //start the server
 app.listen(config.port, function() {

@@ -112,7 +112,6 @@ function save(people, cb) {
 		var collection = db.collection('spreadsheet');
 
 
-
 		for(var i = 0; i < people.length; i++) {
 			//noinspection JSHint
 			updatePerson(people[i], collection, function(err, person) {

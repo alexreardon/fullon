@@ -12,4 +12,3 @@ exports.getspreadsheet = function (req, res, next) {
 		res.send('success');
 	});
 };
-
