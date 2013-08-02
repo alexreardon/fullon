@@ -70,7 +70,9 @@
 		"before",
 		"beforeEach",
 		"after",
-		"afterEach"
+		"afterEach",
+		"process",
+		"module"
 	]
 
 }
