@@ -1,8 +1,8 @@
 var GoogleSpreadsheet = require('google-spreadsheet'),
 	_ = require('underscore'),
 	config = require('../config'),
-	MongoClient = require('mongodb').MongoClient,
 	format = require('util').format,
+	database = require('../db'),
 	Person = require('../models/Person');
 
 //Utility functions
@@ -92,24 +92,16 @@ function processSpreadsheet(rows) {
 
 //Save Processed Data
 
-function save(people, cb) {
+function save(people, collection_name, cb) {
 	//save people into monogodb
 
 	var finished = 0,
 		errors = [],
 		added = [];
 
-	MongoClient.connect(config.db_connection, function(err, db) {
-		if(err) {
-			errors.push({
-				data: null,
-				err: err
-			});
-			cb(errors);
-			return;
-		}
+	database.connect(function(db){
 
-		var collection = db.collection('spreadsheet');
+		var collection = db.collection(collection_name);
 
 
 		for(var i = 0; i < people.length; i++) {
@@ -137,14 +129,14 @@ function save(people, cb) {
 
 //Application Flow
 
-function run(cb) {
+function run(collection_name, cb) {
 	//application flow
 
 	getSpreadSheet(function(err, data) {
 		if(err) {
 			cb(err);
 		}
-		save(processSpreadsheet(data), function(notadded, added) {
+		save(processSpreadsheet(data), collection_name, function(notadded, added) {
 			if(notadded.length) {
 				console.error('people not saved', notadded);
 			}

@@ -2,7 +2,7 @@ var expect = require('expect.js'),
 	spreadsheet = require('../jobs/spreadsheet'),
 	config = require('../config'),
 	_ = require('underscore'),
-	MongoClient = require('mongodb').MongoClient;
+	database = require('../db');
 
 describe('Get Spreadsheet Data', function() {
 
@@ -211,22 +211,17 @@ describe('Get Spreadsheet Data', function() {
 				}
 			];
 
-		afterEach(function() {
-			MongoClient.connect(config.db_connection, function(err, db) {
-				if(err) {
-					expect().fail();
-				}
-				var collection = db.collection('spreadsheet');
+		afterEach(function(done) {
+			database.connect(function(db){
+				var collection = db.collection(config.db_collection_test);
 				collection.drop();
+				done();
 			});
 		});
 
 		function findPersonInDatabase(firstname, lastname, cb) {
-			MongoClient.connect(config.db_connection, function(err, db) {
-				if(err) {
-					expect().fail();
-				}
-				var collection = db.collection('spreadsheet');
+			database.connect(function(db){
+				var collection = db.collection(config.db_collection_test);
 				collection.find({firstname: firstname, lastname: lastname}).toArray(function(err, docs) {
 					cb(docs[0]);
 				});
@@ -235,7 +230,7 @@ describe('Get Spreadsheet Data', function() {
 
 
 		it('should return the saved people in the database', function(done) {
-			spreadsheet._save(people, function(notadded, added) {
+			spreadsheet._save(people, config.db_collection_test, function(notadded, added) {
 				if(notadded && notadded.length > 0) {
 					console.error(notadded);
 					expect(true).to.be(false);
@@ -254,7 +249,7 @@ describe('Get Spreadsheet Data', function() {
 		});
 
 		it('should persist saved people in the database', function(done) {
-			spreadsheet._save(people, function(notadded, added) {
+			spreadsheet._save(people, config.db_collection_test, function(notadded, added) {
 				if(notadded && notadded.length > 0) {
 					console.error(notadded);
 					expect(true).to.be(false);

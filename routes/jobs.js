@@ -1,9 +1,10 @@
 //Jobs
-var chocolate = require('../jobs/spreadsheet');
+var spreadsheet = require('../jobs/spreadsheet'),
+	config = require('../config');
 
 
 exports.getspreadsheet = function (req, res, next) {
-	chocolate.run(function (err) {
+	spreadsheet.run(config.db_collection_spreadsheet, function (err) {
 		if (err) {
 			console.error('error getting spreadsheet data');
 			next(new Error(err));
