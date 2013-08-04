@@ -15,7 +15,7 @@ function getPerson(people, firstname, lastname) {
 
 	//if none found - add it
 	if(!person) {
-		person = new Person(firstname, lastname);
+		person = new Person({firstname: firstname, lastname: lastname});
 		people.push(person);
 	}
 

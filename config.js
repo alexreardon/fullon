@@ -2,11 +2,14 @@ var format = require('util').format,
 	_ = require('underscore');
 
 
+// environment config: https://docs.google.com/spreadsheet/ccc?key=0AqpFjrRXOZsGdENRbllvTThURFViMTB4N1VSQjJ0ckE#gid=0
+// request access from Alex Reardon
+
 var config = {
 
 	//database
 	db_connection: process.env.fullon_db_connection || 'mongodb://127.0.0.1:27017/test',
-	db_collection_spreadsheet: 'spreadsheet',
+	db_collection_people: 'people',
 	db_collection_test: 'test',
 
 
