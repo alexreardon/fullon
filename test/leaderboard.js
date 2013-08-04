@@ -29,8 +29,6 @@ describe('leaderboard', function() {
 		//clear db
 		database.connect(function(db){
 			var collection = db.collection(config.db_collection_test);
-			collection.drop();
-
 			collection.insert(people, {}, function(err, objects){
 				if(err){
 					throw err;
@@ -45,6 +43,14 @@ describe('leaderboard', function() {
 
 	});
 
+	afterEach(function(done){
+		database.connect(function(db){
+			var collection = db.collection(config.db_collection_test);
+			collection.drop();
+			done();
+		});
+	});
+
 
 	it('should return people with items sold', function() {
 
@@ -57,6 +63,7 @@ describe('leaderboard', function() {
 	it('should return an array of matches', function(done) {
 		leaderboard.get(config.db_collection_test, function(err, doc){
 			expect(doc).to.have.length(1);
+			done();
 		});
 	});
 

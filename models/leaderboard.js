@@ -1,12 +1,10 @@
 var config = require('../config'),
 	database = require('../db');
 
-exports.get = function(collection, cb) {
-
-
+exports.get = function(collection_name, cb) {
 
 	database.connect(function(db) {
-		var collection = db.collection(config.db_collection_spreadsheet);
+		var collection = db.collection(collection_name);
 
 		var cursor = collection.find({sold: {$gt: 0}}).limit(config.leaderboard_size);
 
