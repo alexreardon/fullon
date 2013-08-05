@@ -24,7 +24,11 @@ baseModel.getSearchQuery = function(){
 baseModel.save = function(cb, upsert) {
 	//upsert = create entry if none exists
 
-	database.connect(function(db) {
+	database.connect(function(err, db) {
+		if(err){
+			cb(err);
+			return;
+		}
 		var collection = db.collection(this.collection_name);
 
 		collection.update(this.getSearchQuery(), {$set: this.data}, {upsert: (upsert === false ? false : true)}, function(err) {
@@ -34,7 +38,7 @@ baseModel.save = function(cb, upsert) {
 				return;
 			}
 
-			cb();
+			cb(null);
 
 		});
 	}.bind(this));
@@ -42,7 +46,11 @@ baseModel.save = function(cb, upsert) {
 
 baseModel.find = function(query, cb, limit, sort) {
 
-	database.connect(function(db) {
+	database.connect(function(err, db) {
+		if(err){
+			cb(err);
+			return;
+		}
 		var collection = db.collection(this.collection_name);
 
 		var cursor = collection.find(query);
@@ -57,7 +65,7 @@ baseModel.find = function(query, cb, limit, sort) {
 
 		cursor.toArray(function(err, doc) {
 			if(err){
-				console.error(format('error finding collection: %j', err));
+				cb(format('error finding collection: %j', err));
 				return;
 			}
 
@@ -65,7 +73,7 @@ baseModel.find = function(query, cb, limit, sort) {
 			_.each(doc, function(item) {
 				result.push(this.create(item, this.collection_name, this.search_key_fields));
 			}, this);
-			cb(result);
+			cb(null, result);
 		}.bind(this));
 
 
@@ -74,16 +82,27 @@ baseModel.find = function(query, cb, limit, sort) {
 };
 
 baseModel.saveMultiple = function(elements, cb){
-	var count = 0;
+	var failures = [],
+		successful = 0;
+
 	_.each(elements, function(item){
-		item.save(function(){
-			count++;
-			if(count === elements.length){
-				cb();
+		item.save(function(err){
+			if(err){
+				failures.push(err);
+			} else {
+				successful++;
+			}
+
+			if((failures.length + successful) === elements.length){
+				if(failures.length){
+					cb(format('there were %d failures while saving.\nErrors: %j', failures.length, failures));
+				} else {
+					cb();
+				}
 			}
 		});
 	});
-}
+};
 
 
 module.exports = baseModel;

@@ -87,7 +87,7 @@ describe('Base Model', function() {
 		data;
 
 	function dropCollection(name, cb) {
-		database.connect(function(db) {
+		database.connect(function(err, db) {
 			var collection = db.collection(name);
 			collection.drop();
 			cb();
@@ -139,15 +139,16 @@ describe('Base Model', function() {
 
 		it('Should create call update without crashing', function(done) {
 			//using baseModel.find
-			model.save(function() {
+			model.save(function(err) {
+				expect(err).to.not.be.ok();
 				done();
 			});
 		});
 
 		it('Should create data in database', function(done) {
 			//using baseModel.find
-			model.save(function() {
-				model.find({}, function(result) {
+			model.save(function(err) {
+				model.find({}, function(err, result) {
 					expect(result).to.have.length(1);
 					expect(result[0].data.firstname).to.equal(data[0].firstname);
 					done();
@@ -157,8 +158,8 @@ describe('Base Model', function() {
 
 		it('Should not create data in database if does not exist and upsert is false', function(done) {
 			//using baseModel.find
-			model.save(function() {
-				model.find({}, function(result) {
+			model.save(function(err) {
+				model.find({}, function(err, result) {
 					expect(result).to.have.length(0);
 					done();
 				});
@@ -167,13 +168,13 @@ describe('Base Model', function() {
 
 		it('Should update data in database without creating new entry', function(done) {
 
-			model.save(function() {
+			model.save(function(err) {
 
 				var age = 10;
 				model.data.age = age;
 				model.save(function() {
 
-					model.find({}, function(result) {
+					model.find({}, function(err, result) {
 						expect(result).to.have.length(1);
 						expect(result[0].data.age).to.be(age);
 						done();
@@ -242,7 +243,7 @@ describe('Base Model', function() {
 
 		it('should find no items when none exist', function() {
 			dropCollection(collection_name, function() {
-				models[0].find({}, function(result) {
+				models[0].find({}, function(err, result) {
 					expect(result).to.have.length(0);
 				});
 			});
@@ -251,14 +252,14 @@ describe('Base Model', function() {
 		});
 
 		it('Should find all existing items', function(done) {
-			models[0].find({}, function(result) {
+			models[0].find({}, function(err, result) {
 				expect(result).to.have.length(models.length);
 				done();
 			});
 		});
 
 		it('Should find items based on a query', function(done) {
-			models[0].find({age: {$gt: 24}}, function(result) {
+			models[0].find({age: {$gt: 24}}, function(err, result) {
 				expect(result).to.have.length(1);
 				done();
 			});
@@ -267,7 +268,7 @@ describe('Base Model', function() {
 
 		it('Should limit results', function(done) {
 			var limit = 1;
-			models[0].find({}, function(result) {
+			models[0].find({}, function(err, result) {
 				expect(result).to.have.length(limit);
 				done();
 			}, limit);
@@ -275,7 +276,7 @@ describe('Base Model', function() {
 		});
 
 		it('Should sort results', function(done){
-			models[0].find({}, function(result) {
+			models[0].find({}, function(err, result) {
 				expect(result[0].data.firstname).to.be(data[1].firstname);
 				done();
 			}, null, {'age': 1});

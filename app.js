@@ -38,7 +38,8 @@ var errorHandler = function(err, req, res, next) {
 };
 
 if('production' === app.get('env')) {
-	app.use(errorHandler);
+	app.use(express.errorHandler());
+	//app.use(errorHandler); TODO
 }
 
 
