@@ -1,0 +1,9 @@
+extends layout
+
+block content
+	h1 Leaderboard demo
+
+	ul
+		each prsn, i in people
+			li #{i + 1} #{prsn.data.firstname}, #{prsn.data.lastname}
+				strong  (sold #{prsn.data.sold})

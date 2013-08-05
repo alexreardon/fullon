@@ -40,7 +40,7 @@ baseModel.save = function(cb, upsert) {
 	}.bind(this));
 };
 
-baseModel.find = function(query, cb, limit) {
+baseModel.find = function(query, cb, limit, sort) {
 
 	database.connect(function(db) {
 		var collection = db.collection(this.collection_name);
@@ -49,6 +49,10 @@ baseModel.find = function(query, cb, limit) {
 
 		if(limit) {
 			cursor = cursor.limit(limit);
+		}
+
+		if(sort) {
+			cursor = cursor.sort(sort);
 		}
 
 		cursor.toArray(function(err, doc) {

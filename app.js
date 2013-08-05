@@ -46,7 +46,8 @@ if('production' === app.get('env')) {
 var routes = {
 	home: require('./routes/home'),
 	register: require('./routes/register'),
-	jobs: require('./routes/jobs')
+	jobs: require('./routes/jobs'),
+	demo: require('./routes/demo')
 };
 
 
@@ -55,6 +56,11 @@ app.get('/', routes.home.countdown);
 
 //jobs trigger
 app.get('/jobs/getspreadsheet', express.basicAuth(config.job_username, config.job_password), routes.jobs.getspreadsheet);
+
+
+//demo: TODO: remove
+app.get('/demo/leaderboard', routes.demo.leaderboard);
+
 
 //start the server
 app.listen(config.port, function() {

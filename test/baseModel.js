@@ -1,8 +1,8 @@
 var baseModel = require('../models/baseModel'),
 	expect = require('expect.js'),
 	database = require('../db'),
-	sinon = require('sinon');
-_ = require('underscore');
+	sinon = require('sinon'),
+	_ = require('underscore');
 
 
 describe.skip('Inheritence', function() {
@@ -201,7 +201,7 @@ describe('Base Model', function() {
 
 				var data = [
 					baseModel.create(data, collection_name, searchKeys),
-					baseModel.create(data, collection_name, searchKeys),
+					baseModel.create(data, collection_name, searchKeys)
 				];
 
 				model.saveMultiple(data, function() {
@@ -272,6 +272,13 @@ describe('Base Model', function() {
 				done();
 			}, limit);
 
+		});
+
+		it('Should sort results', function(done){
+			models[0].find({}, function(result) {
+				expect(result[0].data.firstname).to.be(data[1].firstname);
+				done();
+			}, null, {'age': 1});
 		});
 	});
 
