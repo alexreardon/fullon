@@ -83,19 +83,22 @@ describe.only('Base Model', function() {
 
 	var collection_name = 'test',
 		searchKeys = ['firstname', 'lastname'],
-		data = [
-			{firstname: 'Alex', lastname: 'Reardon', age: 25},
-			{firstname: 'Ben', lastname: 'Reardon', age: 23}
-		];
+		data;
 
-	function dropCollection(name, cb){
-		database.connect(function(name, db) {
+	function dropCollection(name, cb) {
+		database.connect(function(db) {
 			var collection = db.collection(name);
 			collection.drop();
 			cb();
 		});
 	}
 
+	beforeEach(function(){
+		data = [
+			{firstname: 'Alex', lastname: 'Reardon', age: 25},
+			{firstname: 'Ben', lastname: 'Reardon', age: 23}
+		];
+	});
 
 	//cleanup after every test
 	afterEach(function(done) {
@@ -186,15 +189,15 @@ describe.only('Base Model', function() {
 
 		var models;
 
-		beforeEach(function(done){
+		beforeEach(function(done) {
 			models = [];
 			var count = 0;
-			_.each(data, function(item, i){
+			_.each(data, function(item, i) {
 				var model = baseModel.create(item, collection_name, searchKeys);
 				models.push(model);
-				model.save(function(){
+				model.save(function() {
 					count++;
-					if(count === data.length){
+					if(count === data.length) {
 						done();
 					}
 				});
@@ -202,31 +205,39 @@ describe.only('Base Model', function() {
 
 		});
 
-		it('should find no items when none exist', function(){
-			dropCollection()
-
-			models[0].find({}, function(result){
-				expect(result).to.have.length(0);
-			});
-		});
-
-		it('Should find all existing items', function(done){
-			model.save(function() {
-				model.find({}, function(result) {
-					expect(result).to.have.length(1);
-					expect(result[0].data.firstname).to.equal(data.firstname);
-					done();
+		it('should find no items when none exist', function() {
+			dropCollection(collection_name, function() {
+				models[0].find({}, function(result) {
+					expect(result).to.have.length(0);
 				});
 			});
-		});
 
-		it('Should find items based on a query', function(done){
 
 		});
-	});
 
-	describe('Inheritance', function(){
+		it('Should find all existing items', function(done) {
+			models[0].find({}, function(result) {
+				expect(result).to.have.length(models.length);
+				done();
+			});
+		});
 
+		it('Should find items based on a query', function(done) {
+			models[0].find({age: {$gt: 24}}, function(result){
+				expect(result).to.have.length(1);
+				done();
+			});
+
+		});
+
+		it('Should limit results', function(done) {
+			var limit = 1;
+			models[0].find({}, function(result){
+				expect(result).to.have.length(limit);
+				done();
+			}, limit);
+
+		});
 	});
 
 });
