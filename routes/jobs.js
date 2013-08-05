@@ -4,9 +4,8 @@ var spreadsheet = require('../jobs/spreadsheet'),
 
 
 exports.getspreadsheet = function (req, res, next) {
-	spreadsheet.run(config.db_collection_people, function (err) {
+	spreadsheet.run(function (err) {
 		if (err) {
-			console.error('error getting spreadsheet data');
 			next(new Error(err));
 			return;
 		}

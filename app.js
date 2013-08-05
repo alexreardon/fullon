@@ -54,7 +54,7 @@ app.get('/', routes.home.countdown);
 //app.get('/register', routes.register.index);
 
 //jobs trigger
-app.get('/jobs/getspreadsheet', express.basicAuth('username', 'password'), routes.jobs.getspreadsheet);
+app.get('/jobs/getspreadsheet', express.basicAuth(config.job_username, config.job_password), routes.jobs.getspreadsheet);
 
 //start the server
 app.listen(config.port, function() {

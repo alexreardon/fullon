@@ -30,7 +30,8 @@ baseModel.save = function(cb, upsert) {
 		collection.update(this.getSearchQuery(), {$set: this.data}, {upsert: (upsert === false ? false : true)}, function(err) {
 			if(err) {
 				console.err(format('update failed: %j', err));
-				return; //don't call callback
+				cb(err);
+				return;
 			}
 
 			cb();

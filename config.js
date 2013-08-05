@@ -8,7 +8,7 @@ var format = require('util').format,
 var config = {
 
 	//database
-	db_connection: process.env.fullon_db_connection || 'mongodb://127.0.0.1:27017/test',
+	db_connection: process.env.fullon_db_connection,
 	db_collection_people: 'people',
 	db_collection_test: 'test',
 
@@ -17,6 +17,10 @@ var config = {
 	google_username: process.env.fullon_google_username,
 	google_password: process.env.fullon_google_password,
 	google_spreadsheet_key: process.env.fullon_google_spreadsheet_key,
+
+	//authentication
+	job_username: process.env.fullon_job_username || 'username',
+	job_password: process.env.fullon_job_password || 'password',
 
 	//application
 	leaderboard_size: 10,
@@ -29,6 +33,12 @@ var config = {
 	cookie_secret: process.env.fullon_cookie_secret || 'some secret key'
 
 };
+
+//environment force - want to make ultra sure we don't play with production db
+if(process.env.NODE_ENV !== 'production'){
+	console.info('using development database');
+	config.db_connection = 'mongodb://127.0.0.1:27017/test';
+}
 
 var errors = [];
 _.each(config, function(item, i) {

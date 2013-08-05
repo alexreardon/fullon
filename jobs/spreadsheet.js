@@ -83,6 +83,7 @@ function run(cb) {
 	getSpreadSheet(function(err, data) {
 		if(err) {
 			console.error(format('an error occured obtaining spreadsheet: %j', err));
+			cb(err);
 			return;
 		}
 
