@@ -3,40 +3,25 @@ var GoogleSpreadsheet = require('google-spreadsheet'),
 	config = require('../config'),
 	format = require('util').format,
 	database = require('../db'),
-	Person = require('../models/Person');
+	person = require('../models/person');
 
 //Utility functions
 
 function getPerson(people, firstname, lastname) {
-	var person = _.find(people, function(item) {
-		return (item.firstname === firstname &&
-			item.lastname === lastname);
+
+
+	var p = _.find(people, function(prsn) {
+		return (prsn.data.firstname === firstname &&
+			prsn.data.lastname === lastname);
 	});
 
 	//if none found - add it
-	if(!person) {
-		person = new Person({firstname: firstname, lastname: lastname});
-		people.push(person);
+	if(!p) {
+		p = person.create({firstname: firstname, lastname: lastname});
+		people.push(p);
 	}
 
-	return person;
-}
-
-function updatePerson(person, collection, cb) {
-
-	collection.update(
-		{firstname: person.firstname, lastname: person.lastname}, //query
-		{$set: { sold: person.sold, attributed: person.attributed}}, //change values
-		{upsert: true}, //options - upsert: create if none found
-		function(err) {
-
-			if(err) {
-				cb(err);
-			}
-
-			cb(null, person);
-		}
-	);
+	return p;
 }
 
 //Get Data from Google
@@ -61,8 +46,8 @@ function getSpreadSheet(cb) {
 
 }
 
-//Process Google Data
-
+//Process Google Datat
+// -> spreadsheet -> array[person]
 function processSpreadsheet(rows) {
 
 	var people = [];
@@ -76,13 +61,13 @@ function processSpreadsheet(rows) {
 		}
 
 		var seller = getPerson(people, row.sellerfirstname, row.sellerlastname);
-		seller.sold++;
+		seller.data.sold++;
 
 		if(row.attributedfirstname && row.attributedlastname) {
 			var beneficiary = getPerson(people, row.attributedfirstname, row.attributedlastname);
-			beneficiary.attributed++;
+			beneficiary.data.attributed++;
 		} else {
-			seller.attributed++;
+			seller.data.attributed++;
 		}
 	});
 
@@ -90,58 +75,18 @@ function processSpreadsheet(rows) {
 
 }
 
-//Save Processed Data
-
-function save(people, collection_name, cb) {
-	//save people into monogodb
-
-	var finished = 0,
-		errors = [],
-		added = [];
-
-	database.connect(function(db){
-
-		var collection = db.collection(collection_name);
-
-
-		for(var i = 0; i < people.length; i++) {
-			//noinspection JSHint
-			updatePerson(people[i], collection, function(err, person) {
-				if(err) {
-					errors.push({
-						data: person,
-						err: err
-					});
-				} else {
-					added.push(person);
-				}
-
-				finished++;
-				if(finished === people.length) {
-					db.close();
-					cb(errors, added);
-				}
-			});
-		}
-
-	});
-}
-
 //Application Flow
 
-function run(collection_name, cb) {
+function run(cb) {
 	//application flow
 
 	getSpreadSheet(function(err, data) {
 		if(err) {
-			cb(err);
+			console.error(format('an error occured obtaining spreadsheet: %j', err));
+			return;
 		}
-		save(processSpreadsheet(data), collection_name, function(notadded, added) {
-			if(notadded.length) {
-				console.error('people not saved', notadded);
-			}
-			cb(null);
-		});
+
+		person.saveMultiple(processSpreadsheet(data), cb);
 	});
 }
 
@@ -154,8 +99,6 @@ module.exports = {
 	//test api
 	_processSpreadsheet: processSpreadsheet,
 	_getPerson: getPerson,
-	_Person: Person,
-	_save: save,
 	_getSpreadSheet: getSpreadSheet
 
 };

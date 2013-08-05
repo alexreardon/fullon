@@ -3,7 +3,7 @@ var person = require('../models/person'),
 	expect = require('expect.js');
 
 
-describe.only('person', function(){
+describe('person', function(){
 
 	var data = {
 		firstname: 'Alex',

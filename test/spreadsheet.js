@@ -2,22 +2,17 @@ var expect = require('expect.js'),
 	spreadsheet = require('../jobs/spreadsheet'),
 	config = require('../config'),
 	_ = require('underscore'),
-	database = require('../db');
+	database = require('../db'),
+	person = require('../models/person');
 
 describe('Get Spreadsheet Data', function() {
 
 
 	describe('getPerson', function() {
 
-		var people,
-			firstname = 'Bob',
+		var firstname = 'Bob',
 			lastname = 'Smith',
-			length;
-
-		beforeEach(function() {
-
-			//reset for each test
-			people = [
+			data = [
 				{
 					firstname: firstname,
 					lastname: lastname,
@@ -30,10 +25,14 @@ describe('Get Spreadsheet Data', function() {
 					sold: 2,
 					attributed: 2
 				}
-			];
+			],
+			people;
 
-			length = people.length;
-
+		beforeEach(function(){
+			people = [];
+			_.each(data, function(item){
+				people.push(person.create(item));
+			});
 		});
 
 		it('should find a match', function() {
@@ -44,13 +43,13 @@ describe('Get Spreadsheet Data', function() {
 		it('should not create a new person when a match is found', function() {
 
 			var person = spreadsheet._getPerson(people, 'Bob', 'Smith');
-			expect(people).to.have.length(length);
+			expect(people).to.have.length(data.length);
 		});
 
 		it('should create a new person when a match is not found', function() {
 
 			var person = spreadsheet._getPerson(people, firstname + 'newText', lastname + 'newText');
-			expect(people).to.have.length(length + 1);
+			expect(people).to.have.length(data.length + 1);
 		});
 	});
 
@@ -107,8 +106,8 @@ describe('Get Spreadsheet Data', function() {
 
 			var people = spreadsheet._processSpreadsheet([data[0]]);
 
-			expect(people[0]).to.be.a(spreadsheet._Person);
-			expect(people[0]).to.have.property('sold', 1);
+			expect(people[0].prototype).to.be(person.prototype);
+			expect(people[0].data).to.have.property('sold', 1);
 
 		});
 
@@ -118,15 +117,15 @@ describe('Get Spreadsheet Data', function() {
 			var people = spreadsheet._processSpreadsheet(rows);
 
 			expect(people).to.have.length(1);
-			expect(people[0]).to.have.property('sold', rows.length);
+			expect(people[0].data).to.have.property('sold', rows.length);
 		});
 
-		it('should update the attribute amount to the seller if no attributed to name is given', function() {
+		it('should update the attributed amount to the seller if no attributed to name is given', function() {
 
 			var people = spreadsheet._processSpreadsheet([data[0]]);
 
-			expect(people[0]).to.have.property('sold', 1);
-			expect(people[0]).to.have.property('attributed', 1);
+			expect(people[0].data).to.have.property('sold', 1);
+			expect(people[0].data).to.have.property('attributed', 1);
 		});
 
 		it('should update the attributed amount for the attributed name and not for the seller', function() {
@@ -135,21 +134,21 @@ describe('Get Spreadsheet Data', function() {
 
 			expect(people).to.have.length(2);
 
-			var seller = _.find(people, function(person) {
-				return (person.firstname === data[2].sellerfirstname &&
-					person.lastname === data[2].sellerlastname);
+			var seller = _.find(people, function(prsn) {
+				return (prsn.data.firstname === data[2].sellerfirstname &&
+					prsn.data.lastname === data[2].sellerlastname);
 			});
 
-			expect(seller).to.have.property('sold', 1);
-			expect(seller).to.have.property('attributed', 0);
+			expect(seller.data).to.have.property('sold', 1);
+			expect(seller.data).to.have.property('attributed', 0);
 
-			var beneficiary = _.find(people, function(person) {
-				return (person.firstname === data[2].attributedfirstname &&
-					person.lastname === data[2].attributedlastname);
+			var beneficiary = _.find(people, function(prsn) {
+				return (prsn.data.firstname === data[2].attributedfirstname &&
+					prsn.data.lastname === data[2].attributedlastname);
 			});
 
-			expect(beneficiary).to.have.property('sold', 0);
-			expect(beneficiary).to.have.property('attributed', 1);
+			expect(beneficiary.data).to.have.property('sold', 0);
+			expect(beneficiary.data).to.have.property('attributed', 1);
 
 		});
 
@@ -196,7 +195,7 @@ describe('Get Spreadsheet Data', function() {
 
 		var firstname = 'Bob',
 			lastname = 'Smith',
-			people = [
+			data = [
 				{
 					firstname: firstname,
 					lastname: lastname,
@@ -209,69 +208,27 @@ describe('Get Spreadsheet Data', function() {
 					sold: 2,
 					attributed: 2
 				}
-			];
+			],
+			people;
+
+		beforeEach(function(){
+			people = [];
+			_.each(data, function(item){
+				people.push(person.create(item));
+			});
+		});
+
 
 		afterEach(function(done) {
 			database.connect(function(db){
-				var collection = db.collection(config.db_collection_test);
+				var collection = db.collection(person.collection_name);
 				collection.drop();
 				done();
 			});
 		});
 
-		function findPersonInDatabase(firstname, lastname, cb) {
-			database.connect(function(db){
-				var collection = db.collection(config.db_collection_test);
-				collection.find({firstname: firstname, lastname: lastname}).toArray(function(err, docs) {
-					cb(docs[0]);
-				});
-			});
-		}
 
-
-		it('should return the saved people in the database', function(done) {
-			spreadsheet._save(people, config.db_collection_test, function(notadded, added) {
-				if(notadded && notadded.length > 0) {
-					console.error(notadded);
-					expect(true).to.be(false);
-				}
-
-				var sort = function(item) {
-					return item.firstname;
-				};
-
-				expect(added.length).to.be(people.length);
-				expect(_.isEqual(added, people)).to.be(true);
-
-				done();
-
-			});
-		});
-
-		it('should persist saved people in the database', function(done) {
-			spreadsheet._save(people, config.db_collection_test, function(notadded, added) {
-				if(notadded && notadded.length > 0) {
-					console.error(notadded);
-					expect(true).to.be(false);
-				}
-
-				findPersonInDatabase(people[0].firstname, people[0].lastname, function(person) {
-					var count = 0;
-					_.each(people, function(person, i) {
-						if(people[i].firstname === person.firstname &&
-							people[i].lastname === person.lastname &&
-							people[i].sold === person.sold &&
-							people[i].attributed === person.attributed) {
-							count++;
-						}
-					});
-					expect(count).to.be(people.length);
-
-					done();
-				});
-
-
-			});
+		it.skip('should persist saved people in the database', function(done) {
 
 		});
 	});

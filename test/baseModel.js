@@ -1,7 +1,8 @@
 var baseModel = require('../models/baseModel'),
 	expect = require('expect.js'),
 	database = require('../db'),
-	_ = require('underscore');
+	sinon = require('sinon');
+_ = require('underscore');
 
 
 describe.skip('Inheritence', function() {
@@ -93,7 +94,7 @@ describe('Base Model', function() {
 		});
 	}
 
-	beforeEach(function(){
+	beforeEach(function() {
 		data = [
 			{firstname: 'Alex', lastname: 'Reardon', age: 25},
 			{firstname: 'Ben', lastname: 'Reardon', age: 23}
@@ -164,7 +165,6 @@ describe('Base Model', function() {
 			}, false);
 		});
 
-
 		it('Should update data in database without creating new entry', function(done) {
 
 			model.save(function() {
@@ -180,6 +180,41 @@ describe('Base Model', function() {
 					});
 				});
 			});
+		});
+
+		describe('save multiple', function() {
+
+			var stub;
+
+			beforeEach(function(){
+				stub = sinon.stub(baseModel, 'save', function(cb) {
+					cb();
+				});
+			});
+
+			afterEach(function(){
+				stub.restore();
+			});
+
+			it('should save multiple', function(done) {
+
+
+				var data = [
+					baseModel.create(data, collection_name, searchKeys),
+					baseModel.create(data, collection_name, searchKeys),
+				];
+
+				model.saveMultiple(data, function() {
+					expect(baseModel.save.callCount).to.be(data.length);
+					done();
+				});
+
+				stub.restore();
+
+
+			});
+
+
 		});
 
 
@@ -223,7 +258,7 @@ describe('Base Model', function() {
 		});
 
 		it('Should find items based on a query', function(done) {
-			models[0].find({age: {$gt: 24}}, function(result){
+			models[0].find({age: {$gt: 24}}, function(result) {
 				expect(result).to.have.length(1);
 				done();
 			});
@@ -232,7 +267,7 @@ describe('Base Model', function() {
 
 		it('Should limit results', function(done) {
 			var limit = 1;
-			models[0].find({}, function(result){
+			models[0].find({}, function(result) {
 				expect(result).to.have.length(limit);
 				done();
 			}, limit);

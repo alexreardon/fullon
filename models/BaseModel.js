@@ -58,7 +58,7 @@ baseModel.find = function(query, cb, limit) {
 
 			var result = [];
 			_.each(doc, function(item) {
-				result.push(this.create(item, this.collection_name));
+				result.push(this.create(item, this.collection_name, this.search_key_fields));
 			}, this);
 			cb(result);
 		}.bind(this));
@@ -68,9 +68,17 @@ baseModel.find = function(query, cb, limit) {
 
 };
 
-baseModel.findAll = function(cb) {
-	return this.find({}, null, cb);
-};
+baseModel.saveMultiple = function(elements, cb){
+	var count = 0;
+	_.each(elements, function(item){
+		item.save(function(){
+			count++;
+			if(count === elements.length){
+				cb();
+			}
+		});
+	});
+}
 
 
 module.exports = baseModel;
