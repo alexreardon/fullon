@@ -79,7 +79,7 @@ describe.skip('Inheritence', function() {
 
 });
 
-describe.only('Base Model', function() {
+describe('Base Model', function() {
 
 	var collection_name = 'test',
 		searchKeys = ['firstname', 'lastname'],
