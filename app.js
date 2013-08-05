@@ -51,7 +51,7 @@ var routes = {
 
 
 app.get('/', routes.home.countdown);
-app.get('/register', routes.register.index);
+//app.get('/register', routes.register.index);
 
 //jobs trigger
 app.get('/jobs/getspreadsheet', express.basicAuth('username', 'password'), routes.jobs.getspreadsheet);
