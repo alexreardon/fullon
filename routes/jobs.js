@@ -6,8 +6,10 @@ var spreadsheet = require('../jobs/spreadsheet'),
 exports.getspreadsheet = function (req, res, next) {
 	spreadsheet.run(function (err) {
 		if (err) {
-			throw new Error(err);
+			next(new Error(err));
+			return;
 		}
 		res.send('success');
 	});
+
 };
