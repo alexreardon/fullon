@@ -5,5 +5,5 @@ block content
 
 	ul
 		each prsn, i in people
-			li #{i + 1} #{prsn.data.firstname}, #{prsn.data.lastname}
+			li(data-position=#{prsn.position}) #{prsn.position} #{prsn.data.firstname}, #{prsn.data.lastname}
 				strong  (sold #{prsn.data.sold})

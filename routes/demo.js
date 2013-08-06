@@ -15,7 +15,7 @@ exports.leaderboard = function(req, res, next){
 
 
 		res.render('demo', {people: data, leaderboard_size: config.leaderboard_size});
-	}, config.leaderboard_size, {sold: -1});
+	}, config.leaderboard_size, {sold: -1, firstname: 1});
 
 
 };
