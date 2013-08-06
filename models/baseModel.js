@@ -83,19 +83,23 @@ baseModel.find = function(query, cb, limit, sort) {
 
 baseModel.saveMultiple = function(elements, cb){
 	var failures = [],
-		successful = 0;
+		successCount = 0,
+		failureCount = 0;
 
 	_.each(elements, function(item){
 		item.save(function(err){
 			if(err){
-				failures.push(err);
+				failureCount++;
+				if(!_.contains(failures, err)){
+					failures.push(err);
+				}
 			} else {
-				successful++;
+				successCount++;
 			}
 
-			if((failures.length + successful) === elements.length){
-				if(failures.length){
-					cb(format('there were %d failures while saving.\nErrors: %j', failures.length, failures));
+			if((successCount + failureCount) === elements.length){
+				if(failureCount > 0){
+					cb(format('there were %d failures while saving.\nErrors: %j', failureCount, failures));
 				} else {
 					cb();
 				}
