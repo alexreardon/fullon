@@ -37,7 +37,7 @@ baseModel.save = function(cb, upsert) {
 				cb(err);
 				return;
 			}
-
+			db.close();
 			cb(null);
 
 		});
@@ -73,7 +73,10 @@ baseModel.find = function(query, cb, limit, sort) {
 			_.each(doc, function(item) {
 				result.push(this.create(item, this.collection_name, this.search_key_fields));
 			}, this);
+
+			db.close();
 			cb(null, result);
+
 		}.bind(this));
 
 
