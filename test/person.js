@@ -68,6 +68,10 @@ describe('person', function() {
 		it.skip('should call _calculatePositions on get_leaderboard call', function(){
 
 		});
+
+		it('Should fail', function(){
+			expect(true).to.be(false);
+		});
 	});
 
 
