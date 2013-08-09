@@ -5,7 +5,7 @@
   "description": "st phils full on website",
   "main": "app.js",
   "scripts": {
-    "test": "make test",
+    "test": "mocha",
     "start": "node app.js"
   },
   "repository": {
@@ -33,7 +33,6 @@
     "npm": "1.2.x"
   },
   "devDependencies": {
-    "expect": "0.0.2",
     "expect.js": "~0.2.0",
     "sinon": "~1.7.3",
     "mocha": "~1.12.0"
