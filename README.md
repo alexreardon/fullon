@@ -1,6 +1,6 @@
 fullon
 ======
+[![Build Status](https://travis-ci.org/alexreardon/fullon.png)](https://travis-ci.org/alexreardon/fullon)
 
 Full On Website - Coming Soon!
 
-[![Nodejitsu Deploy Status Badges](https://webhooks.nodejitsu.com/github-username/hello-world-flatiron-api.png)](https://webops.nodejitsu.com#github-username/hello-world-flatiron-api)
