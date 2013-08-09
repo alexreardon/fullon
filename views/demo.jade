@@ -5,5 +5,7 @@ block content
 
 	ul
 		each prsn, i in people
-			li(data-position=#{prsn.position}) #{prsn.position} #{prsn.data.firstname}, #{prsn.data.lastname}
-				strong  (sold #{prsn.data.sold})
+			li(data-position='#{prsn.temp.position}')
+				strong #{prsn.temp.position}
+				|  #{prsn.data.firstname} #{prsn.data.lastname}
+				em  (sold #{prsn.data.sold})

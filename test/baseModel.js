@@ -122,6 +122,7 @@ describe('Base Model', function() {
 		it('Should create objects with the correct properties', function() {
 			expect(model).to.have.property('collection_name', collection_name);
 			expect(model).to.have.property('data', data[0]);
+			expect(model.temp).to.be.empty();
 			expect(model).to.have.property('search_key_fields', searchKeys);
 		});
 

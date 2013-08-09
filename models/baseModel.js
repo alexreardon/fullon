@@ -10,6 +10,11 @@ baseModel.create = function(data, collection_name, search_key_fields) {
 	self.data = data;
 	self.collection_name = collection_name;
 	self.search_key_fields = search_key_fields;
+
+	//put any temporary data here - will not be saved
+	self.temp = Object.create(null);
+
+
 	return self;
 };
 
