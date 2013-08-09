@@ -69,9 +69,6 @@ describe('person', function() {
 
 		});
 
-		it('Should fail', function(){
-			expect(true).to.be(false);
-		});
 	});
 
 
