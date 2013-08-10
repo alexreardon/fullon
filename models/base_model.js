@@ -1,10 +1,10 @@
-var database = require('../db'),
+var database = require('../util/db'),
 	format = require('util').format,
 	_ = require('underscore');
 
-var baseModel = Object.create(Object.prototype);
+var base_model = Object.create(Object.prototype);
 
-baseModel.create = function(data, collection_name, search_key_fields) {
+base_model.create = function(data, collection_name, search_key_fields) {
 	//'data' will be saved in the database
 	var self = Object.create(this);
 	self.data = data;
@@ -18,7 +18,7 @@ baseModel.create = function(data, collection_name, search_key_fields) {
 	return self;
 };
 
-baseModel.getSearchQuery = function(){
+base_model.getSearchQuery = function(){
 	var query = Object.create(null);
 	_.each(this.search_key_fields, function(item, i){
 		query[item] = this.data[item];
@@ -26,7 +26,7 @@ baseModel.getSearchQuery = function(){
 	return query;
 };
 
-baseModel.save = function(cb, upsert) {
+base_model.save = function(cb, upsert) {
 	//upsert = create entry if none exists
 
 	database.connect(function(err, db) {
@@ -49,7 +49,7 @@ baseModel.save = function(cb, upsert) {
 	}.bind(this));
 };
 
-baseModel.find = function(query, cb, limit, sort) {
+base_model.find = function(query, cb, limit, sort) {
 
 	database.connect(function(err, db) {
 		if(err){
@@ -89,7 +89,7 @@ baseModel.find = function(query, cb, limit, sort) {
 
 };
 
-baseModel.saveMultiple = function(elements, cb){
+base_model.saveMultiple = function(elements, cb){
 	var failures = [],
 		successCount = 0,
 		failureCount = 0;
@@ -117,4 +117,4 @@ baseModel.saveMultiple = function(elements, cb){
 };
 
 
-module.exports = baseModel;
+module.exports = base_model;

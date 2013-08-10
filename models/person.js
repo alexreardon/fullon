@@ -1,9 +1,9 @@
-var baseModel = require('./baseModel'),
+var base_model = require('./base_model'),
 	config = require('../config'),
 	_ = require('underscore');
 
 
-var person = Object.create(baseModel);
+var person = Object.create(base_model);
 person.collection_name = 'people';
 person.searchKeys = ['firstname', 'lastname'];
 
@@ -12,10 +12,10 @@ person.create = function(data){
 	data.sold = data.sold || 0;
 	data.attributed = data.attributed || 0;
 
-	return baseModel.create.call(this, data, person.collection_name, person.searchKeys);
+	return base_model.create.call(this, data, person.collection_name, person.searchKeys);
 };
 
-person._calculatePositions = function(people){
+person._calculate_positions = function(people){
 	//precondition - data is sorted {sold: -1, firstname: 1}
 
 	var position = 0,
@@ -42,7 +42,7 @@ person.get_leaderboard = function(cb){
 			cb(err);
 			return;
 		}
-		cb(null, this._calculatePositions(data));
+		cb(null, this._calculate_positions(data));
 
 	}.bind(this), config.leaderboard_size, {sold: -1, firstname: 1});
 };

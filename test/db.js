@@ -1,4 +1,4 @@
-var database = require('../db');
+var database = require('../util/db');
 
 describe('database', function(){
 

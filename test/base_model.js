@@ -1,6 +1,6 @@
-var baseModel = require('../models/baseModel'),
+var base_model = require('../models/base_model'),
 	expect = require('expect.js'),
-	database = require('../db'),
+	database = require('../util/db'),
 	sinon = require('sinon'),
 	_ = require('underscore');
 
@@ -111,12 +111,12 @@ describe('Base Model', function() {
 		var model;
 
 		beforeEach(function() {
-			model = baseModel.create(data[0], collection_name, searchKeys);
+			model = base_model.create(data[0], collection_name, searchKeys);
 		});
 
 		it('Should create new objects', function() {
 			expect(model).to.be.an('object');
-			expect(model.prototype).to.be(baseModel.prototype);
+			expect(model.prototype).to.be(base_model.prototype);
 		});
 
 		it('Should create objects with the correct properties', function() {
@@ -139,7 +139,7 @@ describe('Base Model', function() {
 		});
 
 		it('Should create call update without crashing', function(done) {
-			//using baseModel.find
+			//using base_model.find
 			model.save(function(err) {
 				expect(err).to.not.be.ok();
 				done();
@@ -147,7 +147,7 @@ describe('Base Model', function() {
 		});
 
 		it('Should create data in database', function(done) {
-			//using baseModel.find
+			//using base_model.find
 			model.save(function(err) {
 				model.find({}, function(err, result) {
 					expect(result).to.have.length(1);
@@ -158,7 +158,7 @@ describe('Base Model', function() {
 		});
 
 		it('Should not create data in database if does not exist and upsert is false', function(done) {
-			//using baseModel.find
+			//using base_model.find
 			model.save(function(err) {
 				model.find({}, function(err, result) {
 					expect(result).to.have.length(0);
@@ -189,7 +189,7 @@ describe('Base Model', function() {
 			var stub;
 
 			beforeEach(function(){
-				stub = sinon.stub(baseModel, 'save', function(cb) {
+				stub = sinon.stub(base_model, 'save', function(cb) {
 					cb();
 				});
 			});
@@ -202,12 +202,12 @@ describe('Base Model', function() {
 
 
 				var data = [
-					baseModel.create(data, collection_name, searchKeys),
-					baseModel.create(data, collection_name, searchKeys)
+					base_model.create(data, collection_name, searchKeys),
+					base_model.create(data, collection_name, searchKeys)
 				];
 
 				model.saveMultiple(data, function() {
-					expect(baseModel.save.callCount).to.be(data.length);
+					expect(base_model.save.callCount).to.be(data.length);
 					done();
 				});
 
@@ -230,7 +230,7 @@ describe('Base Model', function() {
 			models = [];
 			var count = 0;
 			_.each(data, function(item, i) {
-				var model = baseModel.create(item, collection_name, searchKeys);
+				var model = base_model.create(item, collection_name, searchKeys);
 				models.push(model);
 				model.save(function() {
 					count++;

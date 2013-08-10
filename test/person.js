@@ -1,5 +1,5 @@
 var person = require('../models/person'),
-	baseModel = require('../models/baseModel'),
+	base_model = require('../models/base_model'),
 	expect = require('expect.js'),
 	_ = require('underscore');
 
@@ -36,15 +36,15 @@ describe('person', function() {
 	});
 
 
-	it('Should be an instance of baseModel', function() {
+	it('Should be an instance of base_model', function() {
 		var p = person.create(data[0]);
 		expect(p.prototype).to.be(person.prototype);
-		expect(p.prototype).to.be(baseModel.prototype);
+		expect(p.prototype).to.be(base_model.prototype);
 	});
 
 	describe('leaderboard', function(){
 		it('should have a position', function() {
-			people = person._calculatePositions(people);
+			people = person._calculate_positions(people);
 			var success = 0;
 			_.each(people, function(prsn){
 				if(prsn.temp.position){
@@ -55,7 +55,7 @@ describe('person', function() {
 		});
 
 		it('should have correct positions', function(){
-			people = person._calculatePositions(people);
+			people = person._calculate_positions(people);
 			expect(people[0].temp).to.have.property('position', 1);
 			expect(people[1].temp).to.have.property('position', 1);
 			expect(people[2].temp).to.have.property('position', 2);
@@ -65,7 +65,7 @@ describe('person', function() {
 			expect(person.get_leaderboard).to.be.a('function');
 		});
 
-		it.skip('should call _calculatePositions on get_leaderboard call', function(){
+		it.skip('should call _calculate_positions on get_leaderboard call', function(){
 
 		});
 

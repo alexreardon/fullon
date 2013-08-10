@@ -9,8 +9,6 @@ var config = {
 
 	//database
 	db_connection: process.env.fullon_db_connection,
-	db_collection_people: 'people',
-	db_collection_test: 'test',
 
 
 	//google

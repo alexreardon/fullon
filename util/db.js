@@ -1,4 +1,4 @@
-var config = require('./config'),
+var config = require('./../config'),
 	MongoClient = require('mongodb').MongoClient,
 	format = require('util').format;
 

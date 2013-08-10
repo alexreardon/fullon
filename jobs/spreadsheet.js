@@ -2,7 +2,7 @@ var GoogleSpreadsheet = require('google-spreadsheet'),
 	_ = require('underscore'),
 	config = require('../config'),
 	format = require('util').format,
-	database = require('../db'),
+	database = require('../util/db'),
 	person = require('../models/person');
 
 //Utility functions

@@ -2,7 +2,7 @@ var expect = require('expect.js'),
 	spreadsheet = require('../jobs/spreadsheet'),
 	config = require('../config'),
 	_ = require('underscore'),
-	database = require('../db'),
+	database = require('../util/db'),
 	person = require('../models/person');
 
 describe('Get Spreadsheet Data', function() {
