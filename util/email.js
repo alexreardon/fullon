@@ -15,8 +15,17 @@ var smtpTransport = nodemailer.createTransport('SMTP', {
 
 //function that starts the network operation to send the email
 exports._transport = function(options, cb) {
-	smtpTransport.sendMail(options, function(error, response) {
-		cb(error, response);
+	smtpTransport.sendMail(options, function(err, response) {
+		console.log(format('tried to send email [to: "%s" subject: "%s"]', options.to, options.subject));
+
+		if(err){
+			console.error('failed: ' + err);
+		} else {
+			console.log('success');
+		}
+
+
+		cb(err, response);
 	});
 }
 

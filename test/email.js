@@ -4,10 +4,9 @@ var email = require('../util/email'),
 	path = require('path'),
 	expect = require('expect.js');
 
-describe.only('Email', function(){
+describe('Email', function(){
 
-	var spy,
-		stub,
+	var stub,
 		file_path = '../views/email/',
 		file_name = 'test',
 		file_contents = 'h1=text',
@@ -61,6 +60,18 @@ describe.only('Email', function(){
 			done();
 		});
 
+	});
+
+	//warning: will actually send an email
+	it.skip('should actually send an email', function(done){
+		stub.restore();
+		this.timeout(30000); //30s
+
+		email.send('alexreardon@gmail.com', 'subject', file_name, null, function(err, response){
+			expect(err).to.not.be.ok();
+			expect(response).to.be.ok();
+			done();
+		});
 	});
 
 
