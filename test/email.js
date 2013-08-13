@@ -63,7 +63,7 @@ describe('Email', function(){
 	});
 
 	//warning: will actually send an email
-	it.only('should actually send an email', function(done){
+	it.skip('should actually send an email', function(done){
 		stub.restore();
 		this.timeout(30000); //30s
 
