@@ -27,7 +27,7 @@ exports._transport = function(options, cb) {
 
 		cb(err, response);
 	});
-}
+};
 
 exports._prepare = function(to, subject, template_name, template_data, cb) {
 	var p = path.join(__dirname, '../views/email/', template_name + '.jade');
@@ -49,23 +49,7 @@ exports._prepare = function(to, subject, template_name, template_data, cb) {
 		});
 
 	});
-
-//	jade.renderFile(p, { locals: template_data || {}}, function(err, html) {
-//		if(err) {
-//			cb(format('Error loading email template "%s" [%j]', p, err));
-//			return;
-//		}
-//
-//		cb(null, {
-//			to: to,
-//			subject: subject,
-//			from: format('Full On <%s>', config.google_username),
-//			html: html
-//		});
-//
-//
-//	});
-}
+};
 
 
 //starts an async call - does not wait for success/failure
