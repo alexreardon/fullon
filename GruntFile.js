@@ -25,16 +25,27 @@ module.exports = function(grunt) {
 			}
 
 
+		},
+
+		less: {
+			development: {
+				files: {
+					'public/css/main.css': 'public/less/main.less'
+				}
+			}
 		}
 
 	});
 
-// Load plugins
+	//Load plugins
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-less');
 
-// Default task(s).
-	grunt.registerTask('default', ['jshint']);
 
+	//Everything
+	grunt.registerTask('default', ['jshint', 'less']);
+
+	//Client Only
 
 }
 ;
