@@ -40,12 +40,13 @@ module.exports = function(grunt) {
 	//Load plugins
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-watch');
 
 
 	//Everything
 	grunt.registerTask('default', ['jshint', 'less']);
 
-	//Client Only
-
+	//Release
+	grunt.registerTask('release', ['jshint', 'less']);
 }
 ;
