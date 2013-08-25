@@ -15,8 +15,9 @@ exports.leaderboard = function(req, res, next){
 		res.render('demo', {people: people, leaderboard_size: config.leaderboard_size});
 	});
 
+};
 
+exports.dust = function(req, res, next){
 
-
-
+	res.render('test', {text: 'HELLO WORLD'});
 };

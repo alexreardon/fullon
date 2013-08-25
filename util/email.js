@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer'),
 	config = require('../config'),
-	jade = require('jade'),
+	dust = dust = require('dustjs-linkedin'),
 	fs = require('fs'),
 	path = require('path'),
 	format = require('util').format;
@@ -38,7 +38,8 @@ exports._prepare = function(to, subject, template_name, template_data, cb) {
 			return;
 		}
 
-		var fn = jade.compile(data);
+		var compiled = dust.compile(data, 'template');
+		//var fn = jade.compile(data);
 
 		cb(null, {
 

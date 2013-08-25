@@ -2,11 +2,17 @@ var express = require('express'),
 	config = require('./config'),
 	path = require('path'),
 	format = require('util').format,
+	dust = require('dustjs-linkedin'),
+	consolidate = require('consolidate'),
 	app = express();
+
+
+// assign the dust engine to .dust files
+app.engine('dust', consolidate.dust);
 
 //view engine
 app.set('views', __dirname + '/views');
-app.set('view engine', 'jade');
+app.set('view engine', 'dust');
 
 //middleware - features
 app.use(express.favicon());
@@ -61,7 +67,7 @@ app.get('/jobs/getspreadsheet', express.basicAuth(config.job_username, config.jo
 
 //demo: TODO: remove
 app.get('/demo/leaderboard', routes.demo.leaderboard);
-
+app.get('/demo/dust', routes.demo.dust);
 
 //start the server
 app.listen(config.port, function() {
