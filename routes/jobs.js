@@ -1,9 +1,10 @@
-//Jobs
 var spreadsheet = require('../jobs/spreadsheet'),
-	config = require('../config');
+	config = require('../config'),
+	express = require('express'),
+	app = require('../app');
 
 
-exports.getspreadsheet = function (req, res, next) {
+app.get('/jobs/getspreadsheet', express.basicAuth(config.job_username, config.job_password), function (req, res, next) {
 	spreadsheet.run(function (err) {
 		if (err) {
 			next(new Error(err));
@@ -12,4 +13,4 @@ exports.getspreadsheet = function (req, res, next) {
 		res.send('success');
 	});
 
-};
+});

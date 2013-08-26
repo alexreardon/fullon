@@ -1,8 +1,9 @@
 var person = require('../models/person'),
-	config = require('../config');
+	config = require('../config'),
+	app = require('../app');
 
 
-exports.leaderboard = function(req, res, next){
+app.get('/demo/leaderboard', function(req, res, next){
 
 	//(query, cb, limit, sort)
 	//find all people with sold > 0, limit: 10, in decending order of amount sold
@@ -15,9 +16,9 @@ exports.leaderboard = function(req, res, next){
 		res.render('demo', {people: people, leaderboard_size: config.leaderboard_size});
 	});
 
-};
+});
 
-exports.handlebar = function(req, res, next){
+app.get('/demo/handlebar', function(req, res, next){
 
 	res.render('test', {text: 'HELLO WORLD'});
-};
+});

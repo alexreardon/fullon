@@ -1,10 +1,13 @@
 var express = require('express'),
 	config = require('./config'),
+	_ = require('underscore'),
 	path = require('path'),
+	fs = require('fs'),
 	format = require('util').format,
 	handlebars = require('handlebars'),
 	consolidate = require('consolidate'),
 	app = express();
+
 
 
 // assign the dust engine to .dust files
@@ -48,31 +51,15 @@ if('production' === app.get('env')) {
 	//app.use(errorHandler); TODO
 }
 
+//export app for routes - must be here
+module.exports = app;
 
-//Routes
-var routes = {
-	home: require('./routes/home'),
-	register: require('./routes/register'),
-	jobs: require('./routes/jobs'),
-	demo: require('./routes/demo')
-};
-
-
-app.get('/', routes.home.countdown);
-//app.get('/register', routes.register.index);
-
-//jobs trigger
-app.get('/jobs/getspreadsheet', express.basicAuth(config.job_username, config.job_password), routes.jobs.getspreadsheet);
-
-
-//demo: TODO: remove
-app.get('/demo/leaderboard', routes.demo.leaderboard);
-app.get('/demo/handlebar', routes.demo.handlebar);
+//load in routes
+_.each(fs.readdirSync('./routes'), function(file){
+	require('./routes/' + file);
+});
 
 //start the server
 app.listen(config.port, function() {
 	console.log('Full On now listening on port ' + config.port);
 });
-
-//export app
-module.exports = app;
