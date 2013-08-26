@@ -56,18 +56,24 @@ exports._prepare = function(to, subject, template_name, template_data, cb) {
 //starts an async call - does not wait for success/failure
 exports.send = function(to, subject, template_name, template_data, cb) {
 
-	//if no callback - just do nothing with it
-	if(!cb){
-		cb = function(){};
-	}
+	//put on the end of the event queue
+	process.nextTick(function(){
 
-	exports._prepare(to, subject, template_name, template_data, function(err, data) {
-		if(err) {
-			cb(err);
-			return;
+
+		//if no callback - just do nothing with it
+		if(!cb){
+			cb = function(){};
 		}
 
-		exports._transport(data, cb);
+		exports._prepare(to, subject, template_name, template_data, function(err, data) {
+			if(err) {
+				console.error(err);
+				cb(err);
+				return;
+			}
+
+			exports._transport(data, cb);
+		});
 	});
 
 };
