@@ -9,9 +9,9 @@ describe('Email', function(){
 	var stub,
 		file_path = '../views/email/',
 		file_name = 'test',
-		file_contents = 'h1=text',
+		file_contents = '<h1>{{text}}</h1>',
 		template_data = {text: 'helloworld'},
-		p = path.join(__dirname, file_path, file_name + '.jade');
+		p = path.join(__dirname, file_path, file_name + '.handlebars');
 
 	before(function(){
 		fs.writeFileSync(p, file_contents);

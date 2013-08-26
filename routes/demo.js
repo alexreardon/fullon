@@ -17,7 +17,7 @@ exports.leaderboard = function(req, res, next){
 
 };
 
-exports.dust = function(req, res, next){
+exports.handlebar = function(req, res, next){
 
 	res.render('test', {text: 'HELLO WORLD'});
 };

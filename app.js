@@ -2,17 +2,17 @@ var express = require('express'),
 	config = require('./config'),
 	path = require('path'),
 	format = require('util').format,
-	dust = require('dustjs-linkedin'),
+	handlebars = require('handlebars'),
 	consolidate = require('consolidate'),
 	app = express();
 
 
 // assign the dust engine to .dust files
-app.engine('dust', consolidate.dust);
+app.engine('handlebars', consolidate.handlebars);
 
 //view engine
 app.set('views', __dirname + '/views');
-app.set('view engine', 'dust');
+app.set('view engine', 'handlebars');
 
 //middleware - features
 app.use(express.favicon());

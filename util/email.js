@@ -1,6 +1,6 @@
 var nodemailer = require('nodemailer'),
 	config = require('../config'),
-	dust = dust = require('dustjs-linkedin'),
+	handlebars = require('handlebars'),
 	fs = require('fs'),
 	path = require('path'),
 	format = require('util').format;
@@ -30,7 +30,7 @@ exports._transport = function(options, cb) {
 };
 
 exports._prepare = function(to, subject, template_name, template_data, cb) {
-	var p = path.join(__dirname, '../views/email/', template_name + '.jade');
+	var p = path.join(__dirname, '../views/email/', template_name + '.handlebars');
 
 	fs.readFile(p, function(err, data){
 		if(err){
@@ -38,15 +38,15 @@ exports._prepare = function(to, subject, template_name, template_data, cb) {
 			return;
 		}
 
-		var compiled = dust.compile(data, 'template');
-		//var fn = jade.compile(data);
+		var template = handlebars.compile(data.toString());
+
 
 		cb(null, {
 
 			to: to,
 			subject: subject,
 			from: format('Full On <%s>', config.google_username),
-			html: fn(template_data || {})
+			html: template(template_data || {})
 		});
 
 	});
