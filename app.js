@@ -67,7 +67,7 @@ app.get('/jobs/getspreadsheet', express.basicAuth(config.job_username, config.jo
 
 //demo: TODO: remove
 app.get('/demo/leaderboard', routes.demo.leaderboard);
-app.get('/demo/dust', routes.demo.dust);
+app.get('/demo/handlebar', routes.demo.handlebar);
 
 //start the server
 app.listen(config.port, function() {
