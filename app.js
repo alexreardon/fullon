@@ -26,8 +26,8 @@ app.use(express.cookieParser(config.cookie_secret));
 app.use(express.session());
 
 //static file serving
-app.use(require('less-middleware')({ src: __dirname + '/public' }));
-app.use(express.static(path.join(__dirname, 'public')));
+//app.use(require('less-middleware')({ src: __dirname + '/public' }));
+app.use('/public', express.static(path.join(__dirname, '/public')));
 
 //middleware - flow
 app.use(app.router);
@@ -57,6 +57,11 @@ module.exports = app;
 //load in routes
 _.each(fs.readdirSync('./routes'), function(file){
 	require('./routes/' + file);
+});
+
+//all routes that are not caught go to the client side router
+app.get('*', function(req, res){
+	res.render('index');
 });
 
 //start the server

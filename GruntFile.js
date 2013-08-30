@@ -1,10 +1,5 @@
 module.exports = function(grunt) {
 
-	var options = grunt.file.readJSON('.jshintrc'),
-		options_client = JSON.parse(JSON.stringify(options));
-
-	options_client.predef.push('_', 'moment', 'window');
-
 	var node_js_files = ['**/*.js',
 			'!node_modules/**/*.js',
 			'!public/**/*.js' ],
@@ -12,13 +7,15 @@ module.exports = function(grunt) {
 		client_js_files = ['public/js/**/*.js',
 			'!public/js/lib/**/*.js',
 			'!public/js/module.js',
-			'!public/js/build.js' ],
+			'!public/js/templates.js' ],
 
 		client_js_lib_files = ['public/js/lib/underscore.js',
-			'public/js/lib/jquery.js',
 			'public/js/lib/handlebars.js',
 			'public/js/lib/backbone.js',
-			'public/js/lib/moment.js'],
+			'public/js/lib/moment.js',
+			'!public/js/lib/lib.js'],
+
+		handlebars_templates = 'public/js/template/**/*.handlebars',
 
 		less_files = ['public/less/**/*.less'];
 
@@ -29,13 +26,13 @@ module.exports = function(grunt) {
 
 		jshint: {
 			node: {
-				options: options,
+				options: grunt.file.readJSON('.jshintrc'),
 				files: {
 					src: node_js_files
 				}
 			},
 			client: {
-				options: options_client,
+				options: grunt.file.readJSON('public/js/.jshintrc'),
 				files: {
 					src: client_js_files
 				}
@@ -66,15 +63,13 @@ module.exports = function(grunt) {
 		},
 
 		concat: {
-			dist: {
-				src: client_js_lib_files.slice(0).push('public/js/module.js'),
-				dest: 'public/js/build.js'
+			lib: {
+				src: client_js_lib_files,
+				dest: 'public/js/lib/lib.js'
 			}
 		},
 
 		uglify: {
-			//dev: {
-
 			prod: {
 				options: {
 					mangle: false,
@@ -83,8 +78,24 @@ module.exports = function(grunt) {
 					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
 						'<%= grunt.template.today("dd-mm-yyyy") %> */'
 				},
+				files: [
+					{'public/js/module.js': 'public/js/module.js'},
+					{'public/js/lib/lib.js': 'public/js/lib/lib.js'}
+				]
+			}
+		},
+
+		handlebars: {
+			compile: {
+				options: {
+					commonjs: true,
+					processName: function(filePath) {
+						console.log(filePath);
+						return filePath.toUpperCase();
+					}
+				},
 				files: {
-					'public/js/build.js': ['public/js/build.js']
+					'public/js/templates.js': handlebars_templates
 				}
 			}
 		},
@@ -95,8 +106,16 @@ module.exports = function(grunt) {
 				files: node_js_files
 			},
 			client_js: {
-				tasks: ['jshint:client', 'browserify', 'concat'],
+				tasks: ['jshint:client', 'browserify'],
 				files: client_js_files
+			},
+			handlebars_templates: {
+				tasks: ['jshint:client', 'handlebars', 'browserify'],
+				files: handlebars_templates
+			},
+			client_js_lib: {
+				tasks: ['concat:lib'],
+				files: client_js_lib_files
 			},
 			css: {
 				tasks: ['less:dev'],
@@ -112,6 +131,7 @@ module.exports = function(grunt) {
 	//Load plugins
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
+	grunt.loadNpmTasks('grunt-contrib-handlebars');
 	grunt.loadNpmTasks('grunt-browserify');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
@@ -119,10 +139,10 @@ module.exports = function(grunt) {
 
 
 	//Development
-	grunt.registerTask('default', ['jshint', 'less:dev', 'browserify', 'concat']);
+	grunt.registerTask('default', ['jshint', 'less:dev', 'handlebars', 'browserify']);
 
 	//Release
-	grunt.registerTask('release', ['jshint', 'less:prod', 'browserify', 'concat', 'uglify:prod']);
+	grunt.registerTask('release', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat:lib', 'uglify:prod']);
 
 
 };
