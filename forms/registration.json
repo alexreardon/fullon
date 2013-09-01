@@ -1,0 +1,85 @@
+{
+	"camper type": {
+		"allegiance": {
+			"type:": "radio",
+			"info": "If you are a married leader please fill this form out twice, once for each person."
+			"options": ["camper", "leader"],
+			"validation": {
+				"required": true
+			}
+		}
+	},
+	"discounts": {
+		"chocolate": {
+			"type": "select",
+			"data": "{{chocolate_data}}"
+		},
+		"early bird": {
+			"type": "radio",
+			"data": "{{early_bird_data}}",
+			"options": ["yes", "no"],
+			"validation": {
+				"required": true
+			}
+		},
+
+		"married" : {
+			"text": "are you married?",
+			"type": "radio",
+			"options": ["yes", "no"],
+			"conditions": {
+				"allegiance": "leader"
+			},
+			"validation": {
+				"required": true
+			}
+		}
+	},
+	"basic details": {
+		"name": {
+			"type": "text",
+			"validation": {
+				"required": true,
+				"max_length": 255,
+				"is_text": true
+			}
+		},
+		"camper email": {
+			"type": "email"
+		},
+		"birth date": {
+			"type": "date",
+			"validation": {
+				"required": true
+			}
+		},
+		"year in school": {
+			"type": "select",
+			"options": [6, 7, 8, 9, 10, 11, 12],
+			"conditions": {
+				"allegiance": "camper"
+			},
+			"validation": {
+				"required": true
+			}
+		},
+		"school": {
+			"type": "text",
+			"conditions": {
+				"allegiance": "camper"
+			},
+			"validation": {
+				"required": true,
+				"is_text": true,
+				"max_length": 255
+			}
+		},
+		"contact number": {
+			"type": "phone_number",
+			"validation": {
+				"required": true
+			}
+		}
+	}
+
+}

@@ -89,9 +89,9 @@ module.exports = function(grunt) {
 			compile: {
 				options: {
 					commonjs: true,
-					processName: function(filePath) {
-						console.log(filePath);
-						return filePath.toUpperCase();
+					processName: function(path) {
+						var pieces = path.split('/');
+						return pieces[pieces.length - 1].replace('.handlebars', '');
 					}
 				},
 				files: {
