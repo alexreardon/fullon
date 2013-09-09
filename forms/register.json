@@ -2,7 +2,7 @@
 	"camper type": {
 		"allegiance": {
 			"type:": "radio",
-			"info": "If you are a married leader please fill this form out twice, once for each person."
+			"info": "If you are a married leader please fill this form out twice, once for each person.",
 			"options": ["camper", "leader"],
 			"validation": {
 				"required": true
@@ -79,7 +79,70 @@
 			"validation": {
 				"required": true
 			}
+		},
+		"address": {
+			"type": "address",
+			"validation": {
+				"required": true
+			}
+		}
+	},
+	"medical contact information" : {
+		"medicare number": {
+			"type": "text",
+			"validation": {
+				"required": true,
+				"min_length": 11,
+				"max_length": 11
+			}
+		},
+		"medicare card reference number": {
+			"type": "number",
+			"validation": {
+				"required": true,
+				"min_length": 1,
+				"max_length": 1
+			}
+		},
+		"medicare card expiry date": {
+			"type": "date_month_year",
+			"validation": {
+				"required": true
+			}
+		},
+		"private health insurance company": {
+			"type": "text",
+			"validation": {
+				"max_length": 255
+			}
+		},
+		"private health insurance membership number": {
+			"type": "text",
+			"validation": {
+				"max_length": 255
+			}
+		},
+		"family doctor": {
+			"type": "text",
+			"validation": {
+				"required": true,
+				"max_length": 255
+			}
+		},
+		"doctor contact number": {
+			"type": "phone_number",
+			"validation": {
+				"required": true
+			}
+		}
+	},
+	"medical information": {
+		"date of last tetanus booster": {
+			"type": "date",
+			"info": "if you are unsure - enter 01/01/1900",
+			"validation": {
+				"required": true
+			}
 		}
 	}
-
 }

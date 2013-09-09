@@ -59,10 +59,6 @@ _.each(fs.readdirSync('./routes'), function(file){
 	require('./routes/' + file);
 });
 
-//all routes that are not caught go to the client side router
-app.get('*', function(req, res){
-	res.render('index');
-});
 
 //start the server
 app.listen(config.port, function() {
