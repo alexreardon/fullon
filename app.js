@@ -4,18 +4,14 @@ var express = require('express'),
 	path = require('path'),
 	fs = require('fs'),
 	format = require('util').format,
-	handlebars = require('handlebars'),
-	consolidate = require('consolidate'),
+	hbs = require('hbs'),
 	app = express();
-
-
-
-// assign the dust engine to .dust files
-app.engine('handlebars', consolidate.handlebars);
 
 //view engine
 app.set('views', __dirname + '/views');
-app.set('view engine', 'handlebars');
+hbs.registerPartials(__dirname + '/views/partials');
+app.set('view engine', 'hbs');
+
 
 //middleware - features
 app.use(express.favicon());

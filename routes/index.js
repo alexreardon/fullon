@@ -1,7 +1,5 @@
-var app = require('../app'),
-	form = require('../forms/register.json');
+var app = require('../app');
 
-//all routes that are not caught go to the client side router
-app.get('*', function(req, res){
-	res.render('layout');
+app.get('/', function (req, res, next) {
+	res.render('index');
 });
