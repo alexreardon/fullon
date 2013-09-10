@@ -13,6 +13,7 @@ module.exports = function(grunt) {
 			'public/js/lib/handlebars.js',
 			'public/js/lib/backbone.js',
 			'public/js/lib/moment.js',
+			'public/js/lib/bootstrap/*.js',
 			'!public/js/lib/lib.js'],
 
 		handlebars_templates = 'public/js/template/**/*.handlebars',
@@ -139,10 +140,10 @@ module.exports = function(grunt) {
 
 
 	//Development
-	grunt.registerTask('default', ['jshint', 'less:dev', 'handlebars', 'browserify']);
+	grunt.registerTask('dev', ['jshint', 'less:dev', 'handlebars', 'browserify', 'concat:lib']);
 
 	//Release
-	grunt.registerTask('release', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat:lib', 'uglify:prod']);
+	grunt.registerTask('default', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat:lib', 'uglify:prod']);
 
 
 };
