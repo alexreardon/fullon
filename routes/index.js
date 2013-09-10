@@ -3,5 +3,5 @@ var app = require('../app'),
 
 //all routes that are not caught go to the client side router
 app.get('*', function(req, res){
-	res.render('index');
+	res.render('layout');
 });

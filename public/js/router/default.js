@@ -1,19 +1,22 @@
-var RegisterView = require('../view/registerview');
+var RegisterView = require('../view/register');
+var IndexView = require('../view/index');
 
 var DefaultRouter = Backbone.Router.extend({
 
 	initialize: function(){
+		//this.indexView = new IndexView();
 		this.registerView = new RegisterView();
 	},
 
 	routes: {
-		'': 'home',
+		'': 'index',
 		'register(/:page)': 'register',
 		'*catchall': 'notfound'
 	},
 
-	home: function() {
-		console.log('hello');
+	index: function() {
+		console.log('index');
+		//this.indexView.render();
 	},
 
 	register: function(page) {

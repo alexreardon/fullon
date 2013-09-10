@@ -56,22 +56,25 @@ var FormSection = Backbone.Collection.extend({
  */
 
 },{}],4:[function(require,module,exports){
-var RegisterView = require('../view/registerview');
+var RegisterView = require('../view/register');
+var IndexView = require('../view/index');
 
 var DefaultRouter = Backbone.Router.extend({
 
 	initialize: function(){
+		//this.indexView = new IndexView();
 		this.registerView = new RegisterView();
 	},
 
 	routes: {
-		'': 'home',
+		'': 'index',
 		'register(/:page)': 'register',
 		'*catchall': 'notfound'
 	},
 
-	home: function() {
-		console.log('hello');
+	index: function() {
+		console.log('index');
+		//this.indexView.render();
 	},
 
 	register: function(page) {
@@ -85,29 +88,37 @@ var DefaultRouter = Backbone.Router.extend({
 
 var router = new DefaultRouter();
 
-},{"../view/registerview":6}],5:[function(require,module,exports){
+},{"../view/index":6,"../view/register":7}],5:[function(require,module,exports){
 module.exports = function(Handlebars) {
 
 this["JST"] = this["JST"] || {};
 
-this["JST"]["test"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+this["JST"]["index"] = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
 helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
-  var buffer = "", stack1, functionType="function", escapeExpression=this.escapeExpression;
+  
 
 
-  buffer += "hello ";
-  if (stack1 = helpers.name) { stack1 = stack1.call(depth0, {hash:{},data:data}); }
-  else { stack1 = depth0.name; stack1 = typeof stack1 === functionType ? stack1.apply(depth0) : stack1; }
-  buffer += escapeExpression(stack1)
-    + " - you rock";
-  return buffer;
+  return "hello - you rock";
   });
 
 return this["JST"];
 
 };
 },{}],6:[function(require,module,exports){
+var templates = require('../templates.js')(Handlebars);
+
+
+exports = Backbone.View.extend({
+
+	//template: templates.index,
+
+	render: function(){
+		//this.$el.html(this.template());
+	}
+
+});
+},{"../templates.js":5}],7:[function(require,module,exports){
 var templates = require('../templates.js')(Handlebars);
 var schema = require('../../../forms/register/schema');
 var FormSection = require('../collection/formsection');
@@ -123,5 +134,5 @@ exports = Backbone.View.extend({
 
 
 });
-},{"../../../forms/register/schema":1,"../collection/formsection":2,"../templates.js":5}]},{},[2,3,4,6])
+},{"../../../forms/register/schema":1,"../collection/formsection":2,"../templates.js":5}]},{},[2,3,4,6,7])
 ;
