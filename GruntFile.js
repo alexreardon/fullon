@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
 	var node_js_files = ['**/*.js',
 			'!node_modules/**/*.js',
-			'!public/**/*.js' ],
+			'!public/**/*.js'],
 
 		client_js_files = ['public/js/**/*.js',
 			'!public/js/lib/**/*.js',
@@ -56,12 +56,12 @@ module.exports = function(grunt) {
 			}
 		},
 
-		browserify: {
-			files: {
-				src: client_js_files,
-				dest: 'public/js/module.js'
-			}
-		},
+//		browserify: {
+//			files: {
+//				src: client_js_files,
+//				dest: 'public/js/module.js'
+//			}
+//		},
 
 		concat: {
 			lib: {
@@ -86,47 +86,54 @@ module.exports = function(grunt) {
 			}
 		},
 
-		handlebars: {
-			compile: {
-				options: {
-					commonjs: true,
-					processName: function(path) {
-						var pieces = path.split('/');
-						return pieces[pieces.length - 1].replace('.handlebars', '');
-					}
-				},
-				files: {
-					'public/js/templates.js': handlebars_templates
-				}
-			}
-		},
+//		handlebars: {
+//			compile: {
+//				options: {
+//					commonjs: true,
+//					processName: function(path) {
+//						var pieces = path.split('/');
+//						return pieces[pieces.length - 1].replace('.handlebars', '');
+//					}
+//				},
+//				files: {
+//					'public/js/templates.js': handlebars_templates
+//				}
+//			}
+//		},
 
 		watch: {
 			node_js: {
-				tasks: 'jshint:node',
+				tasks: ['jshint:node'],
 				files: node_js_files
 			},
 			client_js: {
-				tasks: ['jshint:client', 'browserify'],
+				tasks: ['jshint:client'],
 				files: client_js_files
-			},
-			handlebars_templates: {
-				tasks: ['jshint:client', 'handlebars', 'browserify'],
-				files: handlebars_templates
-			},
-			client_js_lib: {
-				tasks: ['concat:lib'],
-				files: client_js_lib_files
 			},
 			css: {
 				tasks: ['less:dev'],
 				files: less_files
 			}
 
+		},
+
+		concurrent: {
+			target: {
+				tasks: ['nodemon', 'watch'],
+				options: {
+					logConcurrentOutput: true
+				}
+			}
+		},
+
+		nodemon: {
+			dev: {
+				options: {
+					file: 'app.js',
+					watchedExtensions: ['js', 'hbs']
+				}
+			}
 		}
-
-
-
 	});
 
 	//Load plugins
@@ -137,10 +144,14 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
+	grunt.loadNpmTasks('grunt-nodemon');
+	grunt.loadNpmTasks('grunt-concurrent');
 
 
 	//Development
-	grunt.registerTask('dev', ['jshint', 'less:dev', 'handlebars', 'browserify', 'concat:lib']);
+	grunt.registerTask('dev', ['jshint', 'less:dev', 'concat:lib']);
+
+	grunt.registerTask('run', ['concurrent:target']);
 
 	//Release
 	grunt.registerTask('default', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat:lib', 'uglify:prod']);

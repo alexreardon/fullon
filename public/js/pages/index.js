@@ -1,0 +1,1 @@
+$('#landing').height($(window).width());

@@ -22,7 +22,6 @@ app.use(express.cookieParser(config.cookie_secret));
 app.use(express.session());
 
 //static file serving
-//app.use(require('less-middleware')({ src: __dirname + '/public' }));
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
 //middleware - flow
