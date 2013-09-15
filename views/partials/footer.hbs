@@ -1,5 +1,5 @@
 <!-- CDN resources -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
 <script>window.jQuery || document.write('<script src="/public/js/lib/jquery.min.js"><\/script>')</script>
 
 <!-- library files -->
@@ -7,6 +7,17 @@
 
 <!-- common files -->
 <script src="/public/js/common.js"></script>
+
+<!-- bootstrap data -->
+{{#if bootstrap}}
+	<script>
+		{{! unescape data }}
+		fullon.bootstrap = JSON.parse('{{{bootstrap}}}');
+		if (fullon.bootstrap.date_now && fullon.bootstrap.date_format_long) {
+			fullon.bootstrap.date_now_moment = moment(fullon.bootstrap.date_now, fullon.bootstrap.date_format_long);
+		}
+	</script>
+{{/if}}
 
 <!-- custom files -->
 {{#each scripts}}

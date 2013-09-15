@@ -28,12 +28,18 @@ var config = {
 
 	//web
 	port: process.env.PORT || 80,
-	cookie_secret: process.env.fullon_cookie_secret || 'some secret key'
+	cookie_secret: process.env.fullon_cookie_secret || 'some secret key',
+
+	//application - dates
+	date_format_short: 'DD/MM/YYYY',
+	date_format_long: 'YYYY-MM-DD HH:mm:ss',
+
+	date_camp_start: '01/01/2014'
 
 };
 
 //environment force - want to make ultra sure we don't play with production db
-if(process.env.NODE_ENV !== 'production'){
+if(process.env.NODE_ENV !== 'production') {
 	console.info('using development database');
 	config.db_connection = 'mongodb://127.0.0.1:27017/test';
 }

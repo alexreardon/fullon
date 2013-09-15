@@ -5,13 +5,13 @@ var express = require('express'),
 	fs = require('fs'),
 	format = require('util').format,
 	hbs = require('hbs'),
+	locals = require('./util/locals'),
 	app = express();
 
 //view engine
 app.set('views', __dirname + '/views');
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
-
 
 //middleware - features
 app.use(express.favicon());
@@ -24,24 +24,26 @@ app.use(express.session());
 //static file serving
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
+//bootstrap data
+app.locals.bootstrap = JSON.stringify(locals.bootstrap);
+
 //middleware - flow
 app.use(app.router);
 
 //TODO: routeNotFound
 //app.use(routeNotFound);
 
-
 //development
-if('development' === app.get('env')) {
+if ('development' === app.get('env')) {
 	app.use(express.errorHandler());
 }
 
 //production
-var errorHandler = function(err, req, res, next) {
+var errorHandler = function (err, req, res, next) {
 	//TODO: load error view
 };
 
-if('production' === app.get('env')) {
+if ('production' === app.get('env')) {
 	app.use(express.errorHandler());
 	//app.use(errorHandler); TODO
 }
@@ -50,12 +52,11 @@ if('production' === app.get('env')) {
 module.exports = app;
 
 //load in routes
-_.each(fs.readdirSync('./routes'), function(file){
+_.each(fs.readdirSync('./routes'), function (file) {
 	require('./routes/' + file);
 });
 
-
 //start the server
-app.listen(config.port, function() {
+app.listen(config.port, function () {
 	console.log('Full On now listening on port ' + config.port);
 });

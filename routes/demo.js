@@ -19,6 +19,5 @@ app.get('/demo/leaderboard', function(req, res, next){
 });
 
 app.get('/demo/handlebar', function(req, res, next){
-
 	res.render('test', {text: 'HELLO WORLD'});
 });
