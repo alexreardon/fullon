@@ -259,8 +259,8 @@ body {
   font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 14px;
   line-height: 1.428571429;
-  color: #333333;
-  background-color: #ffffff;
+  color: #cccccc;
+  background-color: #010101;
 }
 input,
 button,
@@ -1295,7 +1295,7 @@ th {
   border-top: 2px solid #dddddd;
 }
 .table .table {
-  background-color: #ffffff;
+  background-color: #010101;
 }
 .table-condensed > thead > tr > th,
 .table-condensed > tbody > tr > th,
@@ -1725,7 +1725,7 @@ textarea.input-lg {
   display: block;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #737373;
+  color: #ffffff;
 }
 @media (min-width: 768px) {
   .form-inline .form-group {
@@ -2850,7 +2850,7 @@ input[type="button"].btn-block {
 .nav-tabs > li.active > a:hover,
 .nav-tabs > li.active > a:focus {
   color: #555555;
-  background-color: #ffffff;
+  background-color: #010101;
   border: 1px solid #dddddd;
   border-bottom-color: transparent;
   cursor: default;
@@ -2892,7 +2892,7 @@ input[type="button"].btn-block {
   .nav-tabs.nav-justified > .active > a,
   .nav-tabs.nav-justified > .active > a:hover,
   .nav-tabs.nav-justified > .active > a:focus {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #010101;
   }
 }
 .nav-pills > li {
@@ -2956,7 +2956,7 @@ input[type="button"].btn-block {
   .nav-tabs-justified > .active > a,
   .nav-tabs-justified > .active > a:hover,
   .nav-tabs-justified > .active > a:focus {
-    border-bottom-color: #ffffff;
+    border-bottom-color: #010101;
   }
 }
 .tabbable:before,
@@ -4144,6 +4144,11 @@ nav .navbar-brand a:focus,
   color: #ffffff;
   background-color: transparent;
 }
+#footer img {
+  width: 160px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
 .social {
   margin-top: 20px;
   margin-bottom: 20px;
@@ -4184,11 +4189,6 @@ nav .navbar-brand a:focus,
 section {
   padding-top: 36px;
   padding-bottom: 36px;
-  -webkit-box-shadow: 0px 0px 4px 1px #b6b6b6;
-  box-shadow: 0px 0px 4px 1px #b6b6b6;
-}
-section.dark {
-  background-color: #010101;
 }
 section.dark h1,
 section.dark h2,
@@ -4199,8 +4199,20 @@ section.dark h6 {
   color: #eeeeee;
 }
 section.dark .fill {
-  background-color: #eeeeee;
+  background-color: #cccccc;
   color: #010101;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+section.light {
+  color: #333333;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 4px 1px #b6b6b6;
+  box-shadow: 0px 0px 4px 1px #b6b6b6;
+}
+section.light .fill {
+  background-color: #333333;
+  color: #ffffff;
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -4440,12 +4452,6 @@ h1 {
   background-size: cover;
   background-position: 0 0;
 }
-#testimonials h1 .fill {
-  background-color: #333333;
-  color: rgba(255, 255, 255, 0.8);
-  padding-left: 10px;
-  padding-right: 10px;
-}
 #testimonials .testimonial img {
   margin-top: 5px;
   width: 80px;
@@ -4552,8 +4558,6 @@ h1 {
 #bottom_call .btn {
   margin: 0 auto;
 }
-#bottom_call img {
-  width: 160px;
-  margin: 0 auto;
-  margin-top: 40px;
+#error_page {
+  text-align: center;
 }

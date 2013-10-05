@@ -9,28 +9,35 @@ section {
 	//push down all section for fixed header
 	padding-top: @navbar-height;
 	padding-bottom: @navbar-height;
-	.box-shadow(0px 0px 4px 1px #B6B6B6);
 
 	&.dark {
-		background-color: @fo-color-background-black;
 
 		h1, h2, h3, h4, h5, h6 {
 			color: @fo-colour-white;
 		}
 
 		.fill {
-			.block_fill(@fo-color-background-black, @fo-colour-white);
+			.block_fill(@fo-color-background-dark, @fo-color-text-dark);
+		}
+	}
+
+	&.light {
+		color: @fo-color-text-light;
+		background-color: @fo-color-background-light;
+		.box-shadow(0px 0px 4px 1px #B6B6B6);
+
+		.fill {
+			.block_fill(@fo-color-background-light, @fo-color-text-light)
 		}
 	}
 }
-
 
 h1 {
 	text-align: center;
 	font-size: @fo-index-base-font-size;
 }
 
-.fo_badge(@size){
+.fo_badge(@size) {
 	background-image: url('/public/images/badge.png');
 	background-repeat: no-repeat;
 	background-size: @size;

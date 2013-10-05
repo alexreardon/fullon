@@ -5,7 +5,7 @@ var express = require('express'),
 	fs = require('fs'),
 	format = require('util').format,
 	hbs = require('hbs'),
-	//helpers is not referred to directly - it
+//helpers is not referred to directly - it
 	helpers = require('./views/helpers'),
 	locals = require('./util/locals'),
 	app = express();
@@ -31,26 +31,38 @@ console.log('favicon: ' + path.join(__dirname + '/public/images/favicon.ico'));
 //bootstrap data
 app.locals.bootstrap = JSON.stringify(locals.bootstrap);
 
-//middleware - flow
+// middleware - flow
 app.use(app.router);
+
+// error handling
+var errorLogger = function(err, req, res, next) {
+	console.error(err);
+	next(err);
+};
+var errorPageNotFound = function (req, res) {
+	res.status(404);
+	res.render('error', { url: req.url });
+};
+
+app.use(errorLogger);
+app.use(errorPageNotFound);
 
 //TODO: routeNotFound
 //app.use(routeNotFound);
 
 //development
-if ('development' === app.get('env')) {
-	app.use(express.errorHandler());
-}
+//if ('development' === app.get('env')) {
+//	app.use(express.errorHandler());
+//}
 
 //production
-var errorHandler = function (err, req, res, next) {
-	//TODO: load error view
-};
 
-if ('production' === app.get('env')) {
-	app.use(express.errorHandler());
-	//app.use(errorHandler); TODO
-}
+
+//
+//if ('production' === app.get('env')) {
+//	//app.use(express.errorHandler());
+//	//app.use(errorHandler); TODO
+//}
 
 //export app for routes - must be here
 module.exports = app;
@@ -59,6 +71,8 @@ module.exports = app;
 _.each(fs.readdirSync('./routes'), function (file) {
 	require('./routes/' + file);
 });
+
+
 
 //start the server
 app.listen(config.port, function () {
