@@ -28,13 +28,12 @@ person._calculate_positions = function (people) {
 		prsn.temp.position = position;
 	});
 
-
 	// Get info about whether the position is shared
 	for (var i = 0; i < people.length; i++) {
 		people[i].temp.shared = 0;
 
 		for (var x = 0; x < people.length; x++) {
-			if(i !== x && people[i].temp.position === people[x].temp.position){
+			if (i !== x && people[i].temp.position === people[x].temp.position) {
 				people[i].temp.shared++;
 			}
 		}
@@ -45,22 +44,78 @@ person._calculate_positions = function (people) {
 
 };
 
-person._get_stats = function(){
+//person.get_leaderboard_stats = function (cb) {
+//	this.aggregate({ _id: '$lastname', sold: { $sum: '$sold'}}, function (err, doc) {
+//		if (err) {
+//			cb(err);
+//			return;
+//		}
+//		return this._calculate_stats(doc);
+//	}.bind(this));
+//
+//};
+
+person._calculate_stats = function (people) {
+	// required stats:
+	// 1.  boxes sold
+	// 1.1 money raised (boxes sold * money per box)
+	// 1.2 campers who could come for free (money raised / cost of camper)
+	// 2.  top family (get first position grouped on family)
+
+	// 1. boxes sold
+	var result = {
+		boxes_sold: 0,
+		money_raised: null,
+		campers_who_could_come_for_free: 0,
+		top_family: {
+			name: null,
+			boxes: 0
+		}
+	};
+
+	var family_leaderboard = {};
+
+	_.each(people, function (person) {
+		result.boxes_sold += person.data.sold;
+
+		// family leaderboard
+		if (!family_leaderboard[person.data.lastname]) {
+			family_leaderboard[person.data.lastname] = {
+				name: person.data.lastname,
+				sold: 0
+			};
+		}
+		family_leaderboard[person.data.lastname].sold += person.data.sold;
+	});
+
+	result.top_family = _.max(family_leaderboard, function (item) {
+		return item.sold;
+	});
+
+	// composite values
+	result.money_raised = (result.boxes_sold * config.application.discount_chocolate);
+	result.campers_who_could_come_for_free = (result.money_raised / config.application.fee_junior);
+
+	return result;
 
 };
 
 person.get_leaderboard = function (cb) {
 
-	//find all people with sold > 0, limit: 10, in decending order of amount sold
+	// find all people with sold > 0, limit: 10, in decending order of amount sold
 	this.find({sold: {$gt: 0}}, function (err, data) {
 
 		if (err) {
 			cb(err);
 			return;
 		}
-		cb(null, this._calculate_positions(data));
+		cb(null, {
+			people: this._calculate_positions(data),
+			stats: this._calculate_stats(data)
+		});
 
 	}.bind(this), config.leaderboard_size, {sold: -1, firstname: 1});
+
 };
 
 module.exports = person;

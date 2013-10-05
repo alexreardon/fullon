@@ -7,34 +7,51 @@ var format = require('util').format,
 
 var config = {
 
-	//database
+	/*** SERVER ***/
+	// database
 	db_connection: process.env.fullon_db_connection,
 
+	// web
+	port: process.env.PORT || 80,
+	cookie_secret: process.env.fullon_cookie_secret || 'some secret key',
 
-	//google
+	// google
 	google_username: process.env.fullon_google_username,
 	google_password: process.env.fullon_google_password,
 	google_spreadsheet_key: process.env.fullon_google_spreadsheet_key,
 
-	//authentication
+	// authentication
 	job_username: process.env.fullon_job_username || 'username',
 	job_password: process.env.fullon_job_password || 'password',
 
-	//application
-	leaderboard_size: 10,
+	/*** APPLICATION ***/
+	application: {
+		leaderboard_size: 10,
 
-	//paypal
+		// dates
+		date_format_short: 'DD.MM.YYYY',
+		date_format_long: 'YYYY-MM-DD HH:mm:ss',
 
+		date_camp_start: '01.01.2014',
+		date_register_end: '15.12.2013',
+		date_earlybird_end: '17.11.2013',
 
-	//web
-	port: process.env.PORT || 80,
-	cookie_secret: process.env.fullon_cookie_secret || 'some secret key',
+		// fees
+		fee_junior: 330,
+		fee_senior: 350,
+		fee_leader: 300,
 
-	//application - dates
-	date_format_short: 'DD/MM/YYYY',
-	date_format_long: 'YYYY-MM-DD HH:mm:ss',
+		years_junior: [6, 7, 8],
+		years_senior: [9, 10, 11, 12],
 
-	date_camp_start: '01/01/2014'
+		// discounts
+
+		discount_chocolate: 20,
+		discount_earlybird: 20,
+		discount_sibling: 25,
+		discount_married: 10
+	}
+
 
 };
 

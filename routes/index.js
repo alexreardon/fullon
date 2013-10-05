@@ -1,5 +1,6 @@
 var app = require('../app'),
-	moment = require('moment'),
+	_ = require('underscore'),
+	date = require('../util/date'),
 	person = require('../models/person'),
 	config = require('../config');
 
@@ -15,9 +16,16 @@ app.get('/', function (req, res, next) {
 			return;
 		}
 
+		// data:
+		var data = {
+			days_to_camp: date.get_days_until(config.application.date_camp_start),
+			days_to_earlybird_end: date.get_days_until(config.application.date_earlybird_end)
+		};
+
 		res.render('index', {
 			people: people,
-			leaderboard_size: config.leaderboard_size,
+			config: config.application,
+			data: data,
 			scripts: scripts
 		});
 	});

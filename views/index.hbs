@@ -9,10 +9,10 @@
 				</h1>
 
 				<div id="early_bird">
-					<div class="discount">$30 Off</div>
+					<div class="discount">${{config.discount_earlybird}} Off</div>
 					<h4 class="early_bird_title">Early Bird</h4>
 
-					<div class="days">29</div>
+					<div class="days">{{data.days_to_earlybird_end}}</div>
 					<div class="day_to_go">Days to Go</div>
 				</div>
 
@@ -23,8 +23,8 @@
 
 				<h2>One <em>Camp</em> to Rule them <em>All</em></h2>
 
-				<h3>01.01.2014</h3>
-				<h4>10 Days to Go</h4>
+				<h3>{{config.date_camp_start}}</h3>
+				<h4>{{data.days_to_camp}} Days to Go</h4>
 
 				{{>social}}
 
@@ -40,7 +40,7 @@
 
 		<div class="row">
 			<div class="col-md-6">
-				<h2 class="text-center">Top 10</h2>
+				<h2 class="text-center">Top {{config.leaderboard_size}}</h2>
 
 				<table class="table table-condensed">
 					<thead>
@@ -221,9 +221,9 @@
 	</div>
 	<div class="col-md-6">
 		<h2>When?</h2>
-		01.01.2014
+		<p>{{config.date_camp_start}}</p>
 
-		Full On will take place on 1st-6th of January 2014.
+		<p>Full On will take place on 1st-6th of January 2014.</p>
 	</div>
 </div>
 
@@ -263,6 +263,7 @@
 			At camp you will experience the following "Full On" activities:
 		<ul>
 			<li>Bible Talks and Studies</li>
+			<li>Boat Ski Tubing (Snr)</li>
 			<li>Music &amp; Singing</li>
 			<li>Quiet Time and Chilling</li>
 			<li>Get to Know You Games</li>
@@ -273,7 +274,7 @@
 			<li>Canoeing (beware of the Turtle..) &amp; Sailing</li>
 			<li>Beach Day Out (Jnr)</li>
 			<li>Movies &amp; Cafe (Snr)</li>
-			<li><strong>Plus much, much more!</strong></li>
+			<li><strong>Plus much, much more!</strong> (see <a href="#media">Visual Media</a> for a taste!)</li>
 		</ul>
 		</p>
 
@@ -289,13 +290,12 @@
 			Royal National Park.  You will need to meet at <a href="http://en.stphils.org.au/">St Philip’s Anglican
 			Church
 			Eastwood</a> (cnr Shaftsbury Rd &amp; Rutledge St, Eastwood), on the lawn outside the church on Shaftsbury
-			Road.  We leave on <strong>Monday 1 January 2013 </strong>at 9.15 am, so arrive no later than <strong>8.45
+			Road.  We leave on <strong>Wednesday 1 January 2014</strong> at 9.15 am, so arrive no later than <strong>8.45
 			am </strong>to pack your gear and walk to the station.  We will arrive at camp around 11.00 am.
 
 			Coming home from camp by train, we arrive back at <strong>St Philip’s Anglican Church Eastwood </strong>on
-			<strong>Saturday 6 January</strong> at around 3.00 pm (Mum or Dad don’t forget!).  We will be leaving camp
-			by
-			1.00 pm.  Please contact Mike Smith (see <a href="#contact">Contact</a>) if there is
+			<strong>Monday 6 January</strong> at around 3.00 pm (Mum or Dad don’t forget!).  We will be leaving camp
+			by 1.00 pm.  Please contact Mike Smith (see <a href="#contact">Contact</a>) if there is
 			any reason you need to travel separately - to or from camp.
 		</p>
 	</div>
@@ -401,17 +401,17 @@
 				<td>Junior
 					<small>(school year 6-8)</small>
 				</td>
-				<td>$330</td>
+				<td>${{config.fee_junior}}</td>
 			</tr>
 			<tr>
 				<td>Senior
 					<small>(school year 9-12)</small>
 				</td>
-				<td>$350</td>
+				<td>${{config.fee_senior}}</td>
 			</tr>
 			<tr>
 				<td>Leader</td>
-				<td>$300???</td>
+				<td>${{config.fee_leader}}</td>
 			</tr>
 			</tbody>
 		</table>
@@ -438,16 +438,16 @@
 						Per box
 					</p>
 				</td>
-				<td>$XX</td>
+				<td>${{config.discount_chocolate}}</td>
 				<td>Camper & Leader</td>
 			</tr>
 			<tr>
 				<td class="name">Early bird discount
 					<p>
-						Register before XXXX
+						Register before {{config.date_earlybird_end}}
 					</p>
 				</td>
-				<td>$20</td>
+				<td>${{config.discount_earlybird}}</td>
 				<td>Camper & Leader</td>
 			</tr>
 			<tr>
@@ -462,7 +462,7 @@
 						rather than <strong>subsequent</strong> campers
 					</p>
 				</td>
-				<td>$25</td>
+				<td>${{config.discount_sibling}}</td>
 				<td>Camper only</td>
 			</tr>
 			<tr>
@@ -471,7 +471,7 @@
 						Per leader
 					</p>
 				</td>
-				<td>$10</td>
+				<td>${{config.discount_married}}</td>
 				<td>Leader only</td>
 			</tr>
 			</tbody>
@@ -494,12 +494,12 @@
 
 		<p>
 			The online registration form will allow you to pay using alternative methods. These include:
-		<ul>
-			<li>Bank Deposit</li>
-			<li>Cash</li>
-			<li>Other payment types as organised with Mike Smith (see <a href="#contact">Contact</a>)</li>
-		</ul>
-		The online registration form will give you instructions on how to complete these transaction types.
+			<ul>
+				<li>Bank Deposit</li>
+				<li>Cash</li>
+				<li>Other payment types as organised with Mike Smith (see <a href="#contact">Contact</a>)</li>
+			</ul>
+			The online registration form will give you instructions on how to complete these transaction types.
 		</p>
 
 		<h3>Request Assistance</h3>
@@ -662,6 +662,5 @@
 		{{>social}}
 	</div>
 </section>
-
 
 {{>footer}}
