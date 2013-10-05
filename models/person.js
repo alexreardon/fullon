@@ -94,7 +94,7 @@ person._calculate_stats = function (people) {
 
 	// composite values
 	result.money_raised = (result.boxes_sold * config.application.discount_chocolate);
-	result.campers_who_could_come_for_free = (result.money_raised / config.application.fee_junior);
+	result.campers_who_could_come_for_free = ((result.money_raised / config.application.fee_junior).toFixed(2));
 
 	return result;
 

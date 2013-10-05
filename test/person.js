@@ -24,6 +24,12 @@ describe('person', function () {
 				lastname: 'Reardon',
 				sold: 4,
 				attributed: 0
+			},
+			{
+				firstname: 'Bob',
+				lastname: 'Smith',
+				sold: 1,
+				attributed: 0
 			}
 		],
 		people;
@@ -81,7 +87,7 @@ describe('person', function () {
 		beforeEach(function () {
 			stats = person._calculate_stats(people);
 			boxes_sold = 0;
-			
+
 			_.each(people, function (person) {
 				boxes_sold += person.data.sold;
 			});
@@ -98,15 +104,24 @@ describe('person', function () {
 
 		it('should know how many campers can come for free', function () {
 			var money_raised = (boxes_sold * config.application.discount_chocolate);
-			expect(stats.campers_who_could_come_for_free).to.be(money_raised / config.application.fee_junior);
+			var amount = (money_raised / config.application.fee_junior).toFixed(2);
+			expect(stats.campers_who_could_come_for_free).to.be(amount);
 		});
 
 		it('should know which family sold the most boxes', function () {
-
+			expect(stats.top_family.name).to.be('Reardon');
 		});
 
 		it('should know how many boxes of chocolate the top family sold', function () {
+			var reardon_boxes = 0;
 
+			_.each(people, function(item){
+				if(item.data.lastname === 'Reardon'){
+					reardon_boxes += item.data.sold;
+				}
+			});
+
+			expect(stats.top_family.sold).to.be(reardon_boxes);
 		});
 
 	});
