@@ -5,31 +5,47 @@
 	padding-right: @padding;
 }
 
+.light() {
+
+	color: @fo-color-text-light;
+	background-color: @fo-color-background-light;
+	.box-shadow(0px 0px 4px 1px #B6B6B6);
+
+	.fill {
+		.block_fill(@fo-color-background-light, @fo-color-text-light)
+	}
+}
+
+.light {
+	.light();
+}
+
+.dark() {
+	color: @fo-color-text-dark;
+	background-color: @fo-color-background-dark;
+	.box-shadow(none);
+
+	h1, h2, h3, h4, h5, h6 {
+		color: @fo-colour-white;
+	}
+
+	.fill {
+		.block_fill(@fo-color-background-dark, @fo-color-text-dark);
+	}
+}
+
+.dark {
+	.dark();
+}
+
 section {
+	//TODO: make every sections min-height = viewport - footer - nav
+
 	//push down all section for fixed header
 	padding-top: @navbar-height;
 	padding-bottom: @navbar-height;
 
-	&.dark {
-
-		h1, h2, h3, h4, h5, h6 {
-			color: @fo-colour-white;
-		}
-
-		.fill {
-			.block_fill(@fo-color-background-dark, @fo-color-text-dark);
-		}
-	}
-
-	&.light {
-		color: @fo-color-text-light;
-		background-color: @fo-color-background-light;
-		.box-shadow(0px 0px 4px 1px #B6B6B6);
-
-		.fill {
-			.block_fill(@fo-color-background-light, @fo-color-text-light)
-		}
-	}
+	.light();
 }
 
 h1 {

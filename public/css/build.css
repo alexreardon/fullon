@@ -4144,7 +4144,7 @@ nav .navbar-brand a:focus,
   color: #ffffff;
   background-color: transparent;
 }
-#footer img {
+footer img {
   width: 160px;
   margin: 0 auto;
   margin-top: 40px;
@@ -4186,31 +4186,53 @@ nav .navbar-brand a:focus,
 .social .social_links a#social_vimeo {
   background-image: url('/public/images/social/vimeo.png');
 }
-section {
-  padding-top: 36px;
-  padding-bottom: 36px;
-}
-section.dark h1,
-section.dark h2,
-section.dark h3,
-section.dark h4,
-section.dark h5,
-section.dark h6 {
-  color: #eeeeee;
-}
-section.dark .fill {
-  background-color: #cccccc;
-  color: #010101;
-  padding-left: 10px;
-  padding-right: 10px;
-}
-section.light {
+.light {
   color: #333333;
   background-color: #ffffff;
   -webkit-box-shadow: 0px 0px 4px 1px #b6b6b6;
   box-shadow: 0px 0px 4px 1px #b6b6b6;
 }
-section.light .fill {
+.light .fill {
+  background-color: #333333;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.dark {
+  color: #cccccc;
+  background-color: #010101;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+.dark h1,
+.dark h2,
+.dark h3,
+.dark h4,
+.dark h5,
+.dark h6 {
+  color: #eeeeee;
+}
+.dark .fill {
+  background-color: #cccccc;
+  color: #010101;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+section {
+  padding-top: 36px;
+  padding-bottom: 36px;
+  color: #333333;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 4px 1px #b6b6b6;
+  box-shadow: 0px 0px 4px 1px #b6b6b6;
+}
+section .fill {
+  background-color: #333333;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+section .fill {
   background-color: #333333;
   color: #ffffff;
   padding-left: 10px;
@@ -4553,6 +4575,7 @@ h1 {
   display: block;
 }
 #bottom_call {
+  min-height: inherit !important;
   text-align: center;
 }
 #bottom_call .btn {

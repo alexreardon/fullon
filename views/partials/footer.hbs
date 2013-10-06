@@ -1,10 +1,9 @@
-<section id="footer" class="dark">
+<footer class="dark">
 	<div class="container">
 		<img src="/public/images/logo.png" class="img-responsive" alt="logo" />
 		{{>social}}
 	</div>
-</section>
-
+</footer>
 
 <!-- CDN resources -->
 <!--<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>-->
@@ -15,17 +14,6 @@
 
 <!-- common files -->
 <script src="/public/js/common.js"></script>
-
-<!-- bootstrap data -->
-{{#if bootstrap}}
-	<script>
-			{{! unescape data }}
-		fullon.bootstrap = JSON.parse('{{{bootstrap}}}');
-		if (fullon.bootstrap.date_now && fullon.bootstrap.date_format_long) {
-			fullon.bootstrap.date_now_moment = moment(fullon.bootstrap.date_now, fullon.bootstrap.date_format_long);
-		}
-	</script>
-{{/if}}
 
 <!-- custom files -->
 {{#each scripts}}
