@@ -109,12 +109,13 @@ person.get_leaderboard = function (cb) {
 			cb(err);
 			return;
 		}
+
 		cb(null, {
-			people: this._calculate_positions(data),
+			people: this._calculate_positions(_.first(data, config.application.leaderboard_size)),
 			stats: this._calculate_stats(data)
 		});
 
-	}.bind(this), config.leaderboard_size, {sold: -1, firstname: 1});
+	}.bind(this), null, {sold: -1, firstname: 1});
 
 };
 

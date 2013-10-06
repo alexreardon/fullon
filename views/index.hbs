@@ -8,15 +8,17 @@
 					<img src="/public/images/logo.png" class="img-responsive" alt="logo" />
 				</h1>
 
-				<a href="#discounts">
-					<div id="early_bird">
-						<div class="discount">${{config.discount_earlybird}} Off</div>
-						<h4 class="early_bird_title">Early Bird</h4>
+				{{#if data.is_earlybird_open }}
+					<a href="#discounts">
+						<div id="early_bird">
+							<div class="discount">${{config.discount_earlybird}} Off</div>
+							<h4 class="early_bird_title">Early Bird</h4>
 
-						<div class="days">{{data.days_to_earlybird_end}}</div>
-						<div class="day_to_go">Days to Go</div>
-					</div>
-				</a>
+							<div class="days">{{data.days_to_earlybird_end}}</div>
+							<div class="day_to_go">Days to Go</div>
+						</div>
+					</a>
+				{{/if}}
 
 				<iframe id="landing_video"
 						src="//player.vimeo.com/video/75188030?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933"
@@ -26,7 +28,13 @@
 				<h2>One <em>Camp</em> to Rule them <em>All</em></h2>
 
 				<h3>{{config.date_camp_start}}</h3>
-				<h4>{{data.days_to_camp}} Days to Go</h4>
+				<h4>
+					{{#if data.is_camp_open}}
+						{{data.days_to_camp}} Days to Go
+					{{else}}
+						It Begins
+					{{/if}}
+				</h4>
 
 				{{>social}}
 
