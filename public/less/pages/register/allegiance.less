@@ -1,0 +1,33 @@
+#allegiance {
+	text-align: center;
+
+	// choose your
+	h3 {
+		margin: 0;
+		font-size: (@fo-index-base-font-size - 20px);
+	}
+
+	// allegence
+	h2 {
+		margin-top: -12px;
+		font-size: @fo-index-base-font-size;
+	}
+
+	.flag {
+		height: 280px; //allows space for images to grow without changing page height
+		h4 {
+			font-size: 30px;
+		}
+
+		// 110w / 189
+		img {
+			@original_width: 110px;
+			width: (110px * 0.9);
+			&:hover, &:active {
+				width: @original_width;
+				cursor: pointer;
+			}
+		}
+	}
+
+}

@@ -1,30 +1,29 @@
-var IndexView = Backbone.View.extend({
+window.FullOn.Views.Index = Backbone.View.extend({
 
-		initialize: function () {
-			this.$landing = $('#landing');
+	initialize: function () {
+		this.$landing = $('#landing');
 
-			var throttled_resize = _.throttle(function () {
-				this.resize();
-			}.bind(this), 100);
-
+		var throttled_resize = _.throttle(function () {
 			this.resize();
+		}.bind(this), 100);
 
-			$(window).on('resize', function () {
-				throttled_resize();
-			}.bind(this));
-		},
+		this.resize();
 
-		events: {
+		$(window).on('resize', function () {
+			throttled_resize();
+		}.bind(this));
+	},
 
-		},
+	events: {
 
-		resize: function () {
-			console.log('window resize - landing');
-			this.$landing.css('min-height', $(window).height());
-		}
+	},
 
-	})
-	;
+	resize: function () {
+		console.log('window resize - landing');
+		this.$landing.css('min-height', $(window).height());
+	}
 
-var index = new IndexView();
+});
+
+var index = new window.FullOn.Views.Index();
 

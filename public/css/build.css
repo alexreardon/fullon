@@ -4107,85 +4107,6 @@ td.visible-print {
   width: 100%;
   height: 100%;
 }
-nav,
-.navbar-inverse {
-  background-color: rgba(0, 0, 0, 0.9);
-  box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
-  border: 0;
-}
-nav .navbar-brand.fullon,
-.navbar-inverse .navbar-brand.fullon {
-  font-size: 30px;
-  margin: 0;
-}
-nav .navbar-brand.stphils,
-.navbar-inverse .navbar-brand.stphils {
-  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  margin: 0 !important;
-  background-image: url('/public/images/stphils-logo-transparent-colour.png');
-  background-repeat: no-repeat;
-  background-position: right 50%;
-  background-size: 26px;
-  font-size: 14px;
-}
-nav .navbar-brand.stphils a,
-.navbar-inverse .navbar-brand.stphils a {
-  padding-right: 14px;
-}
-nav .navbar-brand a,
-.navbar-inverse .navbar-brand a {
-  color: #999999;
-}
-nav .navbar-brand a:hover,
-.navbar-inverse .navbar-brand a:hover,
-nav .navbar-brand a:focus,
-.navbar-inverse .navbar-brand a:focus {
-  text-decoration: none;
-  color: #ffffff;
-  background-color: transparent;
-}
-footer img {
-  width: 160px;
-  margin: 0 auto;
-  margin-top: 40px;
-}
-.social {
-  margin-top: 20px;
-  margin-bottom: 20px;
-  text-align: center;
-}
-.social .fb-like {
-  height: 25px;
-  width: 100%;
-  display: inline-block;
-}
-.social .fb-like > span {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-.social .social_links {
-  margin-bottom: 6px;
-}
-.social .social_links a {
-  display: inline-block;
-  text-indent: -100001px;
-  background-repeat: no-repeat;
-  width: 30px;
-  height: 30px;
-  background-size: 30px;
-  margin-left: 2px;
-}
-.social .social_links a#social_facebook {
-  margin-left: 0;
-  background-image: url('/public/images/social/facebook.png');
-}
-.social .social_links a#social_youtube {
-  background-image: url('/public/images/social/youtube.png');
-}
-.social .social_links a#social_vimeo {
-  background-image: url('/public/images/social/vimeo.png');
-}
 .light {
   color: #333333;
   background-color: #ffffff;
@@ -4241,6 +4162,78 @@ section .fill {
 h1 {
   text-align: center;
   font-size: 62px;
+}
+.navbar-inverse {
+  background-color: rgba(0, 0, 0, 0.9);
+  box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+  border: 0;
+}
+.navbar-inverse .navbar-brand.fullon {
+  font-size: 30px;
+  margin: 0;
+}
+.navbar-inverse .navbar-brand.stphils {
+  font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0 !important;
+  background-image: url('/public/images/stphils-logo-transparent-colour.png');
+  background-repeat: no-repeat;
+  background-position: right 50%;
+  background-size: 26px;
+  font-size: 14px;
+}
+.navbar-inverse .navbar-brand.stphils a {
+  padding-right: 14px;
+}
+.navbar-inverse .navbar-brand a {
+  color: #999999;
+}
+.navbar-inverse .navbar-brand a:hover,
+.navbar-inverse .navbar-brand a:focus {
+  text-decoration: none;
+  color: #ffffff;
+  background-color: transparent;
+}
+footer img {
+  width: 160px;
+  margin: 0 auto;
+  margin-top: 40px;
+}
+.social {
+  margin-top: 20px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+.social .fb-like {
+  height: 25px;
+  width: 100%;
+  display: inline-block;
+}
+.social .fb-like > span {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+.social .social_links {
+  margin-bottom: 6px;
+}
+.social .social_links a {
+  display: inline-block;
+  text-indent: -100001px;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30px;
+  background-size: 30px;
+  margin-left: 2px;
+}
+.social .social_links a#social_facebook {
+  margin-left: 0;
+  background-image: url('/public/images/social/facebook.png');
+}
+.social .social_links a#social_youtube {
+  background-image: url('/public/images/social/youtube.png');
+}
+.social .social_links a#social_vimeo {
+  background-image: url('/public/images/social/vimeo.png');
 }
 #landing {
   background-image: url('/public/images/frodo2.jpg');
@@ -4580,6 +4573,74 @@ h1 {
 }
 #bottom_call .btn {
   margin: 0 auto;
+}
+#register_nav {
+  color: #333333;
+  background-color: #ffffff;
+  -webkit-box-shadow: 0px 0px 4px 1px #b6b6b6;
+  box-shadow: 0px 0px 4px 1px #b6b6b6;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-color: #eeeeee;
+  line-height: 56px;
+  margin-top: 36px;
+}
+#register_nav .fill {
+  background-color: #333333;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#register_nav .fill {
+  background-color: #333333;
+  color: #ffffff;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+#register_nav .camper_type_flag {
+  position: absolute;
+  background-image: url('/public/images/flags/senior-no-pole.png');
+  background-repeat: no-repeat;
+  height: 86px;
+  width: 61.830065359477125px;
+  background-size: 61.830065359477125px 86px;
+  z-index: 990;
+}
+#register_nav .camper_type {
+  margin-left: 66.83006535947712px;
+  display: inline-block;
+  font-size: 30px;
+}
+#register_nav nav a {
+  background-color: #e6e6e6;
+  line-height: 56px;
+  display: block;
+  text-align: center;
+}
+#allegiance {
+  text-align: center;
+}
+#allegiance h3 {
+  margin: 0;
+  font-size: 42px;
+}
+#allegiance h2 {
+  margin-top: -12px;
+  font-size: 62px;
+}
+#allegiance .flag {
+  height: 280px;
+}
+#allegiance .flag h4 {
+  font-size: 30px;
+}
+#allegiance .flag img {
+  width: 99px;
+}
+#allegiance .flag img:hover,
+#allegiance .flag img:active {
+  width: 110px;
+  cursor: pointer;
 }
 #error_page {
   text-align: center;
