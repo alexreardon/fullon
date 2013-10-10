@@ -11,7 +11,7 @@
 <!-- bootstrap data -->
 {{#if bootstrap}}
 	<script>
-		{{! unescape data }}
+			{{! unescape data }}
 		fullon.bootstrap = JSON.parse('{{{bootstrap}}}');
 		if (fullon.bootstrap.date_now && fullon.bootstrap.date_format_long) {
 			fullon.bootstrap.date_now_moment = moment(fullon.bootstrap.date_now, fullon.bootstrap.date_format_long);
@@ -23,6 +23,10 @@
 {{#each scripts}}
 	<script src="{{this}}"></script>
 {{/each}}
+
+<!--tracking and social media-->
+<div id="fb-root"></div>
+<script src="/public/js/tracking.js"></script>
 
 
 </body>

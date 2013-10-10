@@ -2,6 +2,26 @@
 // Variables
 // --------------------------------------------------
 
+// FULL ON
+
+@fo_font_header: 'bebas_neueregular';
+
+@font-face {
+	font-family: @fo_font_header;
+	src: url('../font/BebasNeue-webfont.eot');
+	src: url('../font/BebasNeue-webfont.eot?#iefix') format('embedded-opentype'), url('../font/BebasNeue-webfont.woff') format('woff'), url('../font/BebasNeue-webfont.ttf') format('truetype'), url('../font/BebasNeue-webfont.svg#bebas_neueregular') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+// Full On Custom Variables
+@fullon-color-background-black:      rgb(1, 1, 1);
+@fullon-color-inverse-primary:       rgb(204, 204, 204);
+
+@fo-navbar-height: 36px;
+@fo-colour-white: #EEEEEE;
+
+@fo-font-cursive: 'Pacifico', cursive;
 
 // Global values
 // --------------------------------------------------
@@ -39,7 +59,7 @@
 // Typography
 // -------------------------
 
-@font-family-sans-serif:  "Helvetica Neue", Helvetica, Arial, sans-serif;
+@font-family-sans-serif:  "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
 @font-family-serif:       Georgia, "Times New Roman", Times, serif;
 @font-family-monospace:   Monaco, Menlo, Consolas, "Courier New", monospace;
 @font-family-base:        @font-family-sans-serif;
@@ -247,14 +267,14 @@
 // Padding, to be divided by two and applied to the left and right of all columns
 @grid-gutter-width:         30px;
 // Point at which the navbar stops collapsing
-@grid-float-breakpoint:     @screen-sm;
+@grid-float-breakpoint:     @screen-md; //@screen-sm;
 
 
 // Navbar
 // -------------------------
 
 // Basics of a navbar
-@navbar-height:                    50px;
+@navbar-height: @fo-navbar-height; //50px; //changed
 @navbar-margin-bottom:             @line-height-computed;
 @navbar-default-color:             #777;
 @navbar-default-bg:                #f8f8f8;

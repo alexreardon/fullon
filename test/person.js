@@ -65,8 +65,11 @@ describe('person', function() {
 			expect(person.get_leaderboard).to.be.a('function');
 		});
 
-		it.skip('should call _calculate_positions on get_leaderboard call', function(){
-
+		it('should have correct shared position info', function(){
+			people = person._calculate_positions(people);
+			expect(people[0].temp).to.have.property('shared', 1);
+			expect(people[1].temp).to.have.property('shared', 1);
+			expect(people[2].temp).to.have.property('shared', 0);
 		});
 
 	});

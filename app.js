@@ -5,16 +5,18 @@ var express = require('express'),
 	fs = require('fs'),
 	format = require('util').format,
 	hbs = require('hbs'),
+	//helpers is not referred to directly - it
+	helpers = require('./views/helpers'),
 	locals = require('./util/locals'),
 	app = express();
 
-//view engine
+//views
 app.set('views', __dirname + '/views');
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
 //middleware - features
-app.use(express.favicon());
+
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
@@ -23,6 +25,8 @@ app.use(express.session());
 
 //static file serving
 app.use('/public', express.static(path.join(__dirname, '/public')));
+
+console.log('favicon: ' + path.join(__dirname + '/public/images/favicon.ico'));
 
 //bootstrap data
 app.locals.bootstrap = JSON.stringify(locals.bootstrap);

@@ -1,23 +1,149 @@
 {{>header}}
 <section id="landing">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-12">
-				<h1>Full On - Lord of the Rings</h1>
 
-				<div>Video</div>
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1>
+					<img src="/public/images/logo.png" class="img-responsive" alt="logo" />
+				</h1>
+
+				<div id="early_bird">
+					<div class="discount">$30 Off</div>
+					<h4 class="early_bird_title">Early Bird</h4>
+
+					<div class="days">29</div>
+					<div class="day_to_go">Days to Go</div>
+				</div>
+
+				<iframe id="landing_video"
+						src="//player.vimeo.com/video/75188030?title=0&amp;byline=0&amp;portrait=0&amp;color=ff9933"
+						width="480" height="270" frameborder="0" webkitallowfullscreen mozallowfullscreen
+						allowfullscreen></iframe>
+
+				<h2>One <em>Camp</em> to Rule them <em>All</em></h2>
+
+				<h3>01.01.2014</h3>
+				<h4>10 Days to Go</h4>
+
+				<div class="fb-like" data-href="http://fullon.stphils.org.au/" data-width="320"
+					 data-colorscheme="dark" data-show-faces="false" data-send="false"></div>
 			</div>
 		</div>
 
+	</div>
+</section>
+
+<section id="leaderboard">
+	<div class="container">
+		<h1 class="text-center">Fundraising <span class="fill">Leaderboard</span></h1>
+
 		<div class="row">
-			<div class="col-sm-6">
-				Register Now
+			<div class="col-md-6">
+				<h2 class="text-center">Top 10</h2>
+
+				<table class="table table-condensed">
+					<thead>
+					<tr>
+						<th>#</th>
+						<th>Name</th>
+						<th>Boxes Sold</th>
+					</tr>
+						{{leaderboard people}}
+				</table>
+
 			</div>
-			<div class="col-sm-6">
-				Something else
+			<div class="col-md-6" id="stats">
+				<h2 class="text-center">Stats</h2>
+
+				<div class="row">
+					<div class="col-md-6">
+						<div class="stat">
+							<h6 class="stat_total">$1,500</h6>
+							<h5 class="stat_label">Money raised for camp</h5>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="stat">
+							<h6 class="stat_total">134</h6>
+							<h5 class="stat_label">Boxes sold</h5>
+						</div>
+					</div>
+					<div class="col-md-3">
+						<div class="stat">
+							<h6 class="stat_total">2.6</h6>
+							<h5 class="stat_label">Campers could come for free</h5>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-3">
+						<div class="stat fill">
+							<h6 class="stat_total">134</h6>
+							<h5 class="stat_label">Boxes sold</h5>
+						</div>
+					</div>
+					<div class="col-md-5">
+						<div class="stat cursive">
+							<h6 class="stat_total">Reardon's</h6>
+							<h5 class="stat_label">Top family
+								<small>20 boxes sold</small>
+							</h5>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+
+	</div>
+
+</section>
+
+<section id="testimonials">
+	<div class="container">
+		<h1>What are people saying?</h1>
+
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="testimonial">
+					<img src="/public/images/testimonials/alex.jpg" />
+
+					<p>My name is alex and I am a kooooooooooooooool cat</p>
+				</div>
+
+				<div class="testimonial">
+					<img src="/public/images/testimonials/alex.jpg" />
+
+					<p>My name is alex and I am a kooooooooooooooool cat</p>
+				</div>
+
+				<div class="testimonial">
+					<img src="/public/images/testimonials/alex.jpg" />
+
+					<p>My name is alex and I am a kooooooooooooooool cat</p>
+				</div>
 			</div>
 		</div>
 	</div>
+
+
+	</div>
 </section>
+
+<section id="media">
+	videos go here
+	photos go here
+</section>
+
+<section id="contact">
+	contact information goes here
+</section>
+
+<section id="bottom_call">
+	<button class="btn btn-primary btn-lg">Register Now</button>
+</section>
+
 
 {{>footer}}

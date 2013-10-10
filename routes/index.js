@@ -1,21 +1,24 @@
 var app = require('../app'),
 	moment = require('moment'),
+	person = require('../models/person'),
 	config = require('../config');
-
 
 var scripts = ['/public/js/pages/index.js'];
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res, next) {
 
-//	var bootstrap = {
-//		date_format_short: config.date_format_short,
-//		date_format_long: config.date_format_long,
-//		now: moment().format(config.date_format_long)
-//	};
-	console.log('bootstrap', app.locals.bootstrap);
+	//(query, cb, limit, sort)
+	//find all people with sold > 0, limit: 10, in decending order of amount sold
+	person.get_leaderboard(function (err, people) {
+		if (err) {
+			next(new Error(err));
+			return;
+		}
 
-	res.render('index', {
-		//bootstrap: JSON.stringify(bootstrap),
-		scripts: scripts
+		res.render('index', {
+			people: people,
+			leaderboard_size: config.leaderboard_size,
+			scripts: scripts
+		});
 	});
 });

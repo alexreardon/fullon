@@ -1,0 +1,39 @@
+#testimonials {
+	background-image: url('/public/images/landscape1.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: 0 0;
+
+	.testimonial {
+		@img-width: 50px;
+
+		img {
+			float: left;
+			width: @img-width;
+			border-radius: 50%;
+			.box-shadow(0 0 5px 1px #fff);
+		}
+
+		p {
+			@padding: 20px;
+			@background-color: rgba(255, 255, 255, 0.6);
+			border-radius: 10px;
+			padding: @padding;
+			background-color: @background-color;
+			margin-left: (@img-width + 20px);
+
+			&:before {
+				@width: 10px;
+				content: '';
+				width: @width;
+				height: @width;
+				position: absolute;
+				margin-left: (-1px * (@padding + @width));
+				margin-top: (-1px * (@padding / 2));
+
+				border: 5px solid transparent;
+				border-right: 5px solid @background-color;
+			}
+		}
+	}
+}

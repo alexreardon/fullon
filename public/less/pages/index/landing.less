@@ -1,0 +1,137 @@
+#landing {
+	background-image: url('/public/images/frodo2.jpg');
+	background-color: @fullon-color-background-black;
+	background-repeat: no-repeat;
+	background-size: contain;
+	background-position: 0px 0px;
+
+	//everything less than md has no background image
+	@media (max-width: @screen-md-min) {
+		background-image: none;
+	}
+
+
+	h1, h2, h3, h4, h5 {
+		text-align: center;
+		letter-spacing: -4px;
+		color: @fo-colour-white;
+	}
+
+	// Lord of the Rings
+	h1 {
+		// push content down for heading
+		//margin-top: 50px;
+
+		img {
+			width: 370px;
+			.center-block();
+		}
+	}
+
+	#early_bird {
+		.rotate(14deg);
+		.fo_badge(100px);
+
+		position: absolute;
+		right: -13px;
+		top: 46px;
+
+		.discount {
+			font-family: @fo_font_header;
+			margin-top: 7px;
+			font-size: 15px;
+			letter-spacing: -1px;
+		}
+
+		// early bird title
+		.early_bird_title {
+			padding-top: 7px;
+			font-family: @fo-font-cursive;
+			font-size: 16px;
+			margin: 0;
+			margin-top: -11px;
+			letter-spacing: 0px;
+		}
+
+		.days {
+			font-family: @fo_font_header;
+			line-height: 35px;
+			font-size: 35px;
+		}
+
+		.day_to_go {
+			font-family: @fo_font_header;
+			line-height: @font-size-base; //14px
+			font-size: @font-size-base;
+			margin-top: -3px;
+		}
+
+	}
+
+	// Video
+	#landing_video {
+		.center-block();
+	}
+
+	h2 {
+
+		@media (max-width: @screen-phone) {
+			font-size: @fo-index-base-font-size/2;
+		}
+
+		font-size: @fo-index-base-font-size;
+		margin-top: 0px;
+
+		em {
+			font-style: normal;
+			color: lighten(@fo-colour-white, 30%);
+		}
+	}
+
+	// date
+	h3 {
+		font-size: @fo-index-base-font-size;
+		text-shadow: 0px 0px 20px lighten(@fo-colour-white, 10%);
+		margin-top: 16px;
+
+		@pic-width: 110px;
+		@pic-width-calculate: (110px*0.7);
+
+		.flag(@url, @margin-left) {
+			content: '';
+			margin-top: -22px;
+			margin-left: @margin-left;
+			width: @pic-width;
+			height: 189px;
+			position: absolute;
+			background-image: url(@url);
+			background-repeat: no-repeat;
+			background-position: top left;
+			background-size: @pic-width-calculate;
+		}
+
+		&:before {
+			.flag('/public/images/Banner_king.png', -1px * (@pic-width-calculate + 14px));
+		}
+
+		&:after {
+			.flag('/public/images/Dol_amroth.png', 14px);
+		}
+	}
+
+	// days to go
+	h4 {
+		font-size: 48px;
+		margin-top: -28px;
+	}
+
+	.fb-like {
+		height: 25px; //height of inner span. Disables loading jerk
+		width: 100%;
+		margin-top: 20px;
+
+		> span {
+			.center-block();
+		}
+	}
+}

@@ -8,27 +8,46 @@
 
 // Bootstrap - Core CSS
 @import "bootstrap/scaffolding";
-//@import "bootstrap/type";
+@import "bootstrap/type";
 //@import "bootstrap/code";
 @import "bootstrap/grid";
-//@import "bootstrap/tables";
-//@import "bootstrap/forms";
-//@import "bootstrap/buttons";
+@import "bootstrap/tables";
+@import "bootstrap/forms";
+@import "bootstrap/buttons";
 
 // Bootstrap - Additional Components
-//@import "bootstrap/component-animations";
+@import "bootstrap/component-animations";
 @import "bootstrap/glyphicons";
 //@import "bootstrap/dropdowns";
 //@import "bootstrap/button-groups";
 //@import "bootstrap/input-groups";
-//@import "bootstrap/navs";
-//@import "bootstrap/navbar";
+@import "bootstrap/navs";
+@import "bootstrap/navbar";
+//@import "bootstrap/badges";
 
 // Bootstrap -  Utility classes
 @import "bootstrap/utilities.less";
 @import "bootstrap/responsive-utilities.less";
 
+// Full On
+
+
+// Mixins
+@import "mixins/variables";
+@import "mixins/mixins";
+@import "mixins/typography";
+@import "mixins/media";
+
 // Partials
+@import "partials/header";
 
 // Pages
-@import "pages/index";
+//@import "pages/index";
+
+// Index Page
+@import "pages/index/common";
+@import "pages/index/landing";
+@import "pages/index/leaderboard";
+@import "pages/index/testimonials";
+@import "pages/index/media";
+@import "pages/index/bottom_call";

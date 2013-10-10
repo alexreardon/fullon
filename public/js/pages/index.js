@@ -1,11 +1,19 @@
 var IndexView = Backbone.View.extend({
 
-	initialize: function(){
-		//$('#landing').css('min-height', $(window).height());
+	initialize: function () {
+		this.$landing = $('#landing');
+		this.resize();
+		$(window).on('resize', function(){
+			this.resize();
+		}.bind(this));
 	},
 
 	events: {
 
+	},
+
+	resize: function () {
+		this.$landing.css('min-height', $(window).height());
 	}
 
 

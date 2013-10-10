@@ -1,0 +1,32 @@
+section {
+	//push down all section for fixed header
+	padding-top: @navbar-height;
+}
+
+.block_fill(@text, @background) {
+	background-color: @background;
+	color: @text;
+}
+
+h1 {
+	text-align: center;
+	font-size: @fo-index-base-font-size;
+}
+
+.fo_badge(@size){
+	background-image: url('/public/images/badge.png');
+	background-repeat: no-repeat;
+	background-size: @size;
+	width: @size;
+	height: @size;
+	color: @fo-colour-white;
+	text-align: center;
+}
+
+@fo-index-base-font-size: 62px;
+
+
+
+
+
+
