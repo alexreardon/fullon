@@ -1,53 +1,42 @@
-nav {
-	background-color: rgba(0, 0, 0, 0.8);
+nav, .navbar-inverse {
+	background-color: rgba(0, 0, 0, 0.9);
 	box-shadow: 0px 0px 4px rgba(255, 255, 255, 0.5);
+	border: 0;
 
-	// full on
-	.fullon {
-		font-size: 30px;
-		color: @fo-colour-white;
-		margin: 0;
-	}
 
-	.stphils  {
-		font-family: @font-family-sans-serif;
-		color: @fo-colour-white;
-		margin: 0 !important; //overwrite very specific bootstrap selector
-		background-image: url('/public/images/stphils-logo-transparent-colour.png');
-		background-repeat: no-repeat;
-		background-position: right 50%;
-		background-size: 26px;
-		font-size: @font-size-base;
+	.navbar-brand {
 
-		a {
-			padding-right: 14px;
+		// full on
+		&.fullon {
+			font-size: 30px;
+			//color: @fo-colour-white;
+			margin: 0;
+
 		}
 
-	}
+		&.stphils {
+			font-family: @font-family-sans-serif;
+			//		color: @fo-colour-white;
+			margin: 0 !important; //overwrite very specific bootstrap selector
+			background-image: url('/public/images/stphils-logo-transparent-colour.png');
+			background-repeat: no-repeat;
+			background-position: right 50%;
+			background-size: 26px;
+			font-size: @font-size-base;
 
-	// st phils link
-	//	.stphils {
-	//		float: left;
-	//
-	//		line-height: @line-height-computed;
-	//		font-family: @font-family-sans-serif;
-	//		background-image: url('/public/images/stphils-logo-transparent-colour.png');
-	//		background-repeat: no-repeat;
-	//		background-position: right 50%;
-	//		background-size: 26px;
-	//
-	//		a {
-	//			padding-right: 30px;
-	//		}
-	//	}
+			a {
+				padding-right: 14px;
+			}
+		}
 
-	// override bootstrap default
-	.nav a, a {
-		color: #A3A3A3;
-		&:focus, &:hover {
-			color: @fo-colour-white;
-			text-decoration: none;
-			background: none;
+		a {
+			color: @navbar-inverse-brand-color;
+			&:hover,
+			&:focus {
+				text-decoration: none;
+				color: @navbar-inverse-brand-hover-color;
+				background-color: @navbar-inverse-brand-hover-bg;
+			}
 		}
 	}
 }

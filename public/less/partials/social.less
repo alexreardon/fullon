@@ -1,0 +1,45 @@
+.social {
+	margin-top: 20px;
+	margin-bottom: 20px;
+	text-align: center;
+
+	.fb-like {
+		height: 25px; //height of inner span. Disables loading jerk
+		width: 100%;
+		display: inline-block;
+
+		> span {
+			.center-block();
+		}
+	}
+
+
+	.social_links {
+
+		margin-bottom: 6px;
+
+		a {
+			@size: 30px;
+			display: inline-block;
+			text-indent: -100001px;
+			background-repeat: no-repeat;
+			width: @size;
+			height: @size;
+			background-size: @size;
+			margin-left: 2px;
+
+			&#social_facebook {
+				margin-left: 0;
+				background-image: url('/public/images/social/facebook.png');
+			}
+
+			&#social_youtube {
+				background-image: url('/public/images/social/youtube.png');
+			}
+
+			&#social_vimeo {
+				background-image: url('/public/images/social/vimeo.png');
+			}
+		}
+	}
+}

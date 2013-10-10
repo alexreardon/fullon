@@ -1,12 +1,29 @@
+.block_fill(@text, @background, @padding: 10px) {
+	background-color: @background;
+	color: @text;
+	padding-left: @padding;
+	padding-right: @padding;
+}
+
 section {
 	//push down all section for fixed header
 	padding-top: @navbar-height;
+	padding-bottom: @navbar-height;
+	.box-shadow(0px 0px 4px 1px #B6B6B6);
+
+	&.dark {
+		background-color: @fo-color-background-black;
+
+		h1, h2, h3, h4, h5, h6 {
+			color: @fo-colour-white;
+		}
+
+		.fill {
+			.block_fill(@fo-color-background-black, @fo-colour-white);
+		}
+	}
 }
 
-.block_fill(@text, @background) {
-	background-color: @background;
-	color: @text;
-}
 
 h1 {
 	text-align: center;

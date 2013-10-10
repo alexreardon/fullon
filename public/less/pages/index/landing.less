@@ -1,9 +1,10 @@
 #landing {
 	background-image: url('/public/images/frodo2.jpg');
-	background-color: @fullon-color-background-black;
+	background-repeat: no-repeat;
 	background-repeat: no-repeat;
 	background-size: contain;
 	background-position: 0px 0px;
+	padding-bottom: 0;
 
 	//everything less than md has no background image
 	@media (max-width: @screen-md-min) {
@@ -11,11 +12,10 @@
 	}
 
 
-	h1, h2, h3, h4, h5 {
-		text-align: center;
-		letter-spacing: -4px;
-		color: @fo-colour-white;
-	}
+	h1, h2, h3, h4, h5, h6 {
+		 text-align: center;
+		 letter-spacing: -4px;
+	 }
 
 	// Lord of the Rings
 	h1 {
@@ -123,15 +123,5 @@
 	h4 {
 		font-size: 48px;
 		margin-top: -28px;
-	}
-
-	.fb-like {
-		height: 25px; //height of inner span. Disables loading jerk
-		width: 100%;
-		margin-top: 20px;
-
-		> span {
-			.center-block();
-		}
 	}
 }
