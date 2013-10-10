@@ -2,8 +2,7 @@
 	"camper type": {
 		"allegiance": {
 			"type:": "radio",
-			"info": "If you are a married leader please fill this form out twice, once for each person.",
-			"options": ["camper", "leader"],
+			"options": ["junior", "senior", "leader"],
 			"validation": {
 				"required": true
 			}

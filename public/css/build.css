@@ -1725,7 +1725,7 @@ textarea.input-lg {
   display: block;
   margin-top: 5px;
   margin-bottom: 10px;
-  color: #ffffff;
+  color: #737373;
 }
 @media (min-width: 768px) {
   .form-inline .form-group {
@@ -4606,16 +4606,35 @@ footer img {
   background-size: 61.830065359477125px 86px;
   z-index: 990;
 }
-#register_nav .camper_type {
+#register_nav .camper_type_flag_junior {
+  background-image: url('/public/images/flags/junior-no-pole.png');
+}
+#register_nav .camper_type_flag_senior {
+  background-image: url('/public/images/flags/senior-no-pole.png');
+}
+#register_nav .camper_type_flag_leader {
+  background-image: url('/public/images/flags/leader-no-pole.png');
+}
+#register_nav .camper_type_label {
   margin-left: 66.83006535947712px;
-  display: inline-block;
   font-size: 30px;
+  margin-bottom: 0;
 }
 #register_nav nav a {
   background-color: #e6e6e6;
   line-height: 56px;
   display: block;
   text-align: center;
+}
+#register_form .navigation .btn {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#register_form .help-block {
+  font-size: 85%;
+}
+#register_form .form-group {
+  margin-bottom: 30px;
 }
 #allegiance {
   text-align: center;
@@ -4641,6 +4660,10 @@ footer img {
 #allegiance .flag img:active {
   width: 110px;
   cursor: pointer;
+}
+#costs .discount_amount {
+  font-size: 40px;
+  color: #5cb85c;
 }
 #error_page {
   text-align: center;

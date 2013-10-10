@@ -1,8 +1,9 @@
 //namespaces
 window.FullOn = {};
-window.FullOn.Views = {};
+FullOn.Views = {};
+FullOn.Routers = {};
 
-window.FullOn.Views.CommonView = Backbone.View.extend({
+FullOn.Views.CommonView = Backbone.View.extend({
 
 	initialize: function () {
 		this.$sections = $('section');
@@ -27,23 +28,11 @@ window.FullOn.Views.CommonView = Backbone.View.extend({
 	resize: function () {
 		console.log('window resize - common');
 
-//		this.$sections.each(function($section){
-//			console.log('section!');
-//			$section.css('min-height', function(){
-//				this.getMinHeight();
-//			}.bind(this));
-//		}.bind(this));
-
 		var self = this;
-		this.$sections.each(function(){
+		this.$sections.each(function () {
 			$(this).css('min-height', self.getMinHeight());
 		});
 
-//		_.each(this.$sections, function(section){
-//			$(section).css('min-height', function(){
-//				this.getMinHeight();
-//			}.bind(this));
-//		}.bind(this));
 	},
 
 	getMinHeight: function () {
@@ -52,4 +41,4 @@ window.FullOn.Views.CommonView = Backbone.View.extend({
 
 });
 
-var commonView = new window.FullOn.Views.CommonView();
+var commonView = new FullOn.Views.CommonView();

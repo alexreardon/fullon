@@ -4,64 +4,110 @@
 		<div class="row">
 			<div class="col-md-2">
 				<div class="camper_type_flag"></div>
-				<h6 class="camper_type">Leader</h6>
+				<h6 class="camper_type_label">Leader</h6>
 			</div>
 
 			<nav>
-				<div class="col-md-1">
-					<a href="#">1</a>
-				</div>
-				<div class="col-md-1">
-					<a href="#">2</a>
-				</div>
-				<div class="col-md-1">
-					<a href="#">3</a>
-				</div>
+				{{#each schema}}
+					<div class="col-md-2">
+						<a href="/register/{{@key}}">{{@key}}</a>
+					</div>
+				{{/each}}
 			</nav>
 		</div>
 	</div>
 </div>
-<section id="allegiance">
-	<div class="container">
-		<div class="row">
-			<div class="col-md-6 col-md-offset-3">
 
-				<h3>Choose Your</h3>
+<form method="post" id="register_form">
 
-				<h2>Allegiance</h2>
+	<section id="allegiance">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-sm-offset-3">
 
-				<div class="row">
-					<div class="col-md-4">
-						<div class="flag">
-							<img src="/public/images/flags/junior.png"/>
-							<h4>Junior</h4>
-							<p>Year 6-8</p>
-						</div>
+					<h3>Choose Your</h3>
+
+					<h2>Allegiance</h2>
+
+					<div class="row">
+						{{#each config.camper_types}}
+							<div class="col-sm-4">
+								<div class="flag">
+									<img id="{{@key}}" src="{{flag_url}}" />
+									<h4>{{@key}}</h4>
+
+									<p>{{description}}</p>
+								</div>
+							</div>
+						{{/each}}
 					</div>
-					<div class="col-md-4">
-						<div class="flag">
-							<img src="/public/images/flags/senior.png"/>
 
-							<h4>Senior</h4>
+					{{{print_field schema.allegiance.camper_type}}}
 
-							<p>Years 9-12</p>
-						</div>
-					</div>
-					<div class="col-md-4">
-						<div class="flag">
-							<img src="/public/images/flags/leader.png"/>
+					{{{navigation_buttons schema 'allegiance'}}}
 
-							<h4>Leader</h4>
-
-							<p>The Masters</p>
-						</div>
-					</div>
 				</div>
 
 			</div>
-
 		</div>
-	</div>
-</section>
+	</section>
+
+	<section id="costs">
+		<div class="container">
+			<h1>Cost</h1>
+
+			<div class="row">
+				<div class="col-md-8">
+					<h2>Fees</h2>
+
+					<p>You are a <strong class="camper_type_label">unknown</strong>. </p>
+				</div>
+				<div class="col-md-4">
+					<h2>Cost</h2>
+
+					<p class="camp_fee"
+							{{#each config.camper_types}}
+								data-fee-{{@key}}="{{fee}}"
+							{{/each}}
+							>$unknown</p>
+				</div>
+			</div>
+
+			{{#each schema.costs}}
+				<div class="row discount_row" data-value="{{get_discount}}">
+					<div class="col-xs-8">
+						{{{print_field this}}}
+						{{! chocolate dropdown}}
+						{{#ifEq this ../schema.costs.discount_chocolate}}
+							<div class="form-group hide">
+								<select id="discount_chocolate_dropdown" class="form-control">
+									{{#each ../../people}}
+										<option value="{{data.attributed}}"
+												data-discount="{{math data.attributed '*' ../../../config.discount_chocolate}}"
+												data-firstname="{{data.firstname}}"
+												data-lastname="{{data.lastname}}">{{data.firstname}} {{data.lastname}}
+											[{{data.attributed}}]
+										</option>
+									{{/each}}
+								</select>
+							</div>
+						{{/ifEq}}
+					</div>
+					<div class="col-xs-4">
+						<h6 class="discount_amount">
+							{{#ifEq _default 'yes'}}
+								{{! parent is now two levels above}}
+								${{get_discount ../this}}
+							{{else}}
+								$0
+							{{/ifEq}}
+						</h6>
+					</div>
+				</div>
+			{{/each}}
+		</div>
+	</section>
+
+</form>
 
 {{>footer}}

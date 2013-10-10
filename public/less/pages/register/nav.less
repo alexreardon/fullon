@@ -9,7 +9,6 @@
 	line-height: @height;
 	margin-top: @navbar-height;
 
-
 	//original dimensions: 110/153
 	@original_width: 110px;
 	@original_height: 153px;
@@ -26,12 +25,23 @@
 		width: @banner_width;
 		background-size: @banner_width @banner_height;
 		z-index: @fo-zindex-flag;
+
+		&_junior {
+			background-image: url('/public/images/flags/junior-no-pole.png');
+		}
+		&_senior {
+			background-image: url('/public/images/flags/senior-no-pole.png');
+		}
+		&_leader {
+			background-image: url('/public/images/flags/leader-no-pole.png');
+		}
+
 	}
 
-	.camper_type {
+	.camper_type_label {
 		margin-left: (@banner_width + 5px);
-		display: inline-block;
 		font-size: 30px;
+		margin-bottom: 0;
 	}
 
 	nav {
@@ -41,21 +51,20 @@
 			display: block;
 			text-align: center;
 
-//			&:after {
-//							background-image: url('/public/images/arrow.png');
-//							background-repeat: no-repeat;
-//							background-size: contain;
-//							background-position: right top;
-//				content: '';
-//				position: absolute;
-//				height: @height;
-//				right: 0;
-//				margin-right: (@grid-gutter-width / 2);
-//				width: 10px;
-//				background-color: blue;
-//			}
+			//			&:after {
+			//							background-image: url('/public/images/arrow.png');
+			//							background-repeat: no-repeat;
+			//							background-size: contain;
+			//							background-position: right top;
+			//				content: '';
+			//				position: absolute;
+			//				height: @height;
+			//				right: 0;
+			//				margin-right: (@grid-gutter-width / 2);
+			//				width: 10px;
+			//				background-color: blue;
+			//			}
 		}
-
 
 	}
 }

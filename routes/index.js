@@ -16,20 +16,11 @@ app.get('/', function (req, res, next) {
 			return;
 		}
 
-		// data:
-		var data = {
-			days_to_camp: date.get_days_until(config.application.date_camp_start),
-			days_to_earlybird_end: date.get_days_until(config.application.date_earlybird_end)
-		};
-
-		data.is_camp_open = (data.days_to_camp >= 0);
-		data.is_earlybird_open = (data.days_to_earlybird_end >= 0);
-
 		res.render('index', {
 			people: leaderboard.people,
 			stats: leaderboard.stats,
 			config: config.application,
-			data: data,
+			data: date.get_page_data(),
 			scripts: scripts
 		});
 	});

@@ -44,17 +44,6 @@ person._calculate_positions = function (people) {
 
 };
 
-//person.get_leaderboard_stats = function (cb) {
-//	this.aggregate({ _id: '$lastname', sold: { $sum: '$sold'}}, function (err, doc) {
-//		if (err) {
-//			cb(err);
-//			return;
-//		}
-//		return this._calculate_stats(doc);
-//	}.bind(this));
-//
-//};
-
 person._calculate_stats = function (people) {
 	// required stats:
 	// 1.  boxes sold
@@ -93,8 +82,8 @@ person._calculate_stats = function (people) {
 	});
 
 	// composite values
-	result.money_raised = (result.boxes_sold * config.application.discount_chocolate);
-	result.campers_who_could_come_for_free = ((result.money_raised / config.application.fee_junior).toFixed(2));
+	result.money_raised = (result.boxes_sold * config.application.discounts.chocolate.amount);
+	result.campers_who_could_come_for_free = ((result.money_raised / config.application.camper_types.junior.fee).toFixed(2));
 
 	return result;
 
@@ -115,7 +104,7 @@ person.get_leaderboard = function (cb) {
 			stats: this._calculate_stats(data)
 		});
 
-	}.bind(this), null, {sold: -1, firstname: 1});
+	}.bind(this), null, {sold: -1, firstname: 1, lastname: 1});
 
 };
 

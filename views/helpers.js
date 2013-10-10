@@ -1,8 +1,54 @@
-var hbs = require('hbs'),
-	format = require('util').format,
+var format = require('util').format,
+	hbs = require('hbs'),
+	config = require('../config'),
+	fs = require('fs'),
+	path = require('path'),
 	_ = require('underscore');
 
-function leaderboard (people) {
+// http://jsfiddle.net/mpetrovich/wMmHS/
+exports.math = function (lvalue, operator, rvalue, options) {
+	lvalue = parseFloat(lvalue);
+	rvalue = parseFloat(rvalue);
+
+	if (operator === '+') {
+		return (lvalue + rvalue);
+	}
+	if (operator === '-') {
+		return (lvalue - rvalue);
+	}
+	if (operator === '*') {
+		return (lvalue * rvalue);
+	}
+	if (operator === '/') {
+		return (lvalue / rvalue);
+	}
+	if (operator === '%') {
+		return (lvalue % rvalue);
+	}
+};
+
+exports.ifEq = function (v1, v2, options) {
+	if (v1 === v2) {
+		console.log('IF EQL', arguments);
+		return options.fn(this);
+	}
+	return options.inverse(this);
+};
+
+exports.print_array = function (array) {
+	var result = '';
+	for (var i = 0; i < array.length; i++) {
+		result += array[i];
+		if (i < array.length - 2) {
+			result += ', ';
+		} else if (i === array.length - 2) {
+			result += ' & ';
+		}
+	}
+	return result;
+};
+
+exports.leaderboard = function (people) {
 
 	var result = '',
 		previous_position = 0,
@@ -27,7 +73,81 @@ function leaderboard (people) {
 
 	return new hbs.handlebars.SafeString(result);
 
+};
+
+exports.get_property_from_key = function (data, options) {
+	return data[options.data.key];
+};
+
+//exports.get_initial_discount = function(field){
+//	if(field)
+//};
+
+function get_template (name) {
+	var text = fs.readFileSync(path.join(__dirname, './helpers/', name + '.hbs'), 'utf8');
+	return hbs.handlebars.compile(text);
 }
 
-hbs.registerHelper('leaderboard', leaderboard);
+var templates = {};
+
+function init () {
+	var list = ['radio', 'navigation_buttons'];
+
+	_.each(list, function (item) {
+		templates[item] = get_template(item);
+	});
+}
+
+init();
+
+
+
+exports.get_discount = function(options){
+	var item = config.application.discounts[this.name];
+	if(!item){
+		throw new Error('config value not found', arguments);
+	}
+	return config.application.discounts[this.name].amount;
+};
+
+exports.navigation_buttons = function (schema, current_section) {
+	var keys = Object.keys(schema);
+	var current_index = keys.indexOf(current_section);
+
+	var data = {
+		back: current_index > 0 ? keys[current_index - 1] : false,
+		next: current_index < (keys.length - 1) ? keys[current_index + 1] : false
+	};
+
+	return templates.navigation_buttons(data);
+
+};
+
+exports._print_field = function (field, data_value) {
+	var template = templates[field.type];
+
+	if (!field || !template) {
+		throw new Error(format('invalid print_field args [%j] [%j]', field, template));
+	}
+
+	return template(_.extend(field, {data_value: data_value}));
+};
+
+exports.print_field_with_data_attr = function (field, data_value) {
+	return exports._print_field(field, data_value);
+};
+
+exports.print_field = function (field) {
+	return exports._print_field(field);
+};
+
+exports.print_fields = function (section) {
+//	var result = '';
+//
+//	_.each(schema[section_id], function (field) {
+//		result += exports.print_field(schema, section_id, field.id);
+//	});
+//
+//	return result;
+};
 

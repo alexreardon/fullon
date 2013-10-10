@@ -6,8 +6,15 @@ module.exports = function(grunt) {
 
 		client_js_files = ['public/js/**/*.js',
 			'!public/js/lib/**/*.js',
-			'!public/js/module.js',
-			'!public/js/templates.js' ],
+			'!public/js/pages/register.build.js'],
+
+		client_js_register = [
+			'public/js/pages/register/views/form.js',
+			'public/js/pages/register/views/allegiance.js',
+			'public/js/pages/register/views/costs.js',
+			'public/js/pages/register/routers/router.js',
+			'public/js/pages/register/init.js'
+		],
 
 		client_js_lib_files = ['public/js/lib/underscore.js',
 			'public/js/lib/handlebars.js',
@@ -56,17 +63,14 @@ module.exports = function(grunt) {
 			}
 		},
 
-//		browserify: {
-//			files: {
-//				src: client_js_files,
-//				dest: 'public/js/module.js'
-//			}
-//		},
-
 		concat: {
 			lib: {
 				src: client_js_lib_files,
 				dest: 'public/js/lib/lib.js'
+			},
+			register: {
+				src: client_js_register,
+				dest: 'public/js/pages/register.build.js'
 			}
 		},
 
@@ -86,28 +90,13 @@ module.exports = function(grunt) {
 			}
 		},
 
-//		handlebars: {
-//			compile: {
-//				options: {
-//					commonjs: true,
-//					processName: function(path) {
-//						var pieces = path.split('/');
-//						return pieces[pieces.length - 1].replace('.handlebars', '');
-//					}
-//				},
-//				files: {
-//					'public/js/templates.js': handlebars_templates
-//				}
-//			}
-//		},
-
 		watch: {
 			node_js: {
 				tasks: ['jshint:node'],
 				files: node_js_files
 			},
 			client_js: {
-				tasks: ['jshint:client'],
+				tasks: ['jshint:client', 'concat:register'],
 				files: client_js_files
 			},
 			css: {
@@ -149,12 +138,12 @@ module.exports = function(grunt) {
 
 
 	//Development
-	grunt.registerTask('dev', ['jshint', 'less:dev', 'concat:lib']);
+	grunt.registerTask('dev', ['jshint', 'less:dev', 'concat']);
 
 	grunt.registerTask('run', ['concurrent:target']);
 
 	//Release
-	grunt.registerTask('default', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat:lib', 'uglify:prod']);
+	grunt.registerTask('default', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat', 'uglify:prod']);
 
 
 };

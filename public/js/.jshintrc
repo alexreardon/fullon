@@ -69,6 +69,7 @@
 		"Backbone",
 		"_",
 		"window",
+		"FullOn",
 		"$",
 		"Handlebars"
 	]

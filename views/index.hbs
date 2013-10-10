@@ -406,20 +406,12 @@
 			</thead>
 			<tbody>
 			<tr>
-				<td>Junior
-					<small>(school year 6-8)</small>
-				</td>
-				<td>${{config.fee_junior}}</td>
-			</tr>
-			<tr>
-				<td>Senior
-					<small>(school year 9-12)</small>
-				</td>
-				<td>${{config.fee_senior}}</td>
-			</tr>
-			<tr>
-				<td>Leader</td>
-				<td>${{config.fee_leader}}</td>
+				{{#each config.camper_types}}
+					<td>{{@key}}
+						<p><small>{{description}}</small></p>
+					</td>
+					<td>${{fee}}</td>
+				{{/each}}
 			</tr>
 			</tbody>
 		</table>
@@ -439,49 +431,59 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				<td class="name">
-					Sell a box of chocolate
-					<p>
-						Per box
-					</p>
-				</td>
-				<td>${{config.discount_chocolate}}</td>
-				<td>Camper & Leader</td>
-			</tr>
-			<tr>
-				<td class="name">Early bird discount
-					<p>
-						Register before {{config.date_earlybird_end}}
-					</p>
-				</td>
-				<td>${{config.discount_earlybird}}</td>
-				<td>Camper & Leader</td>
-			</tr>
-			<tr>
-				<td class="name">Sibling
-					<p>
-						Per camper
-					</p>
+			{{#each config.discounts}}
+				<tr>
+					<td class="name">
+						{{name}}
+						<p>{{description}}</p>
+					</td>
+					<td>${{amount}}</td>
+					<td>{{print_array available_to}}</td>
+				</tr>
+			{{/each}}
+			<!--<tr>-->
+				<!--<td class="name">-->
+					<!--Sell a box of chocolate-->
+					<!--<p>-->
+						<!--Per box-->
+					<!--</p>-->
+				<!--</td>-->
+				<!--<td>${{config.discount_chocolate}}</td>-->
+				<!--<td>Camper & Leader</td>-->
+			<!--</tr>-->
+			<!--<tr>-->
+				<!--<td class="name">Early bird discount-->
+					<!--<p>-->
+						<!--Register before {{config.date_earlybird_end}}-->
+					<!--</p>-->
+				<!--</td>-->
+				<!--<td>${{config.discount_earlybird}}</td>-->
+				<!--<td>Camper & Leader</td>-->
+			<!--</tr>-->
+			<!--<tr>-->
+				<!--<td class="name">Sibling-->
+					<!--<p>-->
+						<!--Per camper-->
+					<!--</p>-->
 
-					<p>
-						Note: this discount has changed since last year. It is now applied to <strong>every</strong>
-						camper
-						rather than <strong>subsequent</strong> campers
-					</p>
-				</td>
-				<td>${{config.discount_sibling}}</td>
-				<td>Camper only</td>
-			</tr>
-			<tr>
-				<td class="name">Married leader
-					<p>
-						Per leader
-					</p>
-				</td>
-				<td>${{config.discount_married}}</td>
-				<td>Leader only</td>
-			</tr>
+					<!--<p>-->
+						<!--Note: this discount has changed since last year. It is now applied to <strong>every</strong>-->
+						<!--camper-->
+						<!--rather than <strong>subsequent</strong> campers-->
+					<!--</p>-->
+				<!--</td>-->
+				<!--<td>${{config.discount_sibling}}</td>-->
+				<!--<td>Camper only</td>-->
+			<!--</tr>-->
+			<!--<tr>-->
+				<!--<td class="name">Married leader-->
+					<!--<p>-->
+						<!--Per leader-->
+					<!--</p>-->
+				<!--</td>-->
+				<!--<td>${{config.discount_married}}</td>-->
+				<!--<td>Leader only</td>-->
+			<!--</tr>-->
 			</tbody>
 		</table>
 
