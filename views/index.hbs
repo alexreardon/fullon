@@ -291,13 +291,10 @@
 		<h2>Getting and from to Camp</h2>
 
 		<p>
-			<strong>YOU WILL NEED TO BRING YOUR TRAVEL CONCESSION CARD</strong>
-
-			We are traveling to and from camp by train.  A car and trailer will take your gear down to Port Hacking in
-			the
+			We are traveling to and from camp by eagles (in coach form).
 			Royal National Park.  You will need to meet at <a href="http://en.stphils.org.au/">St Philip’s Anglican
-			Church
-			Eastwood</a> (cnr Shaftsbury Rd &amp; Rutledge St, Eastwood), on the lawn outside the church on Shaftsbury
+			Church Eastwood</a> (cnr Shaftsbury Rd &amp; Rutledge St, Eastwood), on the lawn outside the church on
+			Shaftsbury
 			Road.  We leave on <strong>Wednesday 1 January 2014</strong> at 9.15 am, so arrive no later than <strong>8.45
 			am </strong>to pack your gear and walk to the station.  We will arrive at camp around 11.00 am.
 
@@ -332,10 +329,8 @@
 			<li>Thongs (Sandals are better than thongs. Especially with socks! But seriously, sandals will protect your
 				feet more)
 			</li>
-			<li>Torch (gives you the magical ability to see in the dark. You will probably need one for pursuing
-				criminals at night...)
+			<li>Torch (you will need it for our journey to Mordor)
 			</li>
-			<li>Travel Concession Card</li>
 			<li>Underwear</li>
 			<li>Warm Top</li>
 		</ul>
@@ -363,7 +358,7 @@
 			<li>Teddy Bear (For hugs. Will not be allowed to participate in some activities)</li>
 			<li>Chocolate (for your leaders; I mean friends! Can be used for bribes)</li>
 			<li>Surfboard / Bodyboard</li>
-			<li>Extra money for the day out (Juniors [yr 6-8] have access to Maianbar cafe/canteen, Seniors [yr 9-12]
+			<li>Extra money for the day out (Juniors [yr 6-8] have access to a cafe/canteen, Seniors [yr 9-12]
 				have access to Cronulla shops
 			</li>
 		</ul>
@@ -381,7 +376,6 @@
 			<li>Alcohol or drugs</li>
 			<li>Valuables (any jewellery &amp; large amounts of money)</li>
 			<li>Matches/ Lighters</li>
-			<li>CDs</li>
 			<li>Potential weapons (pocket knives, orange guns [seriously, what are these?], etc.)</li>
 			<li>Pets</li>
 		</ul>
@@ -405,14 +399,18 @@
 			</tr>
 			</thead>
 			<tbody>
-			<tr>
-				{{#each config.camper_types}}
+
+			{{#each config.camper_types}}
+				<tr>
 					<td>{{@key}}
-						<p><small>{{description}}</small></p>
+						<p>
+							<small>{{description}}</small>
+						</p>
 					</td>
 					<td>${{fee}}</td>
-				{{/each}}
-			</tr>
+				</tr>
+			{{/each}}
+
 			</tbody>
 		</table>
 
@@ -431,59 +429,16 @@
 			</tr>
 			</thead>
 			<tbody>
-			{{#each config.discounts}}
-				<tr>
-					<td class="name">
-						{{name}}
-						<p>{{description}}</p>
-					</td>
-					<td>${{amount}}</td>
-					<td>{{print_array available_to}}</td>
-				</tr>
-			{{/each}}
-			<!--<tr>-->
-				<!--<td class="name">-->
-					<!--Sell a box of chocolate-->
-					<!--<p>-->
-						<!--Per box-->
-					<!--</p>-->
-				<!--</td>-->
-				<!--<td>${{config.discount_chocolate}}</td>-->
-				<!--<td>Camper & Leader</td>-->
-			<!--</tr>-->
-			<!--<tr>-->
-				<!--<td class="name">Early bird discount-->
-					<!--<p>-->
-						<!--Register before {{config.date_earlybird_end}}-->
-					<!--</p>-->
-				<!--</td>-->
-				<!--<td>${{config.discount_earlybird}}</td>-->
-				<!--<td>Camper & Leader</td>-->
-			<!--</tr>-->
-			<!--<tr>-->
-				<!--<td class="name">Sibling-->
-					<!--<p>-->
-						<!--Per camper-->
-					<!--</p>-->
-
-					<!--<p>-->
-						<!--Note: this discount has changed since last year. It is now applied to <strong>every</strong>-->
-						<!--camper-->
-						<!--rather than <strong>subsequent</strong> campers-->
-					<!--</p>-->
-				<!--</td>-->
-				<!--<td>${{config.discount_sibling}}</td>-->
-				<!--<td>Camper only</td>-->
-			<!--</tr>-->
-			<!--<tr>-->
-				<!--<td class="name">Married leader-->
-					<!--<p>-->
-						<!--Per leader-->
-					<!--</p>-->
-				<!--</td>-->
-				<!--<td>${{config.discount_married}}</td>-->
-				<!--<td>Leader only</td>-->
-			<!--</tr>-->
+				{{#each config.discounts}}
+					<tr>
+						<td class="name">
+							{{name}}
+							<p>{{description}}</p>
+						</td>
+						<td>${{amount}}</td>
+						<td>{{print_array available_to}}</td>
+					</tr>
+				{{/each}}
 			</tbody>
 		</table>
 

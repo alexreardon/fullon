@@ -1,9 +1,11 @@
-function init () {
-	var router = new FullOn.Routers.Register();
+(function(){
+	function init () {
+		var router = new fullon.routers.register();
 
-	Backbone.history.start({
-		pushState: true
-	});
-}
+		Backbone.history.start({
+			pushState: true
+		});
+	}
 
-init();
+	init();
+})();

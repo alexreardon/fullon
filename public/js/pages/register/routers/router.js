@@ -1,4 +1,4 @@
-FullOn.Routers.Register = Backbone.Router.extend({
+fullon.routers.register = Backbone.Router.extend({
 
 	routes: {
 		'register': 'loadSection',
@@ -6,9 +6,9 @@ FullOn.Routers.Register = Backbone.Router.extend({
 	},
 
 	initialize: function () {
-		this.form = new FullOn.Views.Form();
-		this.allegiance = new FullOn.Views.Allegiance();
-		this.costs = new FullOn.Views.Costs();
+		this.form = new fullon.views.form();
+		this.allegiance = new fullon.views.allegiance();
+		this.costs = new fullon.views.costs();
 
 		this.$sections = $('section');
 

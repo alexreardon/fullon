@@ -1,4 +1,4 @@
-FullOn.Routers.Register = Backbone.Router.extend({
+fullon.routers.register = Backbone.Router.extend({
 
 	routes: {
 		'register': 'loadSection',

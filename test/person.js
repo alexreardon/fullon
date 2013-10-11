@@ -98,13 +98,13 @@ describe('person', function () {
 		});
 
 		it('should calculate money raised', function () {
-			var money_raised = (boxes_sold * config.application.discount_chocolate);
+			var money_raised = (boxes_sold * config.application.discounts.chocolate.amount);
 			expect(stats.money_raised).to.be(money_raised);
 		});
 
 		it('should know how many campers can come for free', function () {
-			var money_raised = (boxes_sold * config.application.discount_chocolate);
-			var amount = (money_raised / config.application.fee_junior).toFixed(2);
+			var money_raised = (boxes_sold * config.application.discounts.chocolate.amount);
+			var amount = (money_raised / config.application.camper_types.junior.fee).toFixed(2);
 			expect(stats.campers_who_could_come_for_free).to.be(amount);
 		});
 

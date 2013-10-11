@@ -15,6 +15,13 @@
 <!-- common files -->
 <script src="/public/js/common.js"></script>
 
+<!-- bootstrap data -->
+{{#if config}}
+	<script>
+		fullon.config = JSON.parse('{{{print_json config}}}');
+	</script>
+{{/if}}
+
 <!-- custom files -->
 {{#each scripts}}
 	<script src="{{this}}"></script>

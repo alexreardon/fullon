@@ -1,4 +1,4 @@
-window.FullOn.Views.Index = Backbone.View.extend({
+fullon.views.index = Backbone.View.extend({
 
 	initialize: function () {
 		this.$landing = $('#landing');
@@ -25,5 +25,5 @@ window.FullOn.Views.Index = Backbone.View.extend({
 
 });
 
-var index = new window.FullOn.Views.Index();
+var index = new fullon.views.index();
 

@@ -4,7 +4,7 @@
 		<div class="row">
 			<div class="col-md-2">
 				<div class="camper_type_flag"></div>
-				<h6 class="camper_type_label">Leader</h6>
+				<h6 class="camper_type_label">Begin</h6>
 			</div>
 
 			<nav>
@@ -57,24 +57,21 @@
 			<h1>Cost</h1>
 
 			<div class="row">
-				<div class="col-md-8">
+				<div class="col-xs-8">
 					<h2>Fees</h2>
 
-					<p>You are a <strong class="camper_type_label">unknown</strong>. </p>
+					<p>You are a <strong class="camper_type_label">unknown</strong>.</p>
 				</div>
-				<div class="col-md-4">
+				<div class="col-xs-4">
 					<h2>Cost</h2>
 
-					<p class="camp_fee"
-							{{#each config.camper_types}}
-								data-fee-{{@key}}="{{fee}}"
-							{{/each}}
-							>$unknown</p>
+					<h5 class="camp_fee">$unknown</h5>
 				</div>
 			</div>
 
+			<!-- Cost radio buttons -->
 			{{#each schema.costs}}
-				<div class="row discount_row" data-value="{{get_discount}}">
+				<div class="row discount_row">
 					<div class="col-xs-8">
 						{{{print_field this}}}
 						{{! chocolate dropdown}}
@@ -83,7 +80,7 @@
 								<select id="discount_chocolate_dropdown" class="form-control">
 									{{#each ../../people}}
 										<option value="{{data.attributed}}"
-												data-discount="{{math data.attributed '*' ../../../config.discount_chocolate}}"
+												data-current-value="{{math data.attributed '*' ../../../config.discount_chocolate}}"
 												data-firstname="{{data.firstname}}"
 												data-lastname="{{data.lastname}}">{{data.firstname}} {{data.lastname}}
 											[{{data.attributed}}]
@@ -94,17 +91,30 @@
 						{{/ifEq}}
 					</div>
 					<div class="col-xs-4">
-						<h6 class="discount_amount">
-							{{#ifEq _default 'yes'}}
-								{{! parent is now two levels above}}
+						{{#ifEq _default 'yes'}}
+							<h6 class="discount_amount" data-current-value="{{get_discount ../this}}">
 								${{get_discount ../this}}
-							{{else}}
+							</h6>
+						{{else}}
+							<h6 class="discount_amount" data-current-value="0">
 								$0
-							{{/ifEq}}
-						</h6>
+							</h6>
+						{{/ifEq}}
 					</div>
 				</div>
 			{{/each}}
+
+			<!--totals-->
+			<div class="row total_row">
+				<div class="col-xs-8">
+				</div>
+				<div class="col-xs-4">
+					<h2>Total</h2>
+					<h5 class="camp_fee_total">$total</h5>
+				</div>
+
+			</div>
+
 		</div>
 	</section>
 

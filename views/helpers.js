@@ -48,6 +48,10 @@ exports.print_array = function (array) {
 	return result;
 };
 
+exports.print_json = function(item){
+	return JSON.stringify(item);
+};
+
 exports.leaderboard = function (people) {
 
 	var result = '',

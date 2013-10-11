@@ -1,9 +1,12 @@
 //namespaces
-window.FullOn = {};
-FullOn.Views = {};
-FullOn.Routers = {};
+fullon = {};
+fullon.views = {};
+fullon.routers = {};
 
-FullOn.Views.CommonView = Backbone.View.extend({
+// used to store application state
+fullon.state = {};
+
+fullon.views.common = Backbone.View.extend({
 
 	initialize: function () {
 		this.$sections = $('section');
@@ -41,4 +44,4 @@ FullOn.Views.CommonView = Backbone.View.extend({
 
 });
 
-var commonView = new FullOn.Views.CommonView();
+var common_view = new fullon.views.common();

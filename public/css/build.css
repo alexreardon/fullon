@@ -4599,7 +4599,6 @@ footer img {
 }
 #register_nav .camper_type_flag {
   position: absolute;
-  background-image: url('/public/images/flags/senior-no-pole.png');
   background-repeat: no-repeat;
   height: 86px;
   width: 61.830065359477125px;
@@ -4664,6 +4663,10 @@ footer img {
 #costs .discount_amount {
   font-size: 40px;
   color: #5cb85c;
+}
+#costs .camp_fee,
+#costs .camp_fee_total {
+  font-size: 50px;
 }
 #error_page {
   text-align: center;

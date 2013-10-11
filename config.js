@@ -42,7 +42,7 @@ var config = {
 		// camper types
 		camper_types: {
 			junior: {
-				fee: 300,
+				fee: 330,
 				years: [6, 7, 8],
 				description: 'Years 6-8',
 				flag_url: '/public/images/flags/junior.png',

@@ -1,4 +1,4 @@
-FullOn.Views.Form = Backbone.View.extend({
+fullon.views.form = Backbone.View.extend({
 
 	initialize: function () {
 
@@ -23,6 +23,5 @@ FullOn.Views.Form = Backbone.View.extend({
 		// if all validation rules pass on page then enable the 'next' button
 
 	}
-
 });
 
