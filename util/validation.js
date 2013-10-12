@@ -1,46 +1,56 @@
 var regex = {
 	email: /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/,
 	number: /^\d+$/,
-	letters: /^[a-zA-Z]+$/
+	letters: /^[a-zA-Z]+[a-zA-Z\s]*$/,
+	date: /^[\d]{2}\/[\d]{2}\/[\d]{4}$/ // DD/MM/YYYY
 };
 
-exports = {
+var rules = {
 	min_length: {
 		fn: function(input, length) {
-			return (this.is_letters(input) && (input.length && input.length >= length));
+			return (input && input.length && input.length >= length) || false;
 		},
 		text: 'must be at least {0} characters in length'
 	},
 	max_length: {
 		fn: function(input, length) {
-			return (this.is_letters(input) && (input.length && input.length <= length));
+			return (input && input.length && input.length <= length) || false;
 		},
 		text: 'cannot be longer then {0} characters'
 	},
 	required: {
 		fn: function(input) {
-			return (input.length && input.length > 0);
+			return (input && input.length && input.length > 0) || false;
 		},
 		text: 'this is a required field'
 	},
 	is_letters: {
 		fn: function(input) {
-			return this.regex.is_letters.test(input);
+			return regex.letters.test(input);
 		},
 		text: 'must be letters only'
 	},
-	is_number: {
+	is_numbers: {
 		fn: function(input) {
 			return regex.number.test(input);
 		},
 		text: 'must be numbers only'
 	},
-	email: {
+	is_email: {
 		fn: function(input) {
-			return regex.email.text(input);
+			return regex.email.test(input);
 		},
 		text: 'must be in email format (eg \'example@email.com\')'
+	},
+	is_date: {
+		fn: function(input) {
+			return regex.date.test(input);
+		},
+		text: 'date is expected the following format: DD/MM/YYYY'
 	}
 };
+
+// export for client and server side usage
+module.exports = exports = rules;
 
 

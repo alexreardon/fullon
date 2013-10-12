@@ -3,7 +3,26 @@ var format = require('util').format,
 	config = require('../config'),
 	fs = require('fs'),
 	path = require('path'),
+	validation = require('../util/validation'),
 	_ = require('underscore');
+
+var templates = {};
+var camper_types_array;
+
+function init () {
+
+	// load in helper templates
+	var files = fs.readdirSync(path.join(__dirname, './helpers'));
+	_.each(files, function (file_name) {
+		var text = fs.readFileSync(path.join(__dirname, './helpers/', file_name), 'utf8');
+		templates[file_name.replace('.hbs', '')] = hbs.handlebars.compile(text);
+	});
+
+	// set camper types array
+	camper_types_array = Object.keys(config.application.camper_types);
+}
+
+init();
 
 // http://jsfiddle.net/mpetrovich/wMmHS/
 exports.math = function (lvalue, operator, rvalue, options) {
@@ -29,7 +48,6 @@ exports.math = function (lvalue, operator, rvalue, options) {
 
 exports.ifEq = function (v1, v2, options) {
 	if (v1 === v2) {
-		console.log('IF EQL', arguments);
 		return options.fn(this);
 	}
 	return options.inverse(this);
@@ -48,8 +66,16 @@ exports.print_array = function (array) {
 	return result;
 };
 
-exports.print_json = function(item){
+exports.print_json = function (item) {
 	return JSON.stringify(item);
+};
+
+exports.get_camper_types = function (field) {
+	if (!field.available_to) {
+		field.available_to = camper_types_array;
+	}
+
+	return field.available_to.join('|');
 };
 
 exports.leaderboard = function (people) {
@@ -83,32 +109,33 @@ exports.get_property_from_key = function (data, options) {
 	return data[options.data.key];
 };
 
-//exports.get_initial_discount = function(field){
-//	if(field)
-//};
-
-function get_template (name) {
-	var text = fs.readFileSync(path.join(__dirname, './helpers/', name + '.hbs'), 'utf8');
-	return hbs.handlebars.compile(text);
-}
-
-var templates = {};
-
-function init () {
-	var list = ['radio', 'navigation_buttons'];
-
-	_.each(list, function (item) {
-		templates[item] = get_template(item);
+exports.print_validation_rules = function (rules) {
+	var temp = [];
+	_.each(rules, function (value, key) {
+		temp.push(format('%s:%s', key, value));
 	});
-}
+	return temp.join('|');
+};
 
-init();
+exports.get_validation_messages = function (rules) {
+	var result = '<ul>';
 
+	_.each(rules, function(value, key){
+		if(!validation[key]){
+			console.warn('invalid validation requested', value, key);
+			return;
+		}
 
+		result += format('<li>%s</li>', (validation[key].text.replace('{0}', value)));
+	});
 
-exports.get_discount = function(options){
+	result += '</ul>';
+	return result;
+};
+
+exports.get_discount = function (options) {
 	var item = config.application.discounts[this.name];
-	if(!item){
+	if (!item) {
 		throw new Error('config value not found', arguments);
 	}
 	return config.application.discounts[this.name].amount;
@@ -128,7 +155,7 @@ exports.navigation_buttons = function (schema, current_section) {
 };
 
 exports._print_field = function (field, data_value) {
-	var template = templates[field.type];
+	var template = templates['input_' + field.type];
 
 	if (!field || !template) {
 		throw new Error(format('invalid print_field args [%j] [%j]', field, template));
@@ -145,13 +172,4 @@ exports.print_field = function (field) {
 	return exports._print_field(field);
 };
 
-exports.print_fields = function (section) {
-//	var result = '';
-//
-//	_.each(schema[section_id], function (field) {
-//		result += exports.print_field(schema, section_id, field.id);
-//	});
-//
-//	return result;
-};
 

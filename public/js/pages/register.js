@@ -24,7 +24,4 @@ fullon.routers.register = Backbone.Router.extend({
 			return ($(this).attr('id') === name);
 		}).removeClass('hide').addClass('show');
 	}
-
-	//
-
 });

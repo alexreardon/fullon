@@ -1,27 +1,35 @@
-module.exports = function(grunt) {
+module.exports = function (grunt) {
 
-	var node_js_files = ['**/*.js',
+	var node_js_files = [
+			'**/*.js',
 			'!node_modules/**/*.js',
-			'!public/**/*.js'],
+			'!public/**/*.js'
+		],
 
-		client_js_files = ['public/js/**/*.js',
+		client_js_files = [
+			'public/js/**/*.js',
+			'!public/js/module.js',
 			'!public/js/lib/**/*.js',
-			'!public/js/pages/register.build.js'],
+			'!public/js/build/**/*.js',
+			'!public/js/tracking.js'
+		],
 
 		client_js_register = [
-			'public/js/pages/register/views/form.js',
+			'public/js/pages/register/views/common.js',
 			'public/js/pages/register/views/allegiance.js',
 			'public/js/pages/register/views/costs.js',
 			'public/js/pages/register/routers/router.js',
 			'public/js/pages/register/init.js'
 		],
 
-		client_js_lib_files = ['public/js/lib/underscore.js',
+		client_js_lib_files = [
+			'public/js/lib/underscore.js',
 			'public/js/lib/handlebars.js',
 			'public/js/lib/backbone.js',
 			'public/js/lib/moment.js',
 			'public/js/lib/bootstrap/*.js',
-			'!public/js/lib/lib.js'],
+			'public/js/lib/bootstrap-datepicker.js'
+		],
 
 		handlebars_templates = 'public/js/template/**/*.handlebars',
 
@@ -30,7 +38,6 @@ module.exports = function(grunt) {
 	// Project configuration.
 	grunt.initConfig({
 		pkg: grunt.file.readJSON('package.json'),
-
 
 		jshint: {
 			node: {
@@ -66,11 +73,11 @@ module.exports = function(grunt) {
 		concat: {
 			lib: {
 				src: client_js_lib_files,
-				dest: 'public/js/lib/lib.js'
+				dest: 'public/js/build/lib.js'
 			},
 			register: {
 				src: client_js_register,
-				dest: 'public/js/pages/register.build.js'
+				dest: 'public/js/build/register.build.js'
 			}
 		},
 
@@ -84,9 +91,16 @@ module.exports = function(grunt) {
 						'<%= grunt.template.today("dd-mm-yyyy") %> */'
 				},
 				files: [
-					{'public/js/module.js': 'public/js/module.js'},
 					{'public/js/lib/lib.js': 'public/js/lib/lib.js'}
 				]
+			}
+		},
+
+		browserify: {
+			main: {
+				files: {
+					'public/js/build/common.build.js': ['public/js/common.js']
+				}
 			}
 		},
 
@@ -94,6 +108,14 @@ module.exports = function(grunt) {
 			node_js: {
 				tasks: ['jshint:node'],
 				files: node_js_files
+			},
+			client_js_lib: {
+				tasks: ['concat:lib'],
+				files: client_js_lib_files
+			},
+			client_js_common: {
+				tasks: ['browserify'],
+				files: ['util/validation.js', 'public/js/common.js']
 			},
 			client_js: {
 				tasks: ['jshint:client', 'concat:register'],
@@ -136,14 +158,12 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-nodemon');
 	grunt.loadNpmTasks('grunt-concurrent');
 
-
 	//Development
-	grunt.registerTask('dev', ['jshint', 'less:dev', 'concat']);
+	grunt.registerTask('dev', ['less:dev', 'browserify', 'concat']);
 
 	grunt.registerTask('run', ['concurrent:target']);
 
 	//Release
 	grunt.registerTask('default', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat', 'uglify:prod']);
-
 
 };

@@ -1,16 +1,15 @@
-fullon.views.allegiance = Backbone.View.extend({
+fullon.views.register.allegiance = Backbone.View.extend({
 
 	initialize: function () {
 		this.$camper_types = $('input:radio[name=camper_type]');
 		this.$camper_type_labels = $('.camper_type_label');
 		this.$camper_type_flags = $('.camper_type_flag');
-		this.$camp_fee = $('.camp_fee');
 
 		// attach events
 		var self = this;
 		$('#allegiance img').on('click', function (event) {
-			fullon.state.camper_type = $(this).attr('id');
-			self.allegianceToggle();
+			event.stopPropagation();
+			self.allegiance_toggle($(this).attr('id'));
 		});
 	},
 
@@ -25,7 +24,7 @@ fullon.views.allegiance = Backbone.View.extend({
 		})()
 	},
 
-	allegianceToggle: function () {
+	allegiance_toggle: function (camper_type) {
 		// TODO: 1. warn user if changing type and answers have been filled in
 
 		var self = this;
@@ -63,9 +62,10 @@ fullon.views.allegiance = Backbone.View.extend({
 			$(this).addClass(self.constants.flag.prefix +  fullon.state.camper_type);
 		});
 
-		// 4. update fee field
-		var fee = fullon.config.camper_types[fullon.state.camper_type].fee;
-		this.$camp_fee.text('$' + fee);
+
+		fullon.state.camper_type = camper_type;
+		fullon.vent.trigger('camper_type:change');
+
 	}
 
 });

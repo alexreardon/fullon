@@ -5,7 +5,6 @@ var express = require('express'),
 	fs = require('fs'),
 	format = require('util').format,
 	hbs = require('hbs'),
-//helpers is not referred to directly - it
 	helpers = require('./views/helpers'),
 	locals = require('./util/locals'),
 	app = express();

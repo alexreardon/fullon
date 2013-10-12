@@ -1,0 +1,12 @@
+{{#each options}}
+	<div class="radio">
+		<label>
+			<input type="radio" name="{{../name}}" value="{{this}}"
+				{{#if ../hidden}} hidden="true"{{/if}}
+				{{#ifEq this ../_default}} checked="checked" {{/ifEq}}
+				{{#if ../disabled}} disabled="disabled" {{/if}}
+					/>
+			{{this}}
+		</label>
+	</div>
+{{/each}}

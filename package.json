@@ -48,10 +48,11 @@
     "grunt-contrib-less": "~0.7.0",
     "grunt-contrib-watch": "~0.5.2",
     "grunt-contrib-uglify": "~0.2.2",
-    "grunt-browserify": "~1.2.4",
+    "grunt-browserify": "~1.2.8",
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-handlebars": "~0.5.10",
     "grunt-nodemon": "~0.1.1",
-    "grunt-concurrent": "~0.3.1"
+    "grunt-concurrent": "~0.3.1",
+    "grunt-browserify2": "~0.1.8"
   }
 }

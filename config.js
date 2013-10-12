@@ -63,27 +63,21 @@ var config = {
 			}
 		},
 
-//		fee_junior: 330,
-//		fee_senior: 350,
-//		fee_leader: 300,
-//
-//		years_junior: [6, 7, 8],
-//		years_senior: [9, 10, 11, 12],
-
 		// discounts
 		discounts: {
 			chocolate: {
 				name: 'Selling chocolate',
 				available_to: ['junior', 'senior', 'leader'],
 				amount: 20,
-				description: 'Per box'
+				description: 'Per box',
+				question: 'Did you sell any boxes of chocolate for camp?'
 			},
 			earlybird: {
 				name: 'Early bird',
 				available_to: ['junior', 'senior', 'leader'],
 				amount: 20,
 				description: format('Register before %s', date_earlybird_end),
-				question: format('Are you registering before %s', date_earlybird_end)
+				question: format('Are you registering before %s?', date_earlybird_end)
 			},
 			sibling: {
 				name: 'Sibling',

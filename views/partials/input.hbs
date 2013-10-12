@@ -1,0 +1,22 @@
+<div class="form-group
+	{{#if hidden}} hide{{/if}}
+	{{#if disabled}} disabled{{/if}}"
+
+	 data-available-to="{{get_camper_types this}}"
+	{{#if validation}}
+	 data-validation="{{print_validation_rules validation}}"
+	{{/if}}
+	>
+
+	{{#if text}}
+		<label class="control-label{{#if validation.required}} required{{/if}}" for="{{name}}">{{text}}</label>
+	{{/if}}
+
+	<span class="validation_message hide">{{{get_validation_messages validation}}}</span>
+
+	{{{print_field this}}}
+
+	{{#if info}}
+		<span class="help-block">{{info}}</span>
+	{{/if}}
+</div>

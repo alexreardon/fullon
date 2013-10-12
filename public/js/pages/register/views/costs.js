@@ -1,4 +1,4 @@
-fullon.views.costs = Backbone.View.extend({
+fullon.views.register.costs = Backbone.View.extend({
 
 	selectors: {
 		section: '#costs',
@@ -10,9 +10,9 @@ fullon.views.costs = Backbone.View.extend({
 		discount_display: '.discount_amount',
 
 		data: {
-			base_value: 'data-base-value',
 			current_value: 'data-current-value'
 		}
+
 	},
 	initialize: function () {
 
@@ -28,36 +28,47 @@ fullon.views.costs = Backbone.View.extend({
 		this.$dropdown_toggle.on('change', function (event) {
 
 			var show = ($(this).val() === 'yes');
-			self.showDropdown(show);
-			self.useDropdown(); //populate initial value
-
-			if (!show) {
-				self.setDiscountAmount(self.$dropdown, 0);
-			}
+			self.show_dropdown(show);
+			self.use_dropdown(show); //populate initial value
 
 		});
 
 		this.$dropdown.on('change', function (event) {
-			self.useDropdown();
+			self.use_dropdown(true);
 		});
 
 		this.$inputs.on('change', function (event) {
-			self.updateDiscountItem($(this));
+			self.update_discount_item($(this));
 		});
 
 		//listen for event
+		this.listenTo(fullon.vent, 'camper_type:change', this.on_camper_type_change);
+
 	},
 
-	updateDiscountItem: function ($el) {
+	on_camper_type_change: function () {
+		// 1. hide rows that are no longer relevant
+
+
+		// 1. update total
+		var fee = fullon.config.camper_types[fullon.state.camper_type].fee;
+		this.$camp_fee.attr(this.selectors.data.current_value, fee);
+		this.$camp_fee.text('$' + fee);
+
+		// 2. set initial total
+		this.update_fee_total();
+	},
+
+	update_discount_item: function ($el) {
 		console.log('input item has been toggled');
 		var name = $el.attr('name');
 		var add = ($el.val() === 'yes');
 		var val = (add ? fullon.config.discounts[name].amount : 0);
 
-		this.setDiscountAmount($el, val);
+		this.set_discount_amount($el, val);
 	},
 
-	setDiscountAmount: function ($el, val) {
+	set_discount_amount: function ($el, val) {
 		var self = this;
 
 		// update element
@@ -65,31 +76,35 @@ fullon.views.costs = Backbone.View.extend({
 			.attr(this.selectors.data.current_value, val)
 			.text('$' + val);
 
-		this.updateFeeTotal();
+		this.update_fee_total();
 
 	},
 
-	updateFeeTotal: function () {
+	update_fee_total: function () {
 		// update total
+		var self = this;
+
 		var fee = fullon.config.camper_types[fullon.state.camper_type].fee;
-		this.$discount_displays.each(function () {
+
+		var visible_discounts = this.$discount_displays.filter(':visible');
+		visible_discounts.each(function () {
 			fee -= parseFloat($(this).attr(self.selectors.data.current_value));
 		});
+
+		// can't let fee be less than 0
+		fee = (fee < 0 ? 0 : fee);
+
 		this.$camp_fee_total
 			.attr(this.selectors.data.current_value, fee)
 			.text('$' + fee);
 	},
 
-//	clearDropdown: function () {
-//		this.setDiscountAmount(this.$dropdown, 0);
-//	},
-
-	useDropdown: function () {
-		var val = (parseFloat(this.$dropdown.closest(this.selectors.discount_row).attr(this.selectors.data.current_value)) * parseFloat(this.$dropdown.val()));
-		this.setDiscountAmount(this.$dropdown, val);
+	use_dropdown: function (show) {
+		var val = (fullon.config.discounts[this.$dropdown.attr('name')].amount * parseFloat(this.$dropdown.val()));
+		this.set_discount_amount(this.$dropdown, show ? val : 0);
 	},
 
-	showDropdown: function (show) {
+	show_dropdown: function (show) {
 		this.$dropdown.closest('.form-group').removeClass(show ? 'hide' : 'show').addClass(show ? 'show' : 'hide');
 	}
 

@@ -4,7 +4,7 @@ var app = require('../app'),
 	date = require('../util/date'),
 	schema = require('../forms/register/schema');
 
-var scripts = ['/public/js/pages/register.build.js'];
+var scripts = ['/public/js/build/register.build.js'];
 
 function get_req (req, res, next) {
 	person.find({}, function (err, people) {

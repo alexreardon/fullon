@@ -14,5 +14,14 @@
 
 	.form-group {
 		margin-bottom: 30px; // standard: 15px;
+
+		.required {
+			&:before {
+				content: '*';
+				padding-right: 2px;
+				color: @brand-danger;
+			}
+		}
+
 	}
 }

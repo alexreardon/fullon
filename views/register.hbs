@@ -42,7 +42,7 @@
 						{{/each}}
 					</div>
 
-					{{{print_field schema.allegiance.camper_type}}}
+					{{>input schema.allegiance.camper_type}}
 
 					{{{navigation_buttons schema 'allegiance'}}}
 
@@ -69,18 +69,26 @@
 				</div>
 			</div>
 
+			<div class="row">
+				<div class="col-xs-8">
+					<h2>Discounts</h2>
+				</div>
+				<div class="col-xs-4">
+					<h2>Deduction</h2>
+				</div>
+			</div>
+
 			<!-- Cost radio buttons -->
 			{{#each schema.costs}}
 				<div class="row discount_row">
 					<div class="col-xs-8">
-						{{{print_field this}}}
+						{{>input this}}
 						{{! chocolate dropdown}}
 						{{#ifEq this ../schema.costs.discount_chocolate}}
 							<div class="form-group hide">
-								<select id="discount_chocolate_dropdown" class="form-control">
+								<select name="{{../name}}" id="discount_chocolate_dropdown" class="form-control">
 									{{#each ../../people}}
 										<option value="{{data.attributed}}"
-												data-current-value="{{math data.attributed '*' ../../../config.discount_chocolate}}"
 												data-firstname="{{data.firstname}}"
 												data-lastname="{{data.lastname}}">{{data.firstname}} {{data.lastname}}
 											[{{data.attributed}}]
@@ -115,6 +123,18 @@
 
 			</div>
 
+			{{{navigation_buttons schema 'costs'}}}
+
+		</div>
+	</section>
+
+	<section id="basic">
+		<div class="container">
+			{{#each schema.basic}}
+				{{>input this}}
+			{{/each}}
+
+			{{{navigation_buttons schema 'basic'}}}
 		</div>
 	</section>
 
