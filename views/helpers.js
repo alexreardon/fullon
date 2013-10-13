@@ -46,12 +46,19 @@ exports.math = function (lvalue, operator, rvalue, options) {
 	}
 };
 
-exports.ifEq = function (v1, v2, options) {
+exports.if_equal = function (v1, v2, options) {
 	if (v1 === v2) {
 		return options.fn(this);
 	}
 	return options.inverse(this);
 };
+
+exports.if_not_equal = function(v1, v2, options){
+	if (v1 !== v2) {
+		return options.fn(this);
+	}
+	return options.inverse(this);
+}
 
 exports.print_array = function (array) {
 	var result = '';
@@ -142,15 +149,17 @@ exports.get_discount = function (options) {
 };
 
 exports.navigation_buttons = function (schema, current_section) {
-	var keys = Object.keys(schema);
-	var current_index = keys.indexOf(current_section);
-
-	var data = {
-		back: current_index > 0 ? keys[current_index - 1] : false,
-		next: current_index < (keys.length - 1) ? keys[current_index + 1] : false
-	};
-
-	return templates.navigation_buttons(data);
+//	console.log('NAV BUTTONS', arguments);
+//
+//	var keys = Object.keys(schema);
+//	var current_index = keys.indexOf(current_section);
+//
+//	var data = {
+//		back: current_index > 0 ? keys[current_index - 1] : false,
+//		next: current_index < (keys.length - 1) ? keys[current_index + 1] : false
+//	};
+//
+//	return templates.navigation_buttons(data);
 
 };
 

@@ -28,6 +28,7 @@ fullon.views.register.allegiance = Backbone.View.extend({
 		// TODO: 1. warn user if changing type and answers have been filled in
 
 		var self = this;
+		fullon.state.camper_type = camper_type;
 
 		// 1. update form
 		console.log('selecting camper type: ', fullon.state.camper_type);
@@ -62,8 +63,6 @@ fullon.views.register.allegiance = Backbone.View.extend({
 			$(this).addClass(self.constants.flag.prefix +  fullon.state.camper_type);
 		});
 
-
-		fullon.state.camper_type = camper_type;
 		fullon.vent.trigger('camper_type:change');
 
 	}

@@ -2,7 +2,8 @@ var regex = {
 	email: /^\s*[\w\-\+_]+(\.[\w\-\+_]+)*\@[\w\-\+_]+\.[\w\-\+_]+(\.[\w\-\+_]+)*\s*$/,
 	number: /^\d+$/,
 	letters: /^[a-zA-Z]+[a-zA-Z\s]*$/,
-	date: /^[\d]{2}\/[\d]{2}\/[\d]{4}$/ // DD/MM/YYYY
+	date: /^[\d]{2}\/[\d]{2}\/[\d]{4}$/, // DD/MM/YYYY
+	money: /^[\d,]+?$/ // 111,000,00
 };
 
 var rules = {
@@ -46,7 +47,13 @@ var rules = {
 		fn: function(input) {
 			return regex.date.test(input);
 		},
-		text: 'date is expected the following format: DD/MM/YYYY'
+		text: 'date is expected the format: DD/MM/YYYY'
+	},
+	is_money: {
+		fn: function(input) {
+			return regex.money.test(input);
+		},
+		text: 'money is expected in the format: 10 or 10,000 or 10000 (no \'$\' or decimal points)'
 	}
 };
 

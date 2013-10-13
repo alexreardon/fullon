@@ -1,0 +1,10 @@
+<section id="{{name}}">
+	<div class="container">
+		<h1>{{text}}</h1>
+		{{#each fields}}
+			{{>input this}}
+		{{/each}}
+
+		{{>navigation_buttons}}
+	</div>
+</section>

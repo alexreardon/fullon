@@ -1,9 +1,17 @@
 #costs {
 	@font-size: 40px;
 
-	.discount_amount {
+	.amount_display {
 		font-size: @font-size;
-		color: @brand-success;
+
+		&.discount_amount {
+			color: @brand-success;
+		}
+
+		&.donation_amount {
+			color: @brand-primary;
+		}
+
 	}
 
 	.camp_fee, .camp_fee_total {

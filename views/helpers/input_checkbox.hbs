@@ -1,7 +1,8 @@
+{{! almost the same as radio}}
 {{#each options}}
-	<div class="radio">
+	<div class="checkbox">
 		<label>
-			<input type="radio" name="{{../name}}" value="{{this}}"
+			<input type="checkbox" name="{{../name}}" value="{{this}}"
 				{{#if ../hidden}} hidden="true"{{/if}}
 				{{#if_equal this ../_default}} checked="checked" {{/if_equal}}
 				{{#if ../disabled}} disabled="disabled" {{/if}}

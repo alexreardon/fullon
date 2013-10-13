@@ -5141,6 +5141,9 @@ footer img {
   padding-right: 2px;
   color: #d9534f;
 }
+#register_form .navigation {
+  text-align: center;
+}
 #allegiance {
   text-align: center;
 }
@@ -5166,9 +5169,14 @@ footer img {
   width: 110px;
   cursor: pointer;
 }
-#costs .discount_amount {
+#costs .amount_display {
   font-size: 40px;
+}
+#costs .amount_display.discount_amount {
   color: #5cb85c;
+}
+#costs .amount_display.donation_amount {
+  color: #428bca;
 }
 #costs .camp_fee,
 #costs .camp_fee_total {

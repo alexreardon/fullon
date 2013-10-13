@@ -18,6 +18,7 @@ module.exports = function (grunt) {
 			'public/js/pages/register/views/common.js',
 			'public/js/pages/register/views/allegiance.js',
 			'public/js/pages/register/views/costs.js',
+			'public/js/pages/register/views/payment.js',
 			'public/js/pages/register/routers/router.js',
 			'public/js/pages/register/init.js'
 		],
