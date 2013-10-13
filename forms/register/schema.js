@@ -7,6 +7,7 @@ var schema = {
 	allegiance: {
 		name: 'allegiance',
 		text: 'Allegiance',
+		short_title: 'type',
 		fields: {
 			camper_type: {
 				name: 'camper_type',
@@ -26,6 +27,7 @@ var schema = {
 	costs: {
 		name: 'costs',
 		text: 'Costs',
+		short_title: 'costs',
 		fields: {
 			donation: {
 				name: 'donation',
@@ -43,6 +45,7 @@ var schema = {
 	basic: {
 		name: 'basic',
 		text: 'Basic Information',
+		short_title: 'basic',
 		fields: {
 			first_name: {
 				text: 'first name',
@@ -110,12 +113,32 @@ var schema = {
 					min_length: 8
 				}
 			},
-			address: {
-				text: 'Address',
-				name: 'address',
-				type: 'address',
+			address_street: {
+				text: 'Street',
+				name: 'address_street',
+				type: 'text',
 				validation: {
 					required: true
+				}
+			},
+			address_city: {
+				text: 'City',
+				name: 'address_city',
+				type: 'text',
+				validation: {
+					required: true,
+					is_letters: true
+				}
+			},
+			address_postcode: {
+				text: 'Postcode',
+				name: 'address_postcode',
+				type: 'text',
+				validation: {
+					required: true,
+					is_numbers: true,
+					min_length: 4,
+					max_length: 4
 				}
 			},
 			email: {
@@ -134,6 +157,7 @@ var schema = {
 	medical_contacts: {
 		name: 'medical_contacts',
 		text: 'Medical Contacts',
+		short_title: 'contacts',
 		fields: {
 			medicare_number: {
 				text: 'Medicare number',
@@ -198,6 +222,7 @@ var schema = {
 	medical_info: {
 		name: 'medical_info',
 		text: 'Personal Medical Information',
+		short_title: 'medical',
 		fields: {
 			tetanus_date: {
 				name: 'tetanus_date',
@@ -296,6 +321,7 @@ var schema = {
 	activities: {
 		name: 'activities',
 		text: 'Activities',
+		short_title: 'activities',
 		info: 'TEST 123 ',
 		fields: {
 			activity_restrictions: {
@@ -335,6 +361,7 @@ var schema = {
 	payment: {
 		name: 'payment',
 		text: 'Payment',
+		short_title: 'payment',
 		fields: {
 			is_payer_registering: {
 				name: 'is_payer_registering',

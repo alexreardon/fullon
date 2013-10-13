@@ -5118,17 +5118,28 @@ footer img {
 #register_nav .camper_type_label {
   margin-left: 66.83006535947712px;
   font-size: 30px;
+  margin-top: 0;
   margin-bottom: 0;
-}
-#register_nav nav a {
-  background-color: #e6e6e6;
   line-height: 56px;
-  display: block;
-  text-align: center;
+}
+#register_nav .nav li.done a {
+  color: #5cb85c;
+}
+#register_nav .nav li.pending a {
+  color: orange;
+}
+#register_nav .nav li.partially_completed a {
+  color: pink;
+}
+#register_nav .nav li a {
+  padding: 0 5px;
 }
 .camp_fee,
 .camp_fee_total {
   font-size: 50px;
+}
+#register_form section {
+  display: none;
 }
 #register_form .navigation .btn {
   margin-left: 10px;
@@ -5151,28 +5162,29 @@ footer img {
 #register_form .navigation .navigation_cant_continue {
   color: #d9534f;
 }
-#allegiance {
+#register_form #allegiance {
+  display: block;
   text-align: center;
 }
-#allegiance h3 {
+#register_form #allegiance h3 {
   margin: 0;
   font-size: 42px;
 }
-#allegiance h2 {
+#register_form #allegiance h2 {
   margin-top: -12px;
   font-size: 62px;
 }
-#allegiance .flag {
+#register_form #allegiance .flag {
   height: 280px;
 }
-#allegiance .flag h4 {
+#register_form #allegiance .flag h4 {
   font-size: 30px;
 }
-#allegiance .flag img {
+#register_form #allegiance .flag img {
   width: 99px;
 }
-#allegiance .flag img:hover,
-#allegiance .flag img:active {
+#register_form #allegiance .flag img:hover,
+#register_form #allegiance .flag img:active {
   width: 110px;
   cursor: pointer;
 }

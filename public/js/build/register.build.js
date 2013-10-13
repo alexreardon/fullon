@@ -4,22 +4,9 @@ fullon.views.register.common = Backbone.View.extend({
 
 		this.$inputs = $('input');
 		this.$camper_type_radio = $('input[name=camper_type]');
-		this.$next_buttons = $('.navigation button[data-action=next]');
-		this.$form = $('form');
+		this.$next_buttons = $('.navigation .btn[data-action=next]');
 
 		var self = this;
-
-		// block manual submission
-		this.$form.on('submit', function (event) {
-			event.preventDefault();
-			event.stopPropagation();
-			console.log('attempting to submit form');
-		});
-
-		// warn before refresh
-		window.onbeforeunload = function() {
-			return 'Data will be lost if you leave/refresh the page';
-		};
 
 		// bind to validation events
 		this.listenTo(fullon.vent, 'input:validate', function ($el) {
@@ -29,6 +16,11 @@ fullon.views.register.common = Backbone.View.extend({
 			// if there is a field that has not been filled out, then clicking the next button
 			// will cause a validation error (good)
 			self.check_if_button_can_be_re_enabled($el.closest('section'));
+		});
+
+		this.listenTo(fullon.vent, 'input:validate_section', function($section, cb){
+			var success = this.validation_section($section);
+			cb(success);
 		});
 
 		// input change events
@@ -61,8 +53,13 @@ fullon.views.register.common = Backbone.View.extend({
 		this.$next_buttons.on('click', function (event) {
 			event.preventDefault();
 			event.stopPropagation();
+			var $section = $(this).closest('section');
 
-			self.validation_section($(this).closest('section'));
+			var success = self.validation_section($section);
+
+			if (success) {
+				fullon.vent.trigger('navigate:next', $section);
+			}
 		});
 
 		// form containers (groups)
@@ -119,7 +116,7 @@ fullon.views.register.common = Backbone.View.extend({
 		});
 
 		this.enable_navigation_buttons($section, success);
-
+		return success;
 	},
 
 	validate_item: function ($form_group) {
@@ -184,14 +181,14 @@ fullon.views.register.common = Backbone.View.extend({
 
 		if (enable) {
 			// update button
-			$navigation.find('button[data-action=next]')
+			$navigation.find('.btn[data-action=next]')
 				.attr('disabled', false)
 				.removeClass('btn-danger');
 
 			$navigation.find('.navigation_cant_continue').addClass('hide');
 		} else {
 			//update button
-			$navigation.find('button[data-action=next]')
+			$navigation.find('.btn[data-action=next]')
 				.attr('disabled', true)
 				.addClass('btn-danger');
 
@@ -209,6 +206,8 @@ fullon.views.register.allegiance = Backbone.View.extend({
 		this.$camper_types = $('input:radio[name=camper_type]');
 		this.$camper_type_labels = $('.camper_type_label');
 		this.$camper_type_flags = $('.camper_type_flag');
+		this.$navigation_button_container = $('#allegiance_navigation_container', '#allegiance');
+		this.$camper_type_row = $('#camper_type_row', '#allegiance');
 
 		// attach events
 		var self = this;
@@ -216,6 +215,9 @@ fullon.views.register.allegiance = Backbone.View.extend({
 			event.stopPropagation();
 			self.allegiance_toggle($(this).attr('id'));
 		});
+
+		// turn on flags: we are now ready
+		this.$camper_type_row.removeClass('invisible');
 	},
 
 	constants: {
@@ -267,6 +269,9 @@ fullon.views.register.allegiance = Backbone.View.extend({
 		this.$camper_type_flags.each(function () {
 			$(this).addClass(self.constants.flag.prefix +  fullon.state.camper_type);
 		});
+
+		// 4. enable prev/next buttons
+		this.$navigation_button_container.removeClass('invisible');
 
 		fullon.vent.trigger('camper_type:change');
 
@@ -511,12 +516,10 @@ fullon.views.register.payment = Backbone.View.extend({
 });
 
 
-fullon.routers.register = Backbone.Router.extend({
+// although this is a 'router' it is not using the backbone routing functionality.
+// this is because navigation is tightly coupled validation
 
-	routes: {
-		'register': 'loadSection',
-		'register/:name': 'loadSection'
-	},
+fullon.routers.register = Backbone.Router.extend({
 
 	initialize: function () {
 		this.common = new fullon.views.register.common();
@@ -525,24 +528,150 @@ fullon.routers.register = Backbone.Router.extend({
 		this.basic = new fullon.views.register.basic();
 		this.payment = new fullon.views.register.payment();
 
+		this.$form = $('form');
 		this.$sections = $('section');
 
-		this.$navButtons = $('.navButton');
+		// nav buttons
+		this.$nav_buttons = $('#register_nav .nav li');
+		this.$back_buttons = $('.navigation .btn[data-action=back]');
+
+		// warn before refresh
+		var bypass_refresh_check = false;
+		window.onbeforeunload = function () {
+			if (!bypass_refresh_check) {
+				bypass_refresh_check = false;
+				return 'Data will be lost if you leave/refresh the page';
+			}
+
+		};
+
+		// Attached to events
+
+		var self = this;
+
+		// block manual form submission
+		this.$form.on('submit', function (event) {
+			console.log('attempting to submit form');
+			bypass_refresh_check = true;
+		});
+
+		this.$back_buttons.on('click', function (event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			var $section = $(this).closest('section');
+			self.on_navigate_previous($section);
+		});
+
+		this.$nav_buttons.find('a').on('click', function (event) {
+			event.preventDefault();
+			event.stopPropagation();
+
+			self.on_nav_button_click($(this).closest('li'));
+		});
+
+		// listen to events
+		this.listenTo(fullon.vent, 'navigate:next', this.on_navigate_next);
+		this.listenTo(fullon.vent, 'camper_type:change', this.on_camper_type_change);
+
 	},
 
-	loadSection: function (name) {
+	navigate_ui: function ($current, $next, forward) {
 
-		console.log('attempting to go to :' + name);
+		// remove active class
+		var $current_tab = this.$nav_buttons.find('a[data-section=' + $current.attr('id') + ']').closest('li');
+		$current_tab.removeClass('active');
 
-		if (!name) {
-			return this.navigate('register/allegiance', {trigger: true, replace: true});
+		if (forward) {
+			$current_tab.removeClass('partially_completed').addClass('done');
+		} else {
+			$current_tab.addClass('partially_completed');
 		}
 
-//		this.$sections.addClass('hide');
-//
-//		this.$sections.filter(function () {
-//			return ($(this).attr('id') === name);
-//		}).removeClass('hide').addClass('show');
+		var $next_tab = this.$nav_buttons.find('a[data-section=' + $next.attr('id') + ']').closest('li');
+		$next_tab.removeClass('pending done').addClass('active');
+
+		$current.hide();
+		$next.show();
+	},
+
+	on_navigate_previous: function ($section) {
+
+		var $prev = $section.prev();
+		if ($prev.length) {
+			this.navigate_ui($section, $prev, false);
+		}
+	},
+
+	on_navigate_next: function ($section) {
+		// at this stage we can we sure that we can navigate to the next section
+
+		var $next = $section.next();
+		if ($next.length) {
+			return this.navigate_ui($section, $next, true);
+		}
+
+		// on the last section - we can submit
+		this.$form.submit();
+
+	},
+
+	on_nav_button_click: function ($li) {
+		if ($li.hasClass('pending')) {
+			return;
+		}
+
+		// get current section
+		var $current_section = this.$sections.filter(':visible');
+
+		// get target section
+		var target_id = $li.find('a').attr('data-section');
+
+		// clicked the link of the current section
+		// don't need to do anything
+		if (target_id === $current_section.attr('id')) {
+			return;
+		}
+
+		var $target_section = this.$sections.filter(function () {
+			return ($(this).attr('id') === target_id);
+		});
+
+		// get direction of navigation
+		var forward = (this.$sections.index($current_section) < this.$sections.index($target_section));
+
+		// if going forward - need to validate current page
+		fullon.vent.trigger('input:validate_section', $current_section, function (success) {
+			if (!forward) {
+				return this.navigate_ui($current_section, $target_section, false);
+			}
+
+			if (success) {
+				$li.removeClass('partially_complete');
+				this.navigate_ui($current_section, $target_section, true);
+			} else {
+				window.alert('cannot continue forward until this section is valid');
+			}
+		}.bind(this));
+
+	},
+
+	on_camper_type_change: function () {
+		// invalidate all nav icons (they can't be valid any more! the questions have changed!)
+		// could do a warning here
+
+		// this will now force the user to use the next buttons
+
+		var first = true;
+		this.$nav_buttons.each(function () {
+			if (first) {
+				first = false;
+				return;
+			}
+
+			$(this).removeClass('partially_completed done').addClass('pending');
+
+		});
 	}
 
 });
@@ -552,10 +681,6 @@ fullon.routers.register = Backbone.Router.extend({
 (function(){
 	function init () {
 		var router = new fullon.routers.register();
-
-		Backbone.history.start({
-			pushState: true
-		});
 	}
 
 	init();

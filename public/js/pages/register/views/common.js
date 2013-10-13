@@ -4,22 +4,9 @@ fullon.views.register.common = Backbone.View.extend({
 
 		this.$inputs = $('input');
 		this.$camper_type_radio = $('input[name=camper_type]');
-		this.$next_buttons = $('.navigation button[data-action=next]');
-		this.$form = $('form');
+		this.$next_buttons = $('.navigation .btn[data-action=next]');
 
 		var self = this;
-
-		// block manual submission
-		this.$form.on('submit', function (event) {
-			event.preventDefault();
-			event.stopPropagation();
-			console.log('attempting to submit form');
-		});
-
-		// warn before refresh
-		window.onbeforeunload = function() {
-			return 'Data will be lost if you leave/refresh the page';
-		};
 
 		// bind to validation events
 		this.listenTo(fullon.vent, 'input:validate', function ($el) {
@@ -29,6 +16,11 @@ fullon.views.register.common = Backbone.View.extend({
 			// if there is a field that has not been filled out, then clicking the next button
 			// will cause a validation error (good)
 			self.check_if_button_can_be_re_enabled($el.closest('section'));
+		});
+
+		this.listenTo(fullon.vent, 'input:validate_section', function($section, cb){
+			var success = this.validation_section($section);
+			cb(success);
 		});
 
 		// input change events
@@ -61,8 +53,13 @@ fullon.views.register.common = Backbone.View.extend({
 		this.$next_buttons.on('click', function (event) {
 			event.preventDefault();
 			event.stopPropagation();
+			var $section = $(this).closest('section');
 
-			self.validation_section($(this).closest('section'));
+			var success = self.validation_section($section);
+
+			if (success) {
+				fullon.vent.trigger('navigate:next', $section);
+			}
 		});
 
 		// form containers (groups)
@@ -119,7 +116,7 @@ fullon.views.register.common = Backbone.View.extend({
 		});
 
 		this.enable_navigation_buttons($section, success);
-
+		return success;
 	},
 
 	validate_item: function ($form_group) {
@@ -184,14 +181,14 @@ fullon.views.register.common = Backbone.View.extend({
 
 		if (enable) {
 			// update button
-			$navigation.find('button[data-action=next]')
+			$navigation.find('.btn[data-action=next]')
 				.attr('disabled', false)
 				.removeClass('btn-danger');
 
 			$navigation.find('.navigation_cant_continue').addClass('hide');
 		} else {
 			//update button
-			$navigation.find('button[data-action=next]')
+			$navigation.find('.btn[data-action=next]')
 				.attr('disabled', true)
 				.addClass('btn-danger');
 

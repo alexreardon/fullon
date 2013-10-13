@@ -4,6 +4,8 @@ fullon.views.register.allegiance = Backbone.View.extend({
 		this.$camper_types = $('input:radio[name=camper_type]');
 		this.$camper_type_labels = $('.camper_type_label');
 		this.$camper_type_flags = $('.camper_type_flag');
+		this.$navigation_button_container = $('#allegiance_navigation_container', '#allegiance');
+		this.$camper_type_row = $('#camper_type_row', '#allegiance');
 
 		// attach events
 		var self = this;
@@ -11,6 +13,9 @@ fullon.views.register.allegiance = Backbone.View.extend({
 			event.stopPropagation();
 			self.allegiance_toggle($(this).attr('id'));
 		});
+
+		// turn on flags: we are now ready
+		this.$camper_type_row.removeClass('invisible');
 	},
 
 	constants: {
@@ -62,6 +67,9 @@ fullon.views.register.allegiance = Backbone.View.extend({
 		this.$camper_type_flags.each(function () {
 			$(this).addClass(self.constants.flag.prefix +  fullon.state.camper_type);
 		});
+
+		// 4. enable prev/next buttons
+		this.$navigation_button_container.removeClass('invisible');
 
 		fullon.vent.trigger('camper_type:change');
 

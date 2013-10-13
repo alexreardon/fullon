@@ -7,203 +7,237 @@
 				<h6 class="camper_type_label">Begin</h6>
 			</div>
 
-			<nav>
-				{{#each schema}}
-					<div class="col-md-2">
-						<a href="/register/{{name}}">{{text}}</a>
-					</div>
-				{{/each}}
-			</nav>
+
+			<div class="col-md-10">
+				<ul class="nav nav-pills nav-justified">
+					{{#each_with_index schema}}
+						<li class="{{#if_equal index 0}}active{{else}}pending{{/if_equal}}">
+							<a href="#" data-section="{{name}}">{{math index '+' 1}}. {{short_title}}</a>
+						</li>
+					{{/each_with_index}}
+
+				</ul>
+			</div>
+
 		</div>
 	</div>
 </div>
 
 <form method="post" id="register_form">
 
-	<section id="allegiance">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-6 col-sm-offset-3">
+<section id="allegiance">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 col-sm-offset-3">
 
-					<h3>Choose Your</h3>
+				<h3>Choose Your</h3>
 
-					<h2>Allegiance</h2>
+				<h2>Allegiance</h2>
 
-					<div class="row">
-						{{#each config.camper_types}}
-							<div class="col-sm-4">
-								<div class="flag">
-									<img id="{{@key}}" src="{{flag_url}}" />
-									<h4>{{@key}}</h4>
+				{{! flags are invisible until javascript is ready }}
+				<div class="row invisible" id="camper_type_row">
+					{{#each config.camper_types}}
+						<div class="col-sm-4">
+							<div class="flag">
+								<img id="{{@key}}" src="{{flag_url}}" />
+								<h4>{{@key}}</h4>
 
-									<p>{{description}}</p>
-								</div>
+								<p>{{description}}</p>
 							</div>
-						{{/each}}
-					</div>
-
-					{{>input schema.allegiance.fields.camper_type}}
-
-					{{>navigation_buttons}}
-
+						</div>
+					{{/each}}
 				</div>
 
+				{{>input schema.allegiance.fields.camper_type}}
+
+				<div id="allegiance_navigation_container" class="invisible">
+					{{{navigation_buttons}}}
+				</div>
+
+
+			</div>
+
+		</div>
+	</div>
+</section>
+
+<section id="{{schema.costs.name}}">
+	<div class="container">
+		<h1>{{schema.costs.text}}</h1>
+
+
+		<div class="row">
+			<div class="col-xs-8">
+				<h2>Fees</h2>
+
+				<p>You are a <strong class="camper_type_label">unknown</strong>.</p>
+			</div>
+			<div class="col-xs-4">
+				<h2>Cost</h2>
+				<h5 class="camp_fee">$unknown</h5>
 			</div>
 		</div>
-	</section>
-
-	<section id="{{schema.costs.name}}">
-		<div class="container">
-			<h1>{{schema.costs.text}}</h1>
 
 
-			<div class="row">
-				<div class="col-xs-8">
-					<h2>Fees</h2>
-
-					<p>You are a <strong class="camper_type_label">unknown</strong>.</p>
-				</div>
-				<div class="col-xs-4">
-					<h2>Cost</h2>
-					<h5 class="camp_fee">$unknown</h5>
-				</div>
+		<div class="row">
+			<div class="col-xs-8">
+				<h2>Discounts</h2>
 			</div>
-
-
-			<div class="row">
-				<div class="col-xs-8">
-					<h2>Discounts</h2>
-				</div>
-				<div class="col-xs-4">
-					<h2>Deductions</h2>
-				</div>
+			<div class="col-xs-4">
+				<h2>Deductions</h2>
 			</div>
+		</div>
 
-			<!-- Cost radio buttons -->
-			{{#each schema.costs.fields}}
-				{{#if_not_equal this ../schema.costs.fields.donation}}
-					<div class="row discount_row">
-						<div class="col-xs-8">
-							{{>input ../this}}
-							<!-- chocolate dropdown-->
-							{{#if_equal this ../../schema.costs.fields.discount_chocolate}}
-								<div class="form-group hide">
-									<select name="{{../../name}}" id="discount_chocolate_dropdown" class="form-control">
-										{{#each ../../../people}}
-											<option value="{{data.attributed}}"
-													data-first-name="{{data.firstname}}"
-													data-last-name="{{data.lastname}}">{{data.firstname}} {{data.lastname}}
-												[{{data.attributed}}]
-											</option>
-										{{/each}}
-									</select>
+		<!-- Cost radio buttons -->
+		{{#each schema.costs.fields}}
+			{{#if_not_equal this ../schema.costs.fields.donation}}
+				<div class="row discount_row">
+					<div class="col-xs-8">
+						{{>input ../this}}
+						<!-- chocolate dropdown-->
+						{{#if_equal this ../../schema.costs.fields.discount_chocolate}}
+							<div class="form-group hide">
+								<select name="{{../../name}}" id="discount_chocolate_dropdown" class="form-control">
+									{{#each ../../../people}}
+										<option value="{{data.attributed}}"
+												data-first-name="{{data.firstname}}"
+												data-last-name="{{data.lastname}}">{{data.firstname}} {{data.lastname}}
+											[{{data.attributed}}]
+										</option>
+									{{/each}}
+								</select>
 									<span class="help-block">If you think the chocolate information is incorrect please <a
 											target="_blank" href="/#contact">contact us</a></span>
-								</div>
-							{{/if_equal}}
-						</div>
-						<div class="col-xs-4">
-							{{#if_equal ../_default 'yes'}}
-								<h6 class="discount_amount amount_display"
-									data-current-value="{{get_discount ../../this}}">
-									${{get_discount ../../this}}
-								</h6>
-							{{else}}
-								<h6 class="discount_amount amount_display" data-current-value="0">
-									$0
-								</h6>
-							{{/if_equal}}
-						</div>
+							</div>
+						{{/if_equal}}
 					</div>
-				{{/if_not_equal}}
-			{{/each}}
+					<div class="col-xs-4">
+						{{#if_equal ../_default 'yes'}}
+							<h6 class="discount_amount amount_display"
+								data-current-value="{{get_discount ../../this}}">
+								${{get_discount ../../this}}
+							</h6>
+						{{else}}
+							<h6 class="discount_amount amount_display" data-current-value="0">
+								$0
+							</h6>
+						{{/if_equal}}
+					</div>
+				</div>
+			{{/if_not_equal}}
+		{{/each}}
 
-			<!-- donation -->
-			<div class="row">
-				<div class="col-xs-8">
-					<h2>Donation</h2>
-					{{>input schema.costs.fields.donation}}
-				</div>
-				<div class="col-xs-4">
-					<h2>Amount</h2>
-					<h6 class="amount_display donation_amount"
-						data-current-value="{{schema.costs.fields.donation._default}}">
-						${{schema.costs.fields.donation._default}}
-					</h6>
-				</div>
+		<!-- donation -->
+		<div class="row">
+			<div class="col-xs-8">
+				<h2>Donation</h2>
+				{{>input schema.costs.fields.donation}}
 			</div>
-
-			<!--totals-->
-			<div class="row total_row">
-				<div class="col-xs-8">
-				</div>
-				<div class="col-xs-4">
-					<h2>Total</h2>
-					<h5 class="camp_fee_total">$total</h5>
-				</div>
-
+			<div class="col-xs-4">
+				<h2>Amount</h2>
+				<h6 class="amount_display donation_amount"
+					data-current-value="{{schema.costs.fields.donation._default}}">
+					${{schema.costs.fields.donation._default}}
+				</h6>
 			</div>
+		</div>
 
-			{{>navigation_buttons}}
+		<!--totals-->
+		<div class="row total_row">
+			<div class="col-xs-8">
+			</div>
+			<div class="col-xs-4">
+				<h2>Total</h2>
+				<h5 class="camp_fee_total">$total</h5>
+			</div>
 
 		</div>
-	</section>
 
+		{{{navigation_buttons}}}
+
+	</div>
+</section>
+
+	{{! basic section }}
+<section id="{{schema.basic.name}}">
+	<div class="container">
+		<h1>{{schema.basic.text}}</h1>
+
+		{{>input schema.basic.fields.first_name}}
+		{{>input schema.basic.fields.last_name}}
+		{{>input schema.basic.fields.email}}
+		{{>input schema.basic.fields.gender}}
+		{{>input schema.basic.fields.date_of_birth}}
+		{{>input schema.basic.fields.school_year}}
+		{{>input schema.basic.fields.contact_number}}
+
+		<p><strong>Postal address</strong></p>
+		{{>input schema.basic.fields.address_street}}
+		<div class="row">
+			<div class="col-xs-8">
+				{{>input schema.basic.fields.address_city}}
+			</div>
+			<div class="col-xs-4">
+				{{>input schema.basic.fields.address_postcode}}
+			</div>
+		</div>
+
+		{{{navigation_buttons}}}
+
+	</div>
+</section>
 	{{! generic sections }}
-	{{>form_section schema.basic}}
 	{{>form_section schema.medical_contacts}}
 	{{>form_section schema.medical_info}}
 	{{>form_section schema.activities}}
 
 	{{! payment section }}
-	<section id="{{schema.payment.name}}">
-		<div class="container">
-			<h1>{{schema.payment.text}}</h1>
+<section id="{{schema.payment.name}}">
+	<div class="container">
+		<h1>{{schema.payment.text}}</h1>
 
-			{{>input schema.payment.fields.is_payer_registering}}
+		{{>input schema.payment.fields.is_payer_registering}}
 
-			{{>input schema.payment.fields.payer_first_name}}
-			{{>input schema.payment.fields.payer_last_name}}
-			{{>input schema.payment.fields.payer_email}}
+		{{>input schema.payment.fields.payer_first_name}}
+		{{>input schema.payment.fields.payer_last_name}}
+		{{>input schema.payment.fields.payer_email}}
 
-			<div class="indemnity_statement">
-				<p><strong>Indemnity Statement</strong></p>
+		<div class="indemnity_statement">
+			<p><strong>Indemnity Statement</strong></p>
 
-				<p>PARENT OR LEGAL GUARDIAN PLEASE READ,</p>
+			<p>PARENT OR LEGAL GUARDIAN PLEASE READ,</p>
 
-				<p> My signature below (or agreement via web form) indicates my willingness to permit the applicant
-					camper to participate fully in all activities associated with the camp FULL ON run by St Philip’s
-					Eastwood Anglican Church (1st Jan – 6th Jan 2014), with the exception of those activities named on
-					the registration form.</p>
+			<p> My signature below (or agreement via web form) indicates my willingness to permit the applicant
+				camper to participate fully in all activities associated with the camp FULL ON run by St Philip’s
+				Eastwood Anglican Church (1st Jan – 6th Jan 2014), with the exception of those activities named on
+				the registration form.</p>
 
-				<p> While every precaution shall be taken to ensure the good welfare and protection of the applicant
-					camper, the Anglican Diocese of Sydney, its council, staff members, employees, or any other person
-					acting on their behalf are hereby released from any and all liability in the event of any accident
-					or misfortune that may occur to the applicant camper or damage or loss to their personal property.
-				</p>
+			<p> While every precaution shall be taken to ensure the good welfare and protection of the applicant
+				camper, the Anglican Diocese of Sydney, its council, staff members, employees, or any other person
+				acting on their behalf are hereby released from any and all liability in the event of any accident
+				or misfortune that may occur to the applicant camper or damage or loss to their personal property.
+			</p>
 
-				<p> In the case of a medical emergency, I hereby give permission to the doctor chosen by the Camp
-					Director to secure proper treatment for and/or any hospitalisation, injection, anaesthetic, or
-					surgery for the applicant camper as named. I understand that every effort will be made to contact me
-					prior to instituting such procedures.</p>
+			<p> In the case of a medical emergency, I hereby give permission to the doctor chosen by the Camp
+				Director to secure proper treatment for and/or any hospitalisation, injection, anaesthetic, or
+				surgery for the applicant camper as named. I understand that every effort will be made to contact me
+				prior to instituting such procedures.</p>
 
-				<p> I agree to the applicant camper being filmed, photographed or recorded by the event organisers and
-					acknowledge that I have no claim over any future use of such material used for promotional
-					purposes.</p>
-			</div>
-
-			{{>input schema.payment.fields.accept_indemnity}}
-
-			<p><strong>Total cost</strong></p>
-			<h5 class="camp_fee_total">$total</h5>
-
-			{{>input schema.payment.fields.payment_method}}
-
-
-
-			<button>SIGN UP DIZZLE</button>
+			<p> I agree to the applicant camper being filmed, photographed or recorded by the event organisers and
+				acknowledge that I have no claim over any future use of such material used for promotional
+				purposes.</p>
 		</div>
-	</section>
+
+		{{>input schema.payment.fields.accept_indemnity}}
+
+		<p><strong>Total cost</strong></p>
+		<h5 class="camp_fee_total">$total</h5>
+
+		{{>input schema.payment.fields.payment_method}}
+
+		{{{submit_buttons}}}
+	</div>
+</section>
 
 </form>
 

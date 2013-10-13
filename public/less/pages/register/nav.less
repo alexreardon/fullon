@@ -40,30 +40,41 @@
 	.camper_type_label {
 		margin-left: (@banner_width + 5px);
 		font-size: 30px;
+		margin-top: 0;
 		margin-bottom: 0;
+		line-height: @height;
 	}
 
-	nav {
-		a {
-			background-color: darken(@fo-color-background-light, 10%);
-			line-height: @height;
-			display: block;
-			text-align: center;
+	.nav {
+		li {
+			&.done {
+				a {
+					color: @brand-success;
+				}
 
-			//			&:after {
-			//							background-image: url('/public/images/arrow.png');
-			//							background-repeat: no-repeat;
-			//							background-size: contain;
-			//							background-position: right top;
-			//				content: '';
-			//				position: absolute;
-			//				height: @height;
-			//				right: 0;
-			//				margin-right: (@grid-gutter-width / 2);
-			//				width: 10px;
-			//				background-color: blue;
-			//			}
+			}
+
+			&.pending {
+
+				a {
+					color: orange;
+				}
+			}
+
+			&.partially_completed {
+
+				a {
+					color: pink;
+				}
+			}
+
+			a {
+				padding: 0 5px;
+			}
 		}
 
+
 	}
+
+
 }

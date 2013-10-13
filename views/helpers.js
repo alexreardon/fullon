@@ -53,12 +53,28 @@ exports.if_equal = function (v1, v2, options) {
 	return options.inverse(this);
 };
 
-exports.if_not_equal = function(v1, v2, options){
+exports.if_not_equal = function (v1, v2, options) {
 	if (v1 !== v2) {
 		return options.fn(this);
 	}
 	return options.inverse(this);
-}
+};
+
+// https://gist.github.com/burin/1048968
+exports.each_with_index = function (list, options) {
+	var result = '';
+	var i = 0;
+
+	_.each(list, function (item) {
+		item.index = i;
+		result += options.fn(item);
+		i++;
+	});
+
+	// return the finished buffer
+	return result;
+
+};
 
 exports.print_array = function (array) {
 	var result = '';
@@ -127,8 +143,8 @@ exports.print_validation_rules = function (rules) {
 exports.get_validation_messages = function (rules) {
 	var result = '<ul>';
 
-	_.each(rules, function(value, key){
-		if(!validation[key]){
+	_.each(rules, function (value, key) {
+		if (!validation[key]) {
 			console.warn('invalid validation requested', value, key);
 			return;
 		}
@@ -148,19 +164,16 @@ exports.get_discount = function (options) {
 	return config.application.discounts[this.name].amount;
 };
 
-exports.navigation_buttons = function (schema, current_section) {
-//	console.log('NAV BUTTONS', arguments);
-//
-//	var keys = Object.keys(schema);
-//	var current_index = keys.indexOf(current_section);
-//
-//	var data = {
-//		back: current_index > 0 ? keys[current_index - 1] : false,
-//		next: current_index < (keys.length - 1) ? keys[current_index + 1] : false
-//	};
-//
-//	return templates.navigation_buttons(data);
+exports.submit_buttons = function () {
+	return templates.navigation_buttons({
+		submit: true
+	});
+};
 
+exports.navigation_buttons = function () {
+	return templates.navigation_buttons({
+		submit: false
+	});
 };
 
 exports._print_field = function (field, data_value) {
