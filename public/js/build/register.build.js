@@ -123,7 +123,7 @@ fullon.views.register.common = Backbone.View.extend({
 	},
 
 	validate_item: function ($form_group) {
-		var $inputs = $form_group.find('input, textarea'),
+		var $inputs = $form_group.find('input, textarea, select'),
 			val;
 
 		// if checkbox/radio then get the value of the checked option
@@ -300,7 +300,7 @@ fullon.views.register.costs = Backbone.View.extend({
 		this.$dropdown_toggle = $(this.selectors.radio_discount, this.selectors.section);
 		this.$dropdown = $(this.selectors.dropdown, this.selectors.section);
 		this.$camp_fee = $(this.selectors.camp_fee, this.selectors.section);
-		this.$camp_fee_total = $(this.selectors.camp_fee_total, this.selectors.section);
+		this.$camp_fee_total = $(this.selectors.camp_fee_total); // will also update total on payment page
 		this.$discount_displays = $(this.selectors.discount_display, this.selectors.section);
 		// attach events
 		var self = this;
@@ -344,7 +344,7 @@ fullon.views.register.costs = Backbone.View.extend({
 
 	is_donation_input_valid: function () {
 		return ( !this.$donation_input.closest('.form-group[data-valid=false]').length &&
-					this.$donation_input.val() !== '');
+			this.$donation_input.val() !== '');
 	},
 
 	update_donantion_item: function () {
@@ -392,16 +392,14 @@ fullon.views.register.costs = Backbone.View.extend({
 			fee -= parseFloat($(this).attr(self.selectors.data.current_value));
 		});
 
-		if (this.is_donation_input_valid()){
+		if (this.is_donation_input_valid()) {
 			var donation = parseFloat(this.$donation_input.val());
 
-			if(_.isNumber(donation)){
+			if (_.isNumber(donation)) {
 				fee += donation;
 			}
 
 		}
-
-
 
 		// can't let fee be less than 0
 		fee = (fee < 0 ? 0 : fee);
@@ -414,33 +412,99 @@ fullon.views.register.costs = Backbone.View.extend({
 	use_dropdown: function (show) {
 		var val = (fullon.config.discounts[this.$dropdown.attr('name')].amount * parseFloat(this.$dropdown.val()));
 		this.set_row_amount(this.$dropdown, show ? val : 0);
+
+		if (show) {
+			var $selected = $(this.$dropdown.find(':selected'));
+			fullon.vent.trigger('chocolate_dropdown:change', {
+				first_name: $selected.attr('data-first-name'),
+				last_name: $selected.attr('data-last-name')
+			});
+		}
 	},
 
 	show_dropdown: function (show) {
 		this.$dropdown.closest('.form-group').removeClass(show ? 'hide' : 'show').addClass(show ? 'show' : 'hide');
+
+		if (!show) {
+			fullon.vent.trigger('chocolate_dropdown:remove');
+		}
 	}
 
+});
+
+
+fullon.views.register.basic = Backbone.View.extend({
+
+	initialize: function () {
+
+		this.$basic_fields = $('input[name=first_name], input[name=last_name], input[name=email]', '#basic');
+
+		this.$basic_fields.on('change', function () {
+			console.log('basic info updated - update auto complete fields');
+			fullon.vent.trigger('basic_info:update');
+		});
+
+		fullon.vent.on('chocolate_dropdown:change', this.on_chocolate_dropdown_change, this);
+		fullon.vent.on('chocolate_dropdown:remove', this.on_chocolate_dropdown_remove, this);
+
+	},
+
+	on_chocolate_dropdown_remove: function () {
+		console.log('basic: on_chocolate_dropdown_remove');
+		this.$basic_fields.filter('[name=first_name]').val('').attr('disabled', false);
+		this.$basic_fields.filter('[name=last_name]').val('').attr('disabled', false);
+	},
+
+	on_chocolate_dropdown_change: function (data) {
+		console.log('basic: on_chocolate_dropdown_change', data);
+		this.$basic_fields.filter('[name=first_name]').val(data.first_name).attr('disabled', true);
+		this.$basic_fields.filter('[name=last_name]').val(data.last_name).attr('disabled', true);
+
+		// let other views know that the basic info has updated
+		fullon.vent.trigger('basic_info:update');
+	}
 });
 
 
 fullon.views.register.payment = Backbone.View.extend({
 
 	initialize: function () {
-		this.$payer_radio = $('input[name=is_payer_registering]', '#payment');
+		this.$payer_radios = $('input[name=is_payer_registering]', '#payment');
+
+		// auto fill fields
+		this.$camper_first_name = $('input[name=first_name]', '#basic');
+		this.$camper_last_name = $('input[name=last_name]', '#basic');
+		this.$camper_email = $('input[name=email]', '#basic');
+
+		this.$payer_first_name = $('input[name=payer_first_name]', '#payment');
+		this.$payer_last_name = $('input[name=payer_last_name]', '#payment');
+		this.$payer_email = $('input[name=payer_email]', '#payment');
+
 
 		var self = this;
-		this.$payer_radio.on('change', function (event) {
+		this.$payer_radios.on('change', function (event) {
 			self.autofill_payer_details();
 		});
+
+		fullon.vent.on('basic_info:update', this.autofill_payer_details, this);
+	},
+
+	update_autofill_field: function($el, val, disabled){
+		$el.val(val).attr('disabled', disabled);
 	},
 
 	autofill_payer_details: function () {
 		console.log('auto fill details');
 
-		if (this.$payer_radio.val() === 'yes') {
-			// autofill fields
+		if (this.$payer_radios.filter(':checked').val() === 'yes') {
+			this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
+			this.update_autofill_field(this.$payer_last_name, this.$camper_last_name.val(), true);
+			this.update_autofill_field(this.$payer_email, this.$camper_email.val(), true);
 		} else {
-			// clean fields
+			// clear fields
+			this.update_autofill_field(this.$payer_first_name, '', false);
+			this.update_autofill_field(this.$payer_last_name, '', false);
+			this.update_autofill_field(this.$payer_email, '', false);
 		}
 
 	}
@@ -458,6 +522,7 @@ fullon.routers.register = Backbone.Router.extend({
 		this.common = new fullon.views.register.common();
 		this.allegiance = new fullon.views.register.allegiance();
 		this.costs = new fullon.views.register.costs();
+		this.basic = new fullon.views.register.basic();
 		this.payment = new fullon.views.register.payment();
 
 		this.$sections = $('section');

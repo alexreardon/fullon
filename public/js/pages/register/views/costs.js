@@ -23,7 +23,7 @@ fullon.views.register.costs = Backbone.View.extend({
 		this.$dropdown_toggle = $(this.selectors.radio_discount, this.selectors.section);
 		this.$dropdown = $(this.selectors.dropdown, this.selectors.section);
 		this.$camp_fee = $(this.selectors.camp_fee, this.selectors.section);
-		this.$camp_fee_total = $(this.selectors.camp_fee_total, this.selectors.section);
+		this.$camp_fee_total = $(this.selectors.camp_fee_total); // will also update total on payment page
 		this.$discount_displays = $(this.selectors.discount_display, this.selectors.section);
 		// attach events
 		var self = this;
@@ -67,7 +67,7 @@ fullon.views.register.costs = Backbone.View.extend({
 
 	is_donation_input_valid: function () {
 		return ( !this.$donation_input.closest('.form-group[data-valid=false]').length &&
-					this.$donation_input.val() !== '');
+			this.$donation_input.val() !== '');
 	},
 
 	update_donantion_item: function () {
@@ -115,16 +115,14 @@ fullon.views.register.costs = Backbone.View.extend({
 			fee -= parseFloat($(this).attr(self.selectors.data.current_value));
 		});
 
-		if (this.is_donation_input_valid()){
+		if (this.is_donation_input_valid()) {
 			var donation = parseFloat(this.$donation_input.val());
 
-			if(_.isNumber(donation)){
+			if (_.isNumber(donation)) {
 				fee += donation;
 			}
 
 		}
-
-
 
 		// can't let fee be less than 0
 		fee = (fee < 0 ? 0 : fee);
@@ -137,10 +135,22 @@ fullon.views.register.costs = Backbone.View.extend({
 	use_dropdown: function (show) {
 		var val = (fullon.config.discounts[this.$dropdown.attr('name')].amount * parseFloat(this.$dropdown.val()));
 		this.set_row_amount(this.$dropdown, show ? val : 0);
+
+		if (show) {
+			var $selected = $(this.$dropdown.find(':selected'));
+			fullon.vent.trigger('chocolate_dropdown:change', {
+				first_name: $selected.attr('data-first-name'),
+				last_name: $selected.attr('data-last-name')
+			});
+		}
 	},
 
 	show_dropdown: function (show) {
 		this.$dropdown.closest('.form-group').removeClass(show ? 'hide' : 'show').addClass(show ? 'show' : 'hide');
+
+		if (!show) {
+			fullon.vent.trigger('chocolate_dropdown:remove');
+		}
 	}
 
 });

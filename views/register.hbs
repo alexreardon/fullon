@@ -91,8 +91,8 @@
 									<select name="{{../../name}}" id="discount_chocolate_dropdown" class="form-control">
 										{{#each ../../../people}}
 											<option value="{{data.attributed}}"
-													data-firstname="{{data.firstname}}"
-													data-lastname="{{data.lastname}}">{{data.firstname}} {{data.lastname}}
+													data-first-name="{{data.firstname}}"
+													data-last-name="{{data.lastname}}">{{data.firstname}} {{data.lastname}}
 												[{{data.attributed}}]
 											</option>
 										{{/each}}
@@ -126,7 +126,8 @@
 				</div>
 				<div class="col-xs-4">
 					<h2>Amount</h2>
-					<h6 class="amount_display donation_amount" data-current-value="{{schema.costs.fields.donation._default}}">
+					<h6 class="amount_display donation_amount"
+						data-current-value="{{schema.costs.fields.donation._default}}">
 						${{schema.costs.fields.donation._default}}
 					</h6>
 				</div>
@@ -158,9 +159,47 @@
 	<section id="{{schema.payment.name}}">
 		<div class="container">
 			<h1>{{schema.payment.text}}</h1>
-			{{#each schema.payment.fields}}
-				{{>input this}}
-			{{/each}}
+
+			{{>input schema.payment.fields.is_payer_registering}}
+
+			{{>input schema.payment.fields.payer_first_name}}
+			{{>input schema.payment.fields.payer_last_name}}
+			{{>input schema.payment.fields.payer_email}}
+
+			<div class="indemnity_statement">
+				<p><strong>Indemnity Statement</strong></p>
+
+				<p>PARENT OR LEGAL GUARDIAN PLEASE READ,</p>
+
+				<p> My signature below (or agreement via web form) indicates my willingness to permit the applicant
+					camper to participate fully in all activities associated with the camp FULL ON run by St Philip’s
+					Eastwood Anglican Church (1st Jan – 6th Jan 2014), with the exception of those activities named on
+					the registration form.</p>
+
+				<p> While every precaution shall be taken to ensure the good welfare and protection of the applicant
+					camper, the Anglican Diocese of Sydney, its council, staff members, employees, or any other person
+					acting on their behalf are hereby released from any and all liability in the event of any accident
+					or misfortune that may occur to the applicant camper or damage or loss to their personal property.
+				</p>
+
+				<p> In the case of a medical emergency, I hereby give permission to the doctor chosen by the Camp
+					Director to secure proper treatment for and/or any hospitalisation, injection, anaesthetic, or
+					surgery for the applicant camper as named. I understand that every effort will be made to contact me
+					prior to instituting such procedures.</p>
+
+				<p> I agree to the applicant camper being filmed, photographed or recorded by the event organisers and
+					acknowledge that I have no claim over any future use of such material used for promotional
+					purposes.</p>
+			</div>
+
+			{{>input schema.payment.fields.accept_indemnity}}
+
+			<p><strong>Total cost</strong></p>
+			<h5 class="camp_fee_total">$total</h5>
+
+			{{>input schema.payment.fields.payment_method}}
+
+
 
 			<button>SIGN UP DIZZLE</button>
 		</div>

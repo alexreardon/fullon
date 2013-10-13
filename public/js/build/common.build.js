@@ -127,6 +127,12 @@ var rules = {
 			return regex.money.test(input);
 		},
 		text: 'money is expected in the format: 10 or 10,000 or 10000 (no \'$\' or decimal points)'
+	},
+	value: {
+		fn: function(input, value) {
+			return (input === value);
+		},
+		text: 'value must be \'{0}\''
 	}
 };
 

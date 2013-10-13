@@ -9,6 +9,7 @@ fullon.routers.register = Backbone.Router.extend({
 		this.common = new fullon.views.register.common();
 		this.allegiance = new fullon.views.register.allegiance();
 		this.costs = new fullon.views.register.costs();
+		this.basic = new fullon.views.register.basic();
 		this.payment = new fullon.views.register.payment();
 
 		this.$sections = $('section');

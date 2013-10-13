@@ -123,7 +123,7 @@ fullon.views.register.common = Backbone.View.extend({
 	},
 
 	validate_item: function ($form_group) {
-		var $inputs = $form_group.find('input, textarea'),
+		var $inputs = $form_group.find('input, textarea, select'),
 			val;
 
 		// if checkbox/radio then get the value of the checked option

@@ -55,7 +55,7 @@ var schema = {
 			},
 			last_name: {
 				text: 'last name',
-				name: 'first_name',
+				name: 'last_name',
 				type: 'text',
 				validation: {
 					required: true,
@@ -347,8 +347,8 @@ var schema = {
 					required: true
 				}
 			},
-			payer_firstname: {
-				name: 'payer_firstname',
+			payer_first_name: {
+				name: 'payer_first_name',
 				text: 'Payer\'s first name',
 				type: 'text',
 				validation: {
@@ -356,8 +356,8 @@ var schema = {
 					is_letters: true
 				}
 			},
-			payer_lastname: {
-				name: 'payer_lastname',
+			payer_last_name: {
+				name: 'payer_last_name',
 				text: 'Payer\'s last name',
 				type: 'text',
 				validation: {
@@ -381,7 +381,8 @@ var schema = {
 				options: ['yes', 'no'],
 				_default: 'no',
 				validation: {
-					required: true
+					required: true,
+					value: 'yes'
 				}
 			},
 			payment_method: {
@@ -389,7 +390,10 @@ var schema = {
 				text: 'Select your payment method',
 				info: 'For more information about these choices see our <a href="/#about" target="_blank">about page</a>',
 				type: 'radio',
-				options: ['Paypal', 'Bank desposit', 'Request assistance']
+				options: ['Paypal', 'Bank desposit', 'Request assistance'],
+				validation: {
+					required: true
+				}
 			}
 		}
 	}

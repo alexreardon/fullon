@@ -151,4 +151,34 @@ describe('Validation', function () {
 		});
 
 	});
+
+	describe('is_money', function () {
+		it('should accept money', function () {
+			var valid = [
+				'0',
+				'100',
+				'100,000,00'
+			];
+
+			expect(_.every(valid, function (item) {
+				return validation.is_money.fn(item);
+			})).to.be(true);
+		});
+
+		it('should reject other values', function () {
+			var invalid = [
+				'1/12/1987',
+				'-5',
+				'0.5',
+				'.5',
+				'1010.000.00',
+				'$3'
+			];
+
+			expect(_.every(invalid, function (item) {
+				return validation.is_money.fn(item);
+			})).to.be(false);
+		});
+
+	});
 });

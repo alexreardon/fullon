@@ -5126,6 +5126,10 @@ footer img {
   display: block;
   text-align: center;
 }
+.camp_fee,
+.camp_fee_total {
+  font-size: 50px;
+}
 #register_form .navigation .btn {
   margin-left: 10px;
   margin-right: 10px;
@@ -5143,6 +5147,9 @@ footer img {
 }
 #register_form .navigation {
   text-align: center;
+}
+#register_form .navigation .navigation_cant_continue {
+  color: #d9534f;
 }
 #allegiance {
   text-align: center;
@@ -5177,10 +5184,6 @@ footer img {
 }
 #costs .amount_display.donation_amount {
   color: #428bca;
-}
-#costs .camp_fee,
-#costs .camp_fee_total {
-  font-size: 50px;
 }
 #error_page {
   text-align: center;
