@@ -4783,6 +4783,7 @@ footer img {
   text-align: center;
 }
 .social .fb-like {
+  display: none;
   height: 25px;
   width: 100%;
   display: inline-block;
@@ -4791,6 +4792,9 @@ footer img {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+.social #fb-root {
+  display: none;
 }
 .social .social_links {
   margin-bottom: 6px;
@@ -4956,7 +4960,7 @@ footer img {
   padding-right: 10px;
 }
 @media (max-width: 992px) {
-  #leaderboard .fill {
+  #leaderboard h1 .fill {
     display: none;
   }
 }
@@ -5034,11 +5038,6 @@ footer img {
   color: #aa6f2d;
   padding-left: 10px;
   padding-right: 10px;
-}
-@media (max-width: 992px) {
-  #leaderboard #stats .stat {
-    display: none;
-  }
 }
 #leaderboard #stats .stat.cursive .stat_total {
   font-family: 'Pacifico', cursive;
