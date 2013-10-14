@@ -64,12 +64,9 @@ app.use(errorPageNotFound);
 //	//app.use(errorHandler); TODO
 //}
 
-//export app for routes - must be here
-module.exports = app;
-
 //load in routes
 _.each(fs.readdirSync('./routes'), function (file) {
-	require('./routes/' + file);
+	require('./routes/' + file).routes(app);
 });
 
 //start the server

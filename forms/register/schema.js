@@ -3,7 +3,7 @@ var config = require('../../config'),
 	_ = require('underscore'),
 	date = require('../../util/date');
 
-var schema = {
+var data = {
 	allegiance: {
 		name: 'allegiance',
 		text: 'Allegiance',
@@ -453,12 +453,18 @@ function populate_discount_field (name, _default, disabled) {
 	return field;
 }
 
-// populate discount fields
-schema.costs.fields.discount_chocolate = populate_discount_field('chocolate');
-schema.costs.fields.discount_earlybird = populate_discount_field('earlybird',
-	(date.get_days_until(config.application.date_earlybird_end) >= 0 ? 'yes' : 'no'), true);
-schema.costs.fields.discount_sibling = populate_discount_field('sibling', 'no');
-schema.costs.fields.discount_married = populate_discount_field('married', 'no');
+function populate () {
+	var copy = JSON.parse(JSON.stringify(data));
 
-module.exports = schema;
+	// populate discount fields
+	copy.costs.fields.discount_chocolate = populate_discount_field('chocolate');
+	copy.costs.fields.discount_earlybird = populate_discount_field('earlybird',
+		(date.get_days_until(config.application.date_earlybird_end) >= 0 ? 'yes' : 'no'), true);
+	copy.costs.fields.discount_sibling = populate_discount_field('sibling', 'no');
+	copy.costs.fields.discount_married = populate_discount_field('married', 'no');
+
+	return copy;
+}
+
+exports.populate = populate;
 

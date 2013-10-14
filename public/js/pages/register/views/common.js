@@ -141,8 +141,8 @@ fullon.views.register.common = Backbone.View.extend({
 
 		var success = true;
 
-		// if there is no value and the field is not required
-		// don't bother running any checks
+		// 1. if required: run checks
+		// 2. if not required but there is a value: run checks
 		var required = _.contains(rules, 'required:true');
 
 		if (required || (!required && val !== '')) {
