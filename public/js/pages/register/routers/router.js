@@ -12,6 +12,7 @@ fullon.routers.register = Backbone.Router.extend({
 
 		this.$form = $('form');
 		this.$sections = $('section');
+		this.$all_inputs = $('input, textarea, select');
 
 		// nav buttons
 		this.$nav_buttons = $('#register_nav .nav li');
@@ -34,6 +35,8 @@ fullon.routers.register = Backbone.Router.extend({
 		// block manual form submission
 		this.$form.on('submit', function (event) {
 			console.log('attempting to submit form');
+			// enabled all disabled fields for submission
+			self.$all_inputs.attr('disabled', false);
 			bypass_refresh_check = true;
 		});
 

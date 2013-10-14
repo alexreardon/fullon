@@ -2,7 +2,16 @@
 
 <section id="registration_confirmation">
 	<div class="container">
+		<h2>{{message.first_name}} {{message.last_name}}</h2>
 		<h1>You're in!</h1>
+
+		{{#if_not_equal message.payment_method config.payment_methods.paypal.name}}
+			Your reference: {{../message.reference}}
+			Outstanding amount: ${{../message.total}}
+			Payment method: {{../message.payment_method}}
+		{{/if_not_equal}}
+
+
 	</div>
 </section>
 

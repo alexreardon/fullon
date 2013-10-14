@@ -27,6 +27,13 @@
 
 <section id="allegiance">
 	<div class="container">
+		{{#if validation_error}}
+			<div class="row">
+				<div class="alert alert-danger">
+					<strong>Error</strong> There was a problem processing your submission. Please feel free to log an <a target="_blank" href="#/contact">issue.</a>
+				</div>
+			</div>
+		{{/if}}
 		<div class="row">
 			<div class="col-sm-6 col-sm-offset-3">
 
@@ -97,7 +104,7 @@
 						<!-- chocolate dropdown-->
 						{{#if_equal this ../../schema.costs.fields.discount_chocolate}}
 							<div class="form-group hide">
-								<select name="{{../../name}}" id="discount_chocolate_dropdown" class="form-control">
+								<select name="chocolate_box_amount" id="discount_chocolate_dropdown" class="form-control">
 									{{#each ../../../people}}
 										<option value="{{data.attributed}}"
 												data-first-name="{{data.firstname}}"

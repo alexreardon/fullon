@@ -133,7 +133,7 @@ fullon.views.register.costs = Backbone.View.extend({
 	},
 
 	use_dropdown: function (show) {
-		var val = (fullon.config.discounts[this.$dropdown.attr('name')].amount * parseFloat(this.$dropdown.val()));
+		var val = (fullon.config.discounts.chocolate.amount * parseFloat(this.$dropdown.val()));
 		this.set_row_amount(this.$dropdown, show ? val : 0);
 
 		if (show) {

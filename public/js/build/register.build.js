@@ -141,8 +141,8 @@ fullon.views.register.common = Backbone.View.extend({
 
 		var success = true;
 
-		// if there is no value and the field is not required
-		// don't bother running any checks
+		// 1. if required: run checks
+		// 2. if not required but there is a value: run checks
 		var required = _.contains(rules, 'required:true');
 
 		if (required || (!required && val !== '')) {
@@ -415,7 +415,7 @@ fullon.views.register.costs = Backbone.View.extend({
 	},
 
 	use_dropdown: function (show) {
-		var val = (fullon.config.discounts[this.$dropdown.attr('name')].amount * parseFloat(this.$dropdown.val()));
+		var val = (fullon.config.discounts.chocolate.amount * parseFloat(this.$dropdown.val()));
 		this.set_row_amount(this.$dropdown, show ? val : 0);
 
 		if (show) {
@@ -530,6 +530,7 @@ fullon.routers.register = Backbone.Router.extend({
 
 		this.$form = $('form');
 		this.$sections = $('section');
+		this.$all_inputs = $('input, textarea, select');
 
 		// nav buttons
 		this.$nav_buttons = $('#register_nav .nav li');
@@ -552,6 +553,8 @@ fullon.routers.register = Backbone.Router.extend({
 		// block manual form submission
 		this.$form.on('submit', function (event) {
 			console.log('attempting to submit form');
+			// enabled all disabled fields for submission
+			self.$all_inputs.attr('disabled', false);
 			bypass_refresh_check = true;
 		});
 

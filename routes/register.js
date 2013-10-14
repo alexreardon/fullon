@@ -8,16 +8,23 @@ var config = require('../config'),
 
 var scripts = ['/public/js/build/register.build.js'];
 
-exports.is_form_valid = function (schema, post) {
+exports.get_invalid_fields = function (schema, post) {
+	var failed_fields = [];
+
 	if (!post.camper_type) {
-		return false;
+		failed_fields.push({field: schema.allegiance.camper_type, post: 'camper_type'});
 	}
 
-	return _.every(schema, function (section) {
-		return _.every(section.fields, function (field) {
-			return exports.validate_field(field, post);
+	_.each(schema, function (section) {
+		return _.each(section.fields, function (field) {
+			var success = exports.validate_field(field, post);
+			if (!success) {
+				failed_fields.push({field: field, post: post[field.name]});
+			}
 		});
 	});
+
+	return failed_fields;
 };
 
 exports.validate_field = function (field, post) {
@@ -30,7 +37,7 @@ exports.validate_field = function (field, post) {
 
 	// 1. if required: run checks
 	// 2. if not required but there is a value: run checks
-	if (required || (!required && value)) {
+	if (required || (!required && value && value !== '')) {
 
 		// only run the check if the field is available to the camper_type
 		if (!field.available_to || _.contains(field.available_to, post.camper_type)) {
@@ -48,16 +55,34 @@ exports.validate_item = function (field, post_value) {
 	});
 };
 
-exports.calculate_total = function (camper_type_name) {
+exports.calculate_total = function (camper_type_name, post) {
 	// not trusting client side for total
 	// total = camp_fee - discounts + donation
 	var total = config.application.camper_types[camper_type_name].fee;
 
-	_.each(config.application.discounts, function (discount) {
+	// discounts
+	_.each(config.application.discounts, function (discount, key) {
 		if (_.contains(discount.available_to, camper_type_name)) {
-			return 'TODO';
+			if (!post[key]) {
+				return true;
+			}
+			if (post[key] === 'yes') {
+				if (key === 'chocolate' && post.chocolate_box_amount) {
+					total -= (parseFloat(post.chocolate_box_amount) * config.application.discounts[key].amount);
+				} else {
+					total -= config.application.discounts[key].amount;
+				}
+			}
 		}
 	});
+
+	// donation
+	if (post.donation) {
+		total += parseFloat(post.donation);
+	}
+
+	console.log('total:', total);
+	return total;
 
 };
 
@@ -92,25 +117,61 @@ exports.routes = function (app) {
 		var post = req.body;
 
 		// validate form
-		var valid = exports.is_form_valid(post, schema.populate());
-		if (!valid) {
+		var invalid_fields = exports.get_invalid_fields(schema.populate(), post);
+		if (invalid_fields.length) {
+			console.warn('error validating form');
+			console.warn(invalid_fields);
 			return exports.render_landing(req, res, next, true);
 		}
 
-		var total = exports.calculate_total(post.camper_type);
+		console.log(format('successful post: %j', post));
 
-		if (post.payment_method === 'Paypal') {
+		var total = exports.calculate_total(post.camper_type, post);
+
+		post.payment_total = total;
+
+		if (post.payment_method === config.application.payment_types.paypal.name) {
 			// go to paypal
 			console.warn('IMPLEMENT PAYPAL');
 		} else {
 			// TODO: SAVE REGISTRATION INTO DB
-
-			res.render('register_confirmation', {
+			// TODO: send confirmation email
+			var message = {
+				first_name: post.payer_first_name,
+				last_name: post.payer_first_name,
 				total: total,
-				method: post.payment_method,
-				reference: 'TODO'
-			});
+				reference: '123231',
+				payment_method: post.payment_method
+			};
+
+			req.session.registration_confirmation_details = message;
+			res.redirect('/register/confirmation');
 		}
+
+	});
+
+	app.get('/register/confirmation', function (req, res, next) {
+//		if(!req.session.registration_confirmation_details){
+//			return res.redirect('/register');
+//		}
+//
+//		res.render('register_confirmation', req.session.registration_confirmation_details);
+
+		var message = {
+			first_name: 'Alex',
+			last_name: 'Reardon',
+			total: 100,
+			reference: '123231',
+			payment_method: 'Hello'
+		};
+
+		var data = {
+			config: config.application,
+			message: message
+		};
+
+		res.render('register_confirmation', data);
+
 
 	});
 };

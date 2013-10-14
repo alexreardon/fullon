@@ -14,7 +14,11 @@ var data = {
 				type: 'radio',
 				hidden: true,
 				info: 'If you are a married leader please fill this form out twice, once for each person',
-				options: ['junior', 'senior', 'leader'],
+				options: [
+					{ text: 'junior', value: 'junior'},
+					{ text: 'senior', value: 'senior'},
+					{ text: 'leader', value: 'leader'}
+				],
 				validation: {
 					required: true
 				}
@@ -69,7 +73,10 @@ var data = {
 				name: 'gender',
 				text: 'Gender',
 				type: 'radio',
-				options: ['female', 'male'],
+				options: [
+					{ text: 'female', value: 'female'},
+					{ text: 'male', value: 'male'}
+				],
 				validation: {
 					required: true
 				}
@@ -194,21 +201,18 @@ var data = {
 			private_health_insurance_company_number: {
 				text: 'Private health insurance membership number',
 				name: 'private_health_insurance_company_number',
-				type: 'text',
-				validation: {
-					is_numbers: true
-				}
+				type: 'text'
 			},
 			family_doctor: {
-				text: 'Private health insurance membership number',
-				name: 'private_health_insurance_company_number',
+				text: 'Who is the family doctor?',
+				name: 'family_doctor',
 				type: 'text',
 				validation: {
-					is_numbers: true
+					is_letters: true
 				}
 			},
 			doctor_phone: {
-				text: 'Doctor\'s phone number',
+				text: 'Family doctor\'s phone number',
 				name: 'doctor_phone',
 				type: 'text',
 				validation: {
@@ -242,7 +246,10 @@ var data = {
 				name: 'heart_problems',
 				text: 'Any heart problems?',
 				type: 'radio',
-				options: ['yes', 'no'],
+				options: [
+					{ text: 'yes', value: 'yes'},
+					{ text: 'no', value: 'no'}
+				],
 				_default: 'no',
 				validation: {
 					required: true
@@ -252,8 +259,12 @@ var data = {
 				name: 'respiratory_conditions',
 				text: 'Any respiratory conditions?',
 				type: 'radio',
-				options: ['Asthsma', 'Other', 'None'],
-				_default: 'None',
+				options: [
+					{ text: 'Asthsma', value: 'asthsma'},
+					{ text: 'Other', value: 'other'},
+					{ text: 'None', value: 'none'}
+				],
+				_default: 'none',
 				validation: {
 					required: true
 				}
@@ -262,8 +273,15 @@ var data = {
 				name: 'allergies',
 				text: 'Any allergies?',
 				type: 'checkbox',
-				options: ['Food', 'Drugs', 'Environment', 'Other', 'None'],
-				_default: 'None',
+				options: [
+					{ text: 'Food', value: 'food'},
+					{ text: 'Drugs', value: 'drugs'},
+					{ text: 'Environment', value: 'environment'},
+					{ text: 'Other', value: 'other'},
+					{ text: 'None', value: 'none'},
+
+				],
+				_default: 'none',
 				validation: {
 					required: true
 				}
@@ -272,8 +290,14 @@ var data = {
 				name: 'muscular_skeletal_problems',
 				text: 'Any muscular / skeletal problems?',
 				type: 'checkbox',
-				options: ['Back issues', 'Sprains, dislocations', 'Other', 'None'],
-				_default: 'None',
+				options: [
+					{ text: 'Back issues', value: 'back_issues'},
+					{ text: 'Sprains, dislocations', value: 'sprains_dislocations'},
+					{ text: 'Other', value: 'other'},
+					{ text: 'None', value: 'none'},
+
+				],
+				_default: 'none',
 				validation: {
 					required: true
 				}
@@ -282,7 +306,10 @@ var data = {
 				name: 'epilepsy',
 				text: 'Epilepsy?',
 				type: 'radio',
-				options: ['yes', 'no'],
+				options: [
+					{ text: 'yes', value: 'yes'},
+					{ text: 'no', value: 'no'}
+				],
 				_default: 'no',
 				validation: {
 					required: true
@@ -292,7 +319,10 @@ var data = {
 				name: 'headaches_nosebleeds',
 				text: 'Any headaches or nose bleeds?',
 				type: 'radio',
-				options: ['yes', 'no'],
+				options: [
+					{ text: 'yes', value: 'yes'},
+					{ text: 'no', value: 'no'}
+				],
 				_default: 'no',
 				validation: {
 					required: true
@@ -302,7 +332,10 @@ var data = {
 				name: 'medical_other',
 				text: 'Any other medical conditions we should be aware of?',
 				type: 'radio',
-				options: ['yes', 'no'],
+				options: [
+					{ text: 'yes', value: 'yes'},
+					{ text: 'no', value: 'no'}
+				],
 				_default: 'no',
 				validation: {
 					required: true
@@ -322,7 +355,6 @@ var data = {
 		name: 'activities',
 		text: 'Activities',
 		short_title: 'activities',
-		info: 'TEST 123 ',
 		fields: {
 			activity_restrictions: {
 				name: 'activity_restrictions',
@@ -333,7 +365,13 @@ var data = {
 				name: 'swimming_ability',
 				text: 'Please estimate swimming ability',
 				type: 'radio',
-				options: ['Strong (swim 50m+ unaided)', 'Average (swim 25m unaided)', 'Poor (swim 10m unaided)', 'Can\'t swim (cannot swim unaided)'],
+				options: [
+					{ text: 'Strong (swim 50m+ unaided)', value: 'strong' },
+					{ text: 'Average (swim 25m unaided)', value: 'average' },
+					{ text: 'Poor (swim 10m unaided)', value: 'poor' },
+					{ text: 'Can\'t swim (cannot swim unaided)', value: 'cant' },
+
+				],
 				validation: {
 					required: 'true'
 				}
@@ -342,7 +380,13 @@ var data = {
 				name: 'movie_access',
 				text: 'What is the highest movie rating the camper is permitted to watch?',
 				type: 'radio',
-				options: ['G', 'PG', 'M', 'MA'],
+				options: [
+					{ text: 'G', value: 'G' },
+					{ text: 'PG', value: 'PG' },
+					{ text: 'M', value: 'M' },
+					{ text: 'MA', value: 'MA' },
+
+				],
 				available_to: ['junior', 'senior'],
 				validation: {
 					required: true
@@ -368,7 +412,10 @@ var data = {
 				text: 'Is the person paying the same person who is going on camp?',
 				info: 'If you are filling out this form for your child select \'no\'',
 				type: 'radio',
-				options: ['yes', 'no'],
+				options: [
+					{ text: 'yes', value: 'yes'},
+					{ text: 'no', value: 'no'}
+				],
 				_default: 'no',
 				validation: {
 					required: true
@@ -405,7 +452,10 @@ var data = {
 				name: 'accept_indemnity',
 				text: 'Do you accept the above indemnity statement?',
 				type: 'radio',
-				options: ['yes', 'no'],
+				options: [
+					{ text: 'yes', value: 'yes'},
+					{ text: 'no', value: 'no'}
+				],
 				_default: 'no',
 				validation: {
 					required: true,
@@ -417,7 +467,14 @@ var data = {
 				text: 'Select your payment method',
 				info: 'For more information about these choices see our <a href="/#about" target="_blank">about page</a>',
 				type: 'radio',
-				options: ['Paypal', 'Bank desposit', 'Request assistance'],
+				options: (function(){
+					var result = [];
+					_.each(config.application.payment_types, function (type) {
+						result.push({ value: type.name, text: type.text });
+					});
+
+					return result;
+				})(),
 				validation: {
 					required: true
 				}
@@ -434,7 +491,10 @@ function populate_discount_field (name, _default, disabled) {
 			return config.application.discounts[name].question;
 		})(),
 		type: 'radio',
-		options: ['yes', 'no'],
+		options: [
+			{ text: 'yes', value: 'yes'},
+			{ text: 'no', value: 'no'}
+		],
 		available_to: (function () {
 			return config.application.discounts[name].available_to;
 		})(),

@@ -26,6 +26,13 @@ var config = {
 	job_username: process.env.fullon_job_username || 'username',
 	job_password: process.env.fullon_job_password || 'password',
 
+	paypal: {
+		username: process.env.paypal_username,
+		password: process.env.paypal_password,
+		signature: process.env.paypal_signature,
+		sandbox_mode: process.env.paypal_sandbox_mode || true
+	},
+
 	// public variables
 	application: {
 
@@ -92,6 +99,22 @@ var config = {
 				amount: 10,
 				description: 'Available if you are a married leader and your spouse is going to full on',
 				question: 'Are you married and is your spouse also going to full on?'
+			}
+		},
+
+		// payments
+		payment_types: {
+			paypal: {
+				name: 'payment_paypal',
+				text: 'Paypal'
+			},
+			other: {
+				name: 'payment_other',
+				text: 'Paypal, Cash and Other as organised with Mike Smith'
+			},
+			request_assistance: {
+				name: 'payment_request_assistance',
+				text: 'Request assistance'
 			}
 		}
 
