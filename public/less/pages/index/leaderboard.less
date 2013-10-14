@@ -2,6 +2,12 @@
 
 	.fill {
 		.block_fill(@fullon-leaderboard-color-background, @fo-color-text-dark);
+
+		// 'leaderboard' is too big for small displays
+		@media (max-width: @screen-md-min) {
+			display: none;
+		}
+
 	}
 
 	@fullon-leaderboard-color-background: #aa6f2d;
