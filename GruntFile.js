@@ -93,7 +93,9 @@ module.exports = function (grunt) {
 						'<%= grunt.template.today("dd-mm-yyyy") %> */'
 				},
 				files: [
-					{'public/js/lib/lib.js': 'public/js/lib/lib.js'}
+					{'public/js/build/lib.js': 'public/js/build/lib.js'},
+					{'public/js/build/common.build.js': 'public/js/build/common.build.js'},
+					{'public/js/build/register.build.js': 'public/js/build/register.build.js'}
 				]
 			}
 		},
@@ -166,6 +168,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('run', ['concurrent:target']);
 
 	//Release
-	grunt.registerTask('default', ['jshint', 'less:prod', 'handlebars', 'browserify', 'concat', 'uglify:prod']);
+	grunt.registerTask('default', ['jshint', 'less:prod', 'browserify', 'concat', 'uglify:prod']);
 
 };
