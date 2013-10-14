@@ -11,9 +11,9 @@ var data = {
 		fields: {
 			camper_type: {
 				name: 'camper_type',
+				text: 'Camper type',
 				type: 'radio',
 				hidden: true,
-				info: 'If you are a married leader please fill this form out twice, once for each person',
 				options: [
 					{ text: 'junior', value: 'junior'},
 					{ text: 'senior', value: 'senior'},

@@ -28,8 +28,7 @@ fullon.views.register.payment = Backbone.View.extend({
 	autofill_payer_details: function () {
 		console.log('auto fill details');
 
-		if (this.$payer_radios.filter(':checked').val() === 'yes') {
-			this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
+		if (this.$payer_radios.filter(':checked').val() === 'yes') { this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
 			this.update_autofill_field(this.$payer_last_name, this.$camper_last_name.val(), true);
 			this.update_autofill_field(this.$payer_email, this.$camper_email.val(), true);
 		} else {

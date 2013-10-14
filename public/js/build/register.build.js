@@ -240,10 +240,10 @@ fullon.views.register.allegiance = Backbone.View.extend({
 		// 1. update form
 		console.log('selecting camper type: ', fullon.state.camper_type);
 		this.$camper_types.each(function () {
-			$(this).removeAttr('checked');
+			$(this).prop('checked', false);
 		});
 
-		this.$camper_types.filter('[value=' +  fullon.state.camper_type + ']').attr('checked', 'checked');
+		this.$camper_types.filter('[value=' +  fullon.state.camper_type + ']').prop('checked', true);
 
 		// 2. update labels
 		this.$camper_type_labels.text(fullon.state.camper_type);
@@ -501,8 +501,7 @@ fullon.views.register.payment = Backbone.View.extend({
 	autofill_payer_details: function () {
 		console.log('auto fill details');
 
-		if (this.$payer_radios.filter(':checked').val() === 'yes') {
-			this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
+		if (this.$payer_radios.filter(':checked').val() === 'yes') { this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
 			this.update_autofill_field(this.$payer_last_name, this.$camper_last_name.val(), true);
 			this.update_autofill_field(this.$payer_email, this.$camper_email.val(), true);
 		} else {

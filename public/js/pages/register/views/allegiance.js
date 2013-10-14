@@ -38,10 +38,10 @@ fullon.views.register.allegiance = Backbone.View.extend({
 		// 1. update form
 		console.log('selecting camper type: ', fullon.state.camper_type);
 		this.$camper_types.each(function () {
-			$(this).removeAttr('checked');
+			$(this).prop('checked', false);
 		});
 
-		this.$camper_types.filter('[value=' +  fullon.state.camper_type + ']').attr('checked', 'checked');
+		this.$camper_types.filter('[value=' +  fullon.state.camper_type + ']').prop('checked', true);
 
 		// 2. update labels
 		this.$camper_type_labels.text(fullon.state.camper_type);

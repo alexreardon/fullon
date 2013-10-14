@@ -9,13 +9,14 @@
 		<div class="alert alert-success">
 			<p>
 				<strong>Your reference:</strong> {{registration.data.registration_id}}
-				<strong>Payment method: </strong>
 			</p>
 
 			{{!paypal}}
 			{{#if_equal registration.data.payment_method config.payment_types.paypal.name}}
 				<p>
 					<strong>Payment type</strong> {{../config.payment_types.paypal.text}}
+				</p>
+				<p>
 					<strong>Paid</strong> ${{../registration.data.payment_total}}
 				</p>
 
