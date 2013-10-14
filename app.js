@@ -40,13 +40,18 @@ var errorLogger = function (err, req, res, next) {
 	console.error(err);
 	next(err);
 };
-var errorPageNotFound = function (req, res) {
+var error404 = function (req, res) {
 	res.status(404);
-	res.render('error', { url: req.url });
+	res.render('404', { url: req.url });
+};
+var error500 = function (err, req, res, next) {
+	res.status(500);
+	res.render('500', { error: err, env: app.get('env') });
 };
 
 app.use(errorLogger);
-app.use(errorPageNotFound);
+app.use(error404);
+app.use(error500);
 
 //TODO: routeNotFound
 //app.use(routeNotFound);

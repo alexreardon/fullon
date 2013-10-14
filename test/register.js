@@ -4,7 +4,7 @@ var expect = require('expect.js'),
 	sinon = require('sinon'),
 	_ = require('underscore');
 
-describe.only('Register submission', function () {
+describe('Register submission', function () {
 
 	var schema = {
 

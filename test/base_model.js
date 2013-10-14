@@ -126,7 +126,7 @@ describe('Base Model', function () {
 		});
 
 		it('Should create a valid search query based on search keys', function () {
-			var query = model.getSearchQuery();
+			var query = model.get_search_query();
 
 			var count = 0;
 			_.each(model.search_key_fields, function (item, i) {

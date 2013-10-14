@@ -17,7 +17,7 @@ base_model.create = function (data, collection_name, search_key_fields) {
 	return self;
 };
 
-base_model.getSearchQuery = function () {
+base_model.get_search_query = function () {
 	var query = Object.create(null);
 	_.each(this.search_key_fields, function (item, i) {
 		query[item] = this.data[item];
@@ -35,7 +35,7 @@ base_model.save = function (cb, upsert) {
 		}
 		var collection = db.collection(this.collection_name);
 
-		collection.update(this.getSearchQuery(), {$set: this.data}, {upsert: (upsert === false ? false : true)}, function (err) {
+		collection.update(this.get_search_query(), {$set: this.data}, {upsert: (upsert === false ? false : true)}, function (err) {
 			db.close();
 
 			if (err) {

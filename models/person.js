@@ -4,14 +4,14 @@ var base_model = require('./base_model'),
 
 var person = Object.create(base_model);
 person.collection_name = 'people';
-person.searchKeys = ['firstname', 'lastname'];
+person.search_keys = ['firstname', 'lastname'];
 
 person.create = function (data) {
 
 	data.sold = data.sold || 0;
 	data.attributed = data.attributed || 0;
 
-	return base_model.create.call(this, data, person.collection_name, person.searchKeys);
+	return base_model.create.call(this, data, person.collection_name, person.search_keys);
 };
 
 person._calculate_positions = function (people) {

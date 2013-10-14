@@ -1,16 +1,55 @@
 {{>header}}
 
-<section id="registration_confirmation">
+<section id="register_confirmation">
 	<div class="container">
-		<h2>{{message.first_name}} {{message.last_name}}</h2>
-		<h1>You're in!</h1>
+		<h2>{{registration.data.first_name}} {{registration.data.last_name}}</h2>
 
-		{{#if_not_equal message.payment_method config.payment_methods.paypal.name}}
-			Your reference: {{../message.reference}}
-			Outstanding amount: ${{../message.total}}
-			Payment method: {{../message.payment_method}}
-		{{/if_not_equal}}
+		<h1>You're <span class="fill">in!</span></h1>
 
+		<div class="alert alert-success">
+			<p>
+				<strong>Your reference:</strong> {{registration.data.registration_id}}
+				<strong>Payment method: </strong>
+			</p>
+
+			{{!paypal}}
+			{{#if_equal registration.data.payment_method config.payment_types.paypal.name}}
+				<p>
+					<strong>Payment type</strong> {{../config.payment_types.paypal.text}}
+					<strong>Paid</strong> ${{../registration.data.payment_total}}
+				</p>
+
+				<p>
+					You're good to go!
+				</p>
+			{{/if_equal}}
+
+			{{! other }}
+			{{#if_equal registration.data.payment_method config.payment_types.other.name}}
+				<p>
+					<strong>Outstanding amount</strong> ${{../registration.data.payment_total}}
+				</p>
+
+				<p>
+					If using bank deposit, please use the following details for your payment:
+				</p>
+
+				<p>
+					<strong>Reference:</strong> {{../registration.data.registration_id}}<br/>
+					<strong>Account Name:</strong> {{../config.bank_details.name}}<br/>
+					<strong>BSB:</strong> {{../config.bank_details.bsb}}<br/>
+					<strong>Account Number:</strong> {{../config.bank_details.number}}
+				</p>
+			{{/if_equal}}
+
+
+			{{! assistance}}
+			{{#if_equal registration.data.payment_method config.payment_types.request_assistance.name}}
+				<p>
+					Somebody will be in contact with you shortly to organise payment assistance
+				</p>
+			{{/if_equal}}
+		</div>
 
 	</div>
 </section>

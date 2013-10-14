@@ -5270,6 +5270,14 @@ footer img {
 #costs .amount_display.donation_amount {
   color: #428bca;
 }
+#register_confirmation h1 {
+  margin-top: 0;
+}
+#register_confirmation h2 {
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: -10px;
+}
 #error_page {
   text-align: center;
 }

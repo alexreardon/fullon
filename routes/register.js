@@ -3,10 +3,15 @@ var config = require('../config'),
 	date = require('../util/date'),
 	schema = require('../forms/register/schema'),
 	validation = require('../util/validation'),
+	registration = require('../models/registration'),
 	_ = require('underscore'),
+	payment = require('./payment'),
+	chance = require('chance'),
 	format = require('util').format;
 
-var scripts = ['/public/js/build/register.build.js'];
+var scripts = ['/public/js/build/register.build.js'],
+	success_url = '/register/confirmation',
+	c = new chance();
 
 exports.get_invalid_fields = function (schema, post) {
 	var failed_fields = [];
@@ -106,6 +111,10 @@ exports.render_landing = function (req, res, next, validation_error) {
 	}, null, {firstname: 1, lastname: 1});
 };
 
+exports.save_form = function (data, cb) {
+	cb(true);
+};
+
 exports.routes = function (app) {
 	app.get('/register', function (req, res, next) {
 		exports.render_landing(req, res, next);
@@ -130,48 +139,55 @@ exports.routes = function (app) {
 
 		post.payment_total = total;
 
-		if (post.payment_method === config.application.payment_types.paypal.name) {
-			// go to paypal
-			console.warn('IMPLEMENT PAYPAL');
-		} else {
-			// TODO: SAVE REGISTRATION INTO DB
-			// TODO: send confirmation email
-			var message = {
-				first_name: post.payer_first_name,
-				last_name: post.payer_first_name,
-				total: total,
-				reference: '123231',
-				payment_method: post.payment_method
-			};
+		// generate new id for this registration
+		post.registration_id = 'FO14-' + c.string({pool: 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789', length: 8});
 
-			req.session.registration_confirmation_details = message;
-			res.redirect('/register/confirmation');
+		req.session.pending_registration = post;
+
+		// PayPal
+		if (post.payment_method === config.application.payment_types.paypal.name) {
+			return payment.make_payment({
+				res: res,
+				req: req,
+				next: next,
+				total: total,
+				email: post.email,
+				success_url: success_url
+			});
 		}
+
+		// Other payment types: registration is complete!
+		// confirmation page saves the form
+		res.redirect(success_url);
 
 	});
 
-	app.get('/register/confirmation', function (req, res, next) {
-//		if(!req.session.registration_confirmation_details){
-//			return res.redirect('/register');
-//		}
-//
-//		res.render('register_confirmation', req.session.registration_confirmation_details);
+	app.get(success_url, function (req, res, next) {
+		if (!req.session.pending_registration) {
+			return res.redirect('/');
+		}
 
-		var message = {
-			first_name: 'Alex',
-			last_name: 'Reardon',
-			total: 100,
-			reference: '123231',
-			payment_method: 'Hello'
-		};
+		var r = registration.create(req.session.pending_registration);
 
-		var data = {
-			config: config.application,
-			message: message
-		};
+		r.save(function (err) {
+			// unset pending registration
+			req.session.pending_registration = null;
 
-		res.render('register_confirmation', data);
+			if (err) {
+				return next(new Error('an error occured while writing registration to disk. Please contact technical support'));
+			}
 
+			var data = {
+				config: config.application,
+				registration: r
+			};
+
+			console.log(format('saved registration: %j', r.data));
+
+			//TODO: send confirmation email
+			res.render('register_confirmation', data);
+
+		});
 
 	});
 };

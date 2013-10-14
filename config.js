@@ -10,6 +10,9 @@ var date_earlybird_end = '17.11.2013';
 var config = {
 
 	/*** SERVER ***/
+	// url
+	root_url: process.env.fullon_root_url || 'http://localhost',
+
 	// database
 	db_connection: process.env.fullon_db_connection,
 
@@ -27,10 +30,11 @@ var config = {
 	job_password: process.env.fullon_job_password || 'password',
 
 	paypal: {
-		username: process.env.paypal_username,
-		password: process.env.paypal_password,
-		signature: process.env.paypal_signature,
-		sandbox_mode: process.env.paypal_sandbox_mode || true
+		username: process.env.fullon_paypal_username,
+		password: process.env.fullon_paypal_password,
+		signature: process.env.fullon_paypal_signature,
+		currency_code: 'AUD',
+		sandbox_mode: process.env.fullon_paypal_sandbox_mode || true
 	},
 
 	// public variables
@@ -106,16 +110,22 @@ var config = {
 		payment_types: {
 			paypal: {
 				name: 'payment_paypal',
-				text: 'Paypal'
+				text: 'PayPal'
 			},
 			other: {
 				name: 'payment_other',
-				text: 'Paypal, Cash and Other as organised with Mike Smith'
+				text: 'Bank Deposit, cash and other as organised with Mike Smith'
 			},
 			request_assistance: {
 				name: 'payment_request_assistance',
 				text: 'Request assistance'
 			}
+		},
+
+		bank_details: {
+			name: 'St Philips Anglican Church Youth Fellowship',
+			bsb: '062 161',
+			number: '00900260'
 		}
 
 	}

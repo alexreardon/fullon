@@ -1,0 +1,28 @@
+{{>header}}
+
+<section id="error_page" class="light">
+	<div class="container">
+
+		<h1>An error has occurred</h1>
+
+		<h2>{{error.message}}</h2>
+
+		{{#if_not_equal env 'production'}}
+			<p>error stack</p>
+			<p>{{../error.stack}}</p>
+		{{/if_not_equal}}
+
+		<p>
+			<strong>Frodo:</strong> I wish the ring had never come to me. I wish none of this had happened.
+		</p>
+
+		<p>
+			<strong>Gandalf:</strong> So do all who live to see such times. But that is not for them to decide. All we
+			have to decide is what to do with the time that is given to us. There are other forces at work in this world
+			Frodo, besides the will of evil. Bilbo was meant to find the Ring. In which case, you were also meant to
+			have it. And that is an encouraging thought.
+		</p>
+	</div>
+</section>
+
+{{>footer}}

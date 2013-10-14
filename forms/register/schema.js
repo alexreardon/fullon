@@ -456,7 +456,6 @@ var data = {
 					{ text: 'yes', value: 'yes'},
 					{ text: 'no', value: 'no'}
 				],
-				_default: 'no',
 				validation: {
 					required: true,
 					value: 'yes'
@@ -467,7 +466,7 @@ var data = {
 				text: 'Select your payment method',
 				info: 'For more information about these choices see our <a href="/#about" target="_blank">about page</a>',
 				type: 'radio',
-				options: (function(){
+				options: (function () {
 					var result = [];
 					_.each(config.application.payment_types, function (type) {
 						result.push({ value: type.name, text: type.text });
@@ -527,4 +526,3 @@ function populate () {
 }
 
 exports.populate = populate;
-
