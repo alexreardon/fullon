@@ -10,6 +10,7 @@ fullon.routers.register = Backbone.Router.extend({
 		this.basic = new fullon.views.register.basic();
 		this.payment = new fullon.views.register.payment();
 
+		this.$body = $('body');
 		this.$form = $('form');
 		this.$sections = $('section');
 		this.$all_inputs = $('input, textarea, select');
@@ -78,6 +79,9 @@ fullon.routers.register = Backbone.Router.extend({
 
 		$current.hide();
 		$next.show();
+
+		//snap to top of page
+		this.$body.scrollTop(0);
 	},
 
 	on_navigate_previous: function ($section) {
