@@ -4783,14 +4783,19 @@ footer img {
   text-align: center;
 }
 .social .fb-like {
-  display: none;
   height: 25px;
   width: 100%;
+  display: inline-block;
 }
 .social .fb-like > span {
   display: block;
   margin-left: auto;
   margin-right: auto;
+}
+@media (max-width: 992px) {
+  .social .fb-like {
+    display: none;
+  }
 }
 .social #fb-root {
   display: none;
