@@ -26,7 +26,7 @@ fullon.views.common = Backbone.View.extend({
 	initialize: function () {
 		this.$sections = $('section');
 		this.$footer = $('footer');
-		this.$nav = $('nav');
+		this.$nav = $('header .navbar');
 
 		var throttled_resize = _.throttle(function () {
 			this.resize();
@@ -43,9 +43,11 @@ fullon.views.common = Backbone.View.extend({
 			format: 'dd/mm/yyyy',
 			autoclose: true
 		});
-	},
 
-	events: {
+		// navbar close
+		this.$nav.find('a').on('click', function () {
+			this.$nav.find('.navbar-collapse').collapse('hide');
+		}.bind(this));
 
 	},
 
@@ -54,17 +56,17 @@ fullon.views.common = Backbone.View.extend({
 
 		var self = this;
 		this.$sections.each(function () {
-			$(this).css('min-height', self.getMinHeight());
+			$(this).css('min-height', self.get_min_height());
 		});
 
 	},
 
-	getMinHeight: function () {
+	get_min_height: function () {
 		return ($(window).height() - this.$nav.height() - this.$footer.height());
 	}
 
 });
 
-(function(){
+(function () {
 	var common_view = new fullon.views.common();
 })();

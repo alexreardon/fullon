@@ -4794,11 +4794,8 @@ footer img {
 }
 @media (max-width: 992px) {
   .social .fb-like {
-    display: none;
+    display: none !important;
   }
-}
-.social #fb-root {
-  display: none;
 }
 .social .social_links {
   margin-bottom: 6px;

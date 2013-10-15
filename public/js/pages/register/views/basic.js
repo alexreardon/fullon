@@ -22,8 +22,8 @@ fullon.views.register.basic = Backbone.View.extend({
 
 	on_chocolate_dropdown_change: function (data) {
 		console.log('basic: on_chocolate_dropdown_change', data);
-		this.$basic_fields.filter('[name=first_name]').val(data.first_name).attr('disabled', true);
-		this.$basic_fields.filter('[name=last_name]').val(data.last_name).attr('disabled', true);
+		this.$basic_fields.filter('[name=first_name]').val(data.first_name).attr('disabled', true).trigger('change');
+		this.$basic_fields.filter('[name=last_name]').val(data.last_name).attr('disabled', true).trigger('change');
 
 		// let other views know that the basic info has updated
 		fullon.vent.trigger('basic_info:update');

@@ -12,7 +12,6 @@ fullon.views.register.payment = Backbone.View.extend({
 		this.$payer_last_name = $('input[name=payer_last_name]', '#payment');
 		this.$payer_email = $('input[name=payer_email]', '#payment');
 
-
 		var self = this;
 		this.$payer_radios.on('change', function (event) {
 			self.autofill_payer_details();
@@ -21,14 +20,18 @@ fullon.views.register.payment = Backbone.View.extend({
 		fullon.vent.on('basic_info:update', this.autofill_payer_details, this);
 	},
 
-	update_autofill_field: function($el, val, disabled){
+	update_autofill_field: function ($el, val, disabled) {
 		$el.val(val).attr('disabled', disabled);
+		if (disabled) {
+			$el.trigger('change');
+		}
 	},
 
 	autofill_payer_details: function () {
 		console.log('auto fill details');
 
-		if (this.$payer_radios.filter(':checked').val() === 'yes') { this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
+		if (this.$payer_radios.filter(':checked').val() === 'yes') {
+			this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
 			this.update_autofill_field(this.$payer_last_name, this.$camper_last_name.val(), true);
 			this.update_autofill_field(this.$payer_email, this.$camper_email.val(), true);
 		} else {

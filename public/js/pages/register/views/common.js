@@ -24,29 +24,14 @@ fullon.views.register.common = Backbone.View.extend({
 		});
 
 		// input change events
+		// all input events are now fired by 'change' and not a mixture of change and focus out
 		this.$inputs.on('change', function (event) {
 			console.log('input [change] event fired');
-			var $this = $(this);
-
-			// only look at events caused by date picker
-			if ($this.hasClass('datepicker')) {
-				fullon.vent.trigger('input:validate', $this);
-			}
-
-			// validate on changing radio/checkbox values
-			// this fixes an issue where radio buttons can't become valid until focus out
-			if ($this.is(':radio') || $this.is(':checkbox')) {
-				fullon.vent.trigger('input:validate', $this);
-			}
-
+			fullon.vent.trigger('input:validate', $(this));
 		});
 		this.$inputs.on('focusout', function (event) {
-			var $this = $(this);
-
-			//ignore events caused by date picker
-			if (!$this.hasClass('datepicker')) {
-				fullon.vent.trigger('input:validate', $this);
-			}
+			console.log('input [focusout] event fired - not processing');
+			return;
 		});
 
 		// navigation event
@@ -83,15 +68,15 @@ fullon.views.register.common = Backbone.View.extend({
 			available_to = available_to.split('|');
 
 			if (_.contains(available_to, camper_type)) {
-				$this.show();
+				$this.removeClass('hide');
 
 				// discount rows
-				$this.closest('.discount_row').show();
+				$this.closest('.discount_row').removeClass('hide');
 			} else {
-				$this.hide();
+				$this.addClass('hide');
 
 				// discount rows
-				$this.closest('.discount_row').hide();
+				$this.closest('.discount_row').addClass('hide');
 			}
 
 		});

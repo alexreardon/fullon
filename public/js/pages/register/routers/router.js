@@ -70,12 +70,12 @@ fullon.routers.register = Backbone.Router.extend({
 
 		if (forward) {
 			$current_tab.removeClass('partially_completed').addClass('done');
-		} else {
+		} else if (!$current_tab.hasClass('done')) {
 			$current_tab.addClass('partially_completed');
 		}
 
 		var $next_tab = this.$nav_buttons.find('a[data-section=' + $next.attr('id') + ']').closest('li');
-		$next_tab.removeClass('pending done').addClass('active');
+		$next_tab.removeClass('pending').addClass('active');
 
 		$current.hide();
 		$next.show();

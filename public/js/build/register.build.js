@@ -24,29 +24,14 @@ fullon.views.register.common = Backbone.View.extend({
 		});
 
 		// input change events
+		// all input events are now fired by 'change' and not a mixture of change and focus out
 		this.$inputs.on('change', function (event) {
 			console.log('input [change] event fired');
-			var $this = $(this);
-
-			// only look at events caused by date picker
-			if ($this.hasClass('datepicker')) {
-				fullon.vent.trigger('input:validate', $this);
-			}
-
-			// validate on changing radio/checkbox values
-			// this fixes an issue where radio buttons can't become valid until focus out
-			if ($this.is(':radio') || $this.is(':checkbox')) {
-				fullon.vent.trigger('input:validate', $this);
-			}
-
+			fullon.vent.trigger('input:validate', $(this));
 		});
 		this.$inputs.on('focusout', function (event) {
-			var $this = $(this);
-
-			//ignore events caused by date picker
-			if (!$this.hasClass('datepicker')) {
-				fullon.vent.trigger('input:validate', $this);
-			}
+			console.log('input [focusout] event fired - not processing');
+			return;
 		});
 
 		// navigation event
@@ -83,15 +68,15 @@ fullon.views.register.common = Backbone.View.extend({
 			available_to = available_to.split('|');
 
 			if (_.contains(available_to, camper_type)) {
-				$this.show();
+				$this.removeClass('hide');
 
 				// discount rows
-				$this.closest('.discount_row').show();
+				$this.closest('.discount_row').removeClass('hide');
 			} else {
-				$this.hide();
+				$this.addClass('hide');
 
 				// discount rows
-				$this.closest('.discount_row').hide();
+				$this.closest('.discount_row').addClass('hide');
 			}
 
 		});
@@ -203,6 +188,7 @@ fullon.views.register.common = Backbone.View.extend({
 fullon.views.register.allegiance = Backbone.View.extend({
 
 	initialize: function () {
+		this.$section = $('#allegiance');
 		this.$camper_types = $('input:radio[name=camper_type]');
 		this.$camper_type_labels = $('.camper_type_label');
 		this.$camper_type_flags = $('.camper_type_flag');
@@ -243,7 +229,7 @@ fullon.views.register.allegiance = Backbone.View.extend({
 			$(this).prop('checked', false);
 		});
 
-		this.$camper_types.filter('[value=' +  fullon.state.camper_type + ']').prop('checked', true);
+		this.$camper_types.filter('[value=' + fullon.state.camper_type + ']').prop('checked', true);
 
 		// 2. update labels
 		this.$camper_type_labels.text(fullon.state.camper_type);
@@ -267,13 +253,18 @@ fullon.views.register.allegiance = Backbone.View.extend({
 
 		// 3.2 add new class
 		this.$camper_type_flags.each(function () {
-			$(this).addClass(self.constants.flag.prefix +  fullon.state.camper_type);
+			$(this).addClass(self.constants.flag.prefix + fullon.state.camper_type);
 		});
 
 		// 4. enable prev/next buttons
-		this.$navigation_button_container.removeClass('invisible');
+		// disabled: now just navigation straight away
+		// having the buttons appear was not intuitive for mobile
+		//this.$navigation_button_container.removeClass('invisible');
 
 		fullon.vent.trigger('camper_type:change');
+
+		// 5. can now navigate to the next page
+		fullon.vent.trigger('navigate:next', this.$section);
 
 	}
 
@@ -336,8 +327,6 @@ fullon.views.register.costs = Backbone.View.extend({
 	},
 
 	on_camper_type_change: function () {
-		// 1. hide rows that are no longer relevant
-
 		// 1. update total
 		var fee = fullon.config.camper_types[fullon.state.camper_type].fee;
 		this.$camp_fee.attr(this.selectors.data.current_value, fee);
@@ -392,7 +381,12 @@ fullon.views.register.costs = Backbone.View.extend({
 
 		var fee = fullon.config.camper_types[fullon.state.camper_type].fee;
 
-		var visible_discounts = this.$discount_displays.filter(':visible');
+		// this can be triggered while the page is not visible.
+
+		var visible_discounts = this.$discount_displays.filter(function(){
+			return !($(this).closest('.form-group').hasClass('hide'));
+		});
+
 		visible_discounts.each(function () {
 			fee -= parseFloat($(this).attr(self.selectors.data.current_value));
 		});
@@ -462,8 +456,8 @@ fullon.views.register.basic = Backbone.View.extend({
 
 	on_chocolate_dropdown_change: function (data) {
 		console.log('basic: on_chocolate_dropdown_change', data);
-		this.$basic_fields.filter('[name=first_name]').val(data.first_name).attr('disabled', true);
-		this.$basic_fields.filter('[name=last_name]').val(data.last_name).attr('disabled', true);
+		this.$basic_fields.filter('[name=first_name]').val(data.first_name).attr('disabled', true).trigger('change');
+		this.$basic_fields.filter('[name=last_name]').val(data.last_name).attr('disabled', true).trigger('change');
 
 		// let other views know that the basic info has updated
 		fullon.vent.trigger('basic_info:update');
@@ -485,7 +479,6 @@ fullon.views.register.payment = Backbone.View.extend({
 		this.$payer_last_name = $('input[name=payer_last_name]', '#payment');
 		this.$payer_email = $('input[name=payer_email]', '#payment');
 
-
 		var self = this;
 		this.$payer_radios.on('change', function (event) {
 			self.autofill_payer_details();
@@ -494,14 +487,18 @@ fullon.views.register.payment = Backbone.View.extend({
 		fullon.vent.on('basic_info:update', this.autofill_payer_details, this);
 	},
 
-	update_autofill_field: function($el, val, disabled){
+	update_autofill_field: function ($el, val, disabled) {
 		$el.val(val).attr('disabled', disabled);
+		if (disabled) {
+			$el.trigger('change');
+		}
 	},
 
 	autofill_payer_details: function () {
 		console.log('auto fill details');
 
-		if (this.$payer_radios.filter(':checked').val() === 'yes') { this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
+		if (this.$payer_radios.filter(':checked').val() === 'yes') {
+			this.update_autofill_field(this.$payer_first_name, this.$camper_first_name.val(), true);
 			this.update_autofill_field(this.$payer_last_name, this.$camper_last_name.val(), true);
 			this.update_autofill_field(this.$payer_email, this.$camper_email.val(), true);
 		} else {
@@ -587,12 +584,12 @@ fullon.routers.register = Backbone.Router.extend({
 
 		if (forward) {
 			$current_tab.removeClass('partially_completed').addClass('done');
-		} else {
+		} else if (!$current_tab.hasClass('done')) {
 			$current_tab.addClass('partially_completed');
 		}
 
 		var $next_tab = this.$nav_buttons.find('a[data-section=' + $next.attr('id') + ']').closest('li');
-		$next_tab.removeClass('pending done').addClass('active');
+		$next_tab.removeClass('pending').addClass('active');
 
 		$current.hide();
 		$next.show();

@@ -54,8 +54,6 @@ fullon.views.register.costs = Backbone.View.extend({
 	},
 
 	on_camper_type_change: function () {
-		// 1. hide rows that are no longer relevant
-
 		// 1. update total
 		var fee = fullon.config.camper_types[fullon.state.camper_type].fee;
 		this.$camp_fee.attr(this.selectors.data.current_value, fee);
@@ -110,7 +108,12 @@ fullon.views.register.costs = Backbone.View.extend({
 
 		var fee = fullon.config.camper_types[fullon.state.camper_type].fee;
 
-		var visible_discounts = this.$discount_displays.filter(':visible');
+		// this can be triggered while the page is not visible.
+
+		var visible_discounts = this.$discount_displays.filter(function(){
+			return !($(this).closest('.form-group').hasClass('hide'));
+		});
+
 		visible_discounts.each(function () {
 			fee -= parseFloat($(this).attr(self.selectors.data.current_value));
 		});

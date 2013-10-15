@@ -1,6 +1,7 @@
 fullon.views.register.allegiance = Backbone.View.extend({
 
 	initialize: function () {
+		this.$section = $('#allegiance');
 		this.$camper_types = $('input:radio[name=camper_type]');
 		this.$camper_type_labels = $('.camper_type_label');
 		this.$camper_type_flags = $('.camper_type_flag');
@@ -41,7 +42,7 @@ fullon.views.register.allegiance = Backbone.View.extend({
 			$(this).prop('checked', false);
 		});
 
-		this.$camper_types.filter('[value=' +  fullon.state.camper_type + ']').prop('checked', true);
+		this.$camper_types.filter('[value=' + fullon.state.camper_type + ']').prop('checked', true);
 
 		// 2. update labels
 		this.$camper_type_labels.text(fullon.state.camper_type);
@@ -65,13 +66,18 @@ fullon.views.register.allegiance = Backbone.View.extend({
 
 		// 3.2 add new class
 		this.$camper_type_flags.each(function () {
-			$(this).addClass(self.constants.flag.prefix +  fullon.state.camper_type);
+			$(this).addClass(self.constants.flag.prefix + fullon.state.camper_type);
 		});
 
 		// 4. enable prev/next buttons
-		this.$navigation_button_container.removeClass('invisible');
+		// disabled: now just navigation straight away
+		// having the buttons appear was not intuitive for mobile
+		//this.$navigation_button_container.removeClass('invisible');
 
 		fullon.vent.trigger('camper_type:change');
+
+		// 5. can now navigate to the next page
+		fullon.vent.trigger('navigate:next', this.$section);
 
 	}
 
