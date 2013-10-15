@@ -138,11 +138,10 @@ exports.routes = function (app) {
 		var total = exports.calculate_total(post.camper_type, post);
 
 		post.payment_total = total;
-
-		// generate new id for this registration
-		post.registration_id = 'FO14-' + c.string({pool: 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789', length: 8});
-
-		req.session.pending_registration = post;
+		req.session.pending_registration = {
+			data: post,
+			_id: registration.create_id()
+		};
 
 		// PayPal
 		if (post.payment_method === config.application.payment_types.paypal.name) {
@@ -151,7 +150,7 @@ exports.routes = function (app) {
 				req: req,
 				next: next,
 				total: total,
-				email: post.email,
+				email: post.payer_email,
 				success_url: success_url
 			});
 		}
@@ -167,7 +166,7 @@ exports.routes = function (app) {
 			return res.redirect('/');
 		}
 
-		var r = registration.create(req.session.pending_registration);
+		var r = registration.create(req.session.pending_registration.data, req.session.pending_registration._id);
 
 		r.save(function (err) {
 			// unset pending registration

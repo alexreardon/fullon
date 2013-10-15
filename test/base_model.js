@@ -204,7 +204,7 @@ describe('Base Model', function () {
 					base_model.create(data, collection_name, searchKeys)
 				];
 
-				model.saveMultiple(data, function () {
+				model.save_multiple(data, function () {
 					expect(base_model.save.callCount).to.be(data.length);
 					done();
 				});
@@ -215,6 +215,48 @@ describe('Base Model', function () {
 
 		});
 
+	});
+
+	describe('create with _id', function () {
+		var model,
+			_id = 'test123';
+
+		beforeEach(function () {
+			model = base_model.create(data[0], collection_name, null, _id);
+		});
+
+		it('should have an id field', function () {
+			expect(model._id).to.be(_id);
+		});
+
+		it('should return _id in search query', function () {
+			expect(model.get_search_query()._id).to.be(_id);
+		});
+
+		it('should create a model with _id when saving', function (done) {
+			model.save(function (err) {
+				model.find({_id: _id}, function (err, result) {
+					expect(result).to.have.length(1);
+					expect(result[0]._id).to.be(_id);
+					done();
+				});
+			});
+		});
+
+		it('should update a model with _id when saving (and not make duplicate)', function (done) {
+			var name = 'Alex';
+			model.save(function (err) {
+				model.data.name = name;
+				model.save(function (err) {
+					model.find({_id: _id}, function (err, result) {
+						expect(result).to.have.length(1);
+						expect(result[0]._id).to.be(_id);
+						expect(result[0].data.name).to.be(name);
+						done();
+					});
+				});
+			});
+		});
 	});
 
 	describe('Searching', function () {
@@ -306,8 +348,6 @@ describe('Base Model', function () {
 
 			});
 
-
-
 			it('should sort aggregated data', function (done) {
 				var group = { _id: '$lastname', sum: { $sum: '$age'}};
 				var sort = { sum: -1 };
@@ -317,7 +357,7 @@ describe('Base Model', function () {
 				models[0].aggregate(group, sort, function (err, result) {
 					expect(result[0].sum > result[1].sum).to.be(true);
 					count++;
-					if(count >= 2){
+					if (count >= 2) {
 						done();
 					}
 
@@ -326,7 +366,7 @@ describe('Base Model', function () {
 				models[0].aggregate(group, sort2, function (err, result) {
 					expect(result[0].sum < result[1].sum).to.be(true);
 					count++;
-					if(count >= 2){
+					if (count >= 2) {
 						done();
 					}
 				});

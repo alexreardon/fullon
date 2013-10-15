@@ -4,12 +4,15 @@ var database = require('../util/db'),
 
 var base_model = Object.create(Object.prototype);
 
-base_model.create = function (data, collection_name, search_key_fields) {
+base_model.create = function (data, collection_name, search_key_fields, _id) {
 	//'data' will be saved in the database
 	var self = Object.create(this);
 	self.data = data;
 	self.collection_name = collection_name;
+
+	// optional fields
 	self.search_key_fields = search_key_fields;
+	self._id = _id;
 
 	//put any temporary data here - will not be saved
 	self.temp = Object.create(null);
@@ -22,6 +25,12 @@ base_model.get_search_query = function () {
 	_.each(this.search_key_fields, function (item, i) {
 		query[item] = this.data[item];
 	}, this);
+
+	// allow model to set it's own id
+	if (this._id) {
+		query._id = this._id;
+	}
+
 	return query;
 };
 
@@ -83,7 +92,10 @@ base_model.find = function (query, cb, limit, sort, doc_only) {
 
 			var result = [];
 			_.each(doc, function (item) {
-				result.push(this.create(item, this.collection_name, this.search_key_fields));
+				var id = item._id || null;
+				delete item._id;
+
+				result.push(this.create(item, this.collection_name, this.search_key_fields, id));
 			}, this);
 
 			cb(null, result);
@@ -134,7 +146,7 @@ base_model.aggregate = function (group, sort, cb) {
 }
 ;
 
-base_model.saveMultiple = function (elements, cb) {
+base_model.save_multiple = function (elements, cb) {
 	var failures = [],
 		successCount = 0,
 		failureCount = 0;

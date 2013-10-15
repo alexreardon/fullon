@@ -1,17 +1,23 @@
 var base_model = require('./base_model'),
 	config = require('../config'),
+	Chance = require('chance'),
 	_ = require('underscore');
+
+var chance = new Chance();
 
 var registration = Object.create(base_model);
 registration.collection_name = 'registrations';
-registration.search_keys = [];
 
-registration.create = function (data) {
+registration.create_id = function () {
+	return 'FO14-' + chance.string({pool: 'ABCDEFGHIJKLMNPQRSTUVWXYZ123456789', length: 8});
+};
 
-	data.sold = data.sold || 0;
-	data.attributed = data.attributed || 0;
+registration.create = function (data, _id) {
 
-	return base_model.create.call(this, data, registration.collection_name, registration.search_keys);
+	var id = _id || this.create_id();
+	// only issue is that this could produce duplicates.
+	// mitigation: there will only be around 100-150 registrations.
+	return base_model.create.call(this, data, registration.collection_name, null, id);
 };
 
 module.exports = registration;

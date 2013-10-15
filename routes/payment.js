@@ -77,15 +77,16 @@ exports.routes = function (app) {
 
 		paypal.do_payment(req.session.payment_params, function (err, data) {
 			if (err) {
-				console.log('error completing payment', err);
-				return next(err);
+				console.error('error completing paypal payment', err);
+				req.session.pending_registration = null;
+				return next(new Error('Error completing paypal payment. You\'re application has not been submitted and funds have not been transfered. Please try again'));
 			}
 
 			// update registration submission data
 			if (req.session.pending_registration) {
-				req.session.pending_registration.paypal_success = data.ACK;
-				req.session.pending_registration.paypal_correlation_id = data.CORRELATIONID;
-				req.session.pending_registration.paypal_transaction_id = data.PAYMENTINFO_0_TRANSACTIONID;
+				req.session.pending_registration.data.paypal_success = data.ACK;
+				req.session.pending_registration.data.paypal_correlation_id = data.CORRELATIONID;
+				req.session.pending_registration.data.session.pending_registration.paypal_transaction_id = data.PAYMENTINFO_0_TRANSACTIONID;
 			}
 
 			var redirect = req.session.payment_params.successUrl;
