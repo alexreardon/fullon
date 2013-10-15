@@ -51,4 +51,15 @@ describe('registration', function () {
 
 	});
 
+	it('should get first initial', function () {
+		expect(registration.get_initial('Alex')).to.be('A');
+		expect(registration.get_initial('ben')).to.be('B');
+	});
+
+	it('should return "X" when invalid data passed to get_initial', function () {
+		expect(registration.get_initial(5)).to.be('X');
+		expect(registration.get_initial(null)).to.be('X');
+		expect(registration.get_initial('')).to.be('X');
+	});
+
 });

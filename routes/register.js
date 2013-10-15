@@ -140,7 +140,7 @@ exports.routes = function (app) {
 		post.payment_total = total;
 		req.session.pending_registration = {
 			data: post,
-			_id: registration.create_id()
+			_id: registration.create_id(post.first_name, post.last_name)
 		};
 
 		// PayPal
@@ -150,6 +150,7 @@ exports.routes = function (app) {
 				req: req,
 				next: next,
 				total: total,
+				_id: req.session.pending_registration._id,
 				email: post.payer_email,
 				success_url: success_url
 			});
@@ -178,7 +179,8 @@ exports.routes = function (app) {
 
 			var data = {
 				config: config.application,
-				registration: r
+				registration: r,
+				title: 'Confirmation'
 			};
 
 			console.log(format('saved registration: %j', r.data));

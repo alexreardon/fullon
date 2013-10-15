@@ -23,6 +23,7 @@ exports.make_payment = function (options) {
 //		req: req,
 //		total: total,
 //		email: post.email,
+//		_id: _id
 //		success_url: '/register/paypalsuccess'
 //	}
 
@@ -36,7 +37,7 @@ exports.make_payment = function (options) {
 		PAYMENTREQUEST_0_AMT: options.total,
 		PAYMENTREQUEST_0_CURRENCYCODE: config.paypal.currency_code,
 		PAYMENTREQUEST_0_PAYMENTACTION: 'Sale',
-		L_PAYMENTREQUEST_0_INVNUM0: options.reference,
+		L_PAYMENTREQUEST_0_INVNUM0: options._id,
 		L_PAYMENTREQUEST_0_NAME0: 'Full On 2014',
 		L_PAYMENTREQUEST_0_QTY0: 1,
 		L_PAYMENTREQUEST_0_AMT0: options.total
@@ -72,6 +73,10 @@ exports.routes = function (app) {
 
 	app.get('/payment/confirm', function (req, res, next) {
 
+		if (!req.session.pending_registration) {
+			return next(new Error('cannot confirm a payment at this time'));
+		}
+
 		req.session.payment_params.TOKEN = req.query.token;
 		req.session.payment_params.PAYERID = req.query.PayerID;
 
@@ -79,14 +84,22 @@ exports.routes = function (app) {
 			if (err) {
 				console.error('error completing paypal payment', err);
 				req.session.pending_registration = null;
-				return next(new Error('Error completing paypal payment. You\'re application has not been submitted and funds have not been transfered. Please try again'));
+				return next(new Error('Error completing paypal payment. You\'re application has not been submitted and funds have not been transferred. Please try again'));
 			}
 
+			if (!req.session.pending_registration) {
+				return next(new Error(
+					'Your paypal transaction is complete. However we cannot complete your registration.' +
+					'Please contact us immediately to resolve this issue'
+				));
+			}
+
+
 			// update registration submission data
-			if (req.session.pending_registration) {
+			if (req.session.pending_registration && req.session.pending_registration.data) {
 				req.session.pending_registration.data.paypal_success = data.ACK;
 				req.session.pending_registration.data.paypal_correlation_id = data.CORRELATIONID;
-				req.session.pending_registration.data.session.pending_registration.paypal_transaction_id = data.PAYMENTINFO_0_TRANSACTIONID;
+				req.session.pending_registration.data.paypal_transaction_id = data.PAYMENTINFO_0_TRANSACTIONID;
 			}
 
 			var redirect = req.session.payment_params.successUrl;

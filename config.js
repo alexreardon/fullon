@@ -30,9 +30,9 @@ var config = {
 	job_password: process.env.fullon_job_password || 'password',
 
 	paypal: {
-		username: process.env.fullon_paypal_username,
-		password: process.env.fullon_paypal_password,
-		signature: process.env.fullon_paypal_signature,
+		username: process.env.fullon_paypal_username || 'alexreardon-facilitator_api1.gmail.com',
+		password: process.env.fullon_paypal_password || '1381729133',
+		signature: process.env.fullon_paypal_signature || 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-AuUF7YBYnzvqG3J1tnJzoLJv0Fpj',
 		currency_code: 'AUD',
 		sandbox_mode: process.env.fullon_paypal_sandbox_mode || true
 	},
