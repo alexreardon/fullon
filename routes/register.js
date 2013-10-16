@@ -6,12 +6,11 @@ var config = require('../config'),
 	registration = require('../models/registration'),
 	_ = require('underscore'),
 	payment = require('./payment'),
-	chance = require('chance'),
+	email = require('../util/email'),
 	format = require('util').format;
 
 var scripts = ['/public/js/build/register.build.js'],
-	success_url = '/register/confirmation',
-	c = new chance();
+	success_url = '/register/confirmation';
 
 exports.get_invalid_fields = function (schema, post) {
 	var failed_fields = [];
@@ -111,10 +110,6 @@ exports.render_landing = function (req, res, next, validation_error) {
 	}, null, {firstname: 1, lastname: 1});
 };
 
-exports.save_form = function (data, cb) {
-	cb(true);
-};
-
 exports.routes = function (app) {
 	app.get('/register', function (req, res, next) {
 		exports.render_landing(req, res, next);
@@ -185,11 +180,29 @@ exports.routes = function (app) {
 
 			console.log(format('saved registration: %j', r.data));
 
-			//TODO: send confirmation email
+			// send confirmation email
+			//(to, subject, template_name, template_data, cb)
+			email.send(r.data.payer_email, 'Registration Confirmation', 'register_confirmation', {
+				registration: r,
+				config: config.application
+			});
+
+			// render confirmation screen
 			res.render('register_confirmation', data);
 
 		});
 
+	});
+
+	app.get('/email', function (req, res) {
+		//(to, subject, template_name, template_data, cb)
+		var r = registration.create({});
+
+		email.send('alexreardon@gmail.com', 'hello', 'register_confirmation', {
+			registration: r,
+			config: config
+		});
+		res.send('done');
 	});
 };
 

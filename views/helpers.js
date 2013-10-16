@@ -4,25 +4,10 @@ var format = require('util').format,
 	fs = require('fs'),
 	path = require('path'),
 	validation = require('../util/validation'),
-	_ = require('underscore');
+	_ = require('underscore'),
 
-var templates = {};
-var camper_types_array;
-
-function init () {
-
-	// load in helper templates
-	var files = fs.readdirSync(path.join(__dirname, './helpers'));
-	_.each(files, function (file_name) {
-		var text = fs.readFileSync(path.join(__dirname, './helpers/', file_name), 'utf8');
-		templates[file_name.replace('.hbs', '')] = hbs.handlebars.compile(text);
-	});
-
-	// set camper types array
+	templates = require('../util/templates').helpers,
 	camper_types_array = Object.keys(config.application.camper_types);
-}
-
-init();
 
 // http://jsfiddle.net/mpetrovich/wMmHS/
 exports.math = function (lvalue, operator, rvalue, options) {

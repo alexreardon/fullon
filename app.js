@@ -9,11 +9,12 @@ var express = require('express'),
 	locals = require('./util/locals'),
 	app = express();
 
-//views
+// VIEWS
 app.set('views', __dirname + '/views');
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
 
+// Register helpers
 _.each(helpers, function (val, key) {
 	hbs.registerHelper(key, val);
 });
