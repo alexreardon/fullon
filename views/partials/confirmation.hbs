@@ -4,6 +4,15 @@
 
 		<h1>You're <span class="fill">in!</span></h1>
 
+		{{#unless email}}
+			<div class="alert alert-success">
+				<p>
+					A confirmation email has been sent to <strong>{{registration.data.payer_email}}</strong>
+				</p>
+			</div>
+		{{/unless}}
+
+
 		<div class="alert alert-success">
 			<p>
 				<strong>Your reference:</strong> {{registration._id}}

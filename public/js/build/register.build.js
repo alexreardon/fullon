@@ -528,6 +528,7 @@ fullon.routers.register = Backbone.Router.extend({
 		// nav buttons
 		this.$nav_buttons = $('#register_nav .nav li');
 		this.$back_buttons = $('.navigation .btn[data-action=back]');
+		this.$next_buttons = $('.navigation .btn[data-action=next]');
 
 		// warn before refresh
 		var bypass_refresh_check = false;
@@ -546,8 +547,20 @@ fullon.routers.register = Backbone.Router.extend({
 		// block manual form submission
 		this.$form.on('submit', function (event) {
 			console.log('attempting to submit form');
-			// enabled all disabled fields for submission
+
+			// stop listening for navigation events
+			self.stopListening();
+
+			// enabled all disabled fields for submission (ie was not submitting items that where disabled)
 			self.$all_inputs.attr('disabled', false);
+
+			// disable all navigation buttons
+			self.$back_buttons.addClass('disabled');
+			self.$next_buttons.addClass('disabled');
+
+			// disable top nav links
+			self.$nav_buttons.find('a').off('click');
+
 			bypass_refresh_check = true;
 		});
 

@@ -189,7 +189,8 @@ exports.routes = function (app) {
 			//(to, subject, template_name, template_data, cb)
 			email.send(r.data.payer_email, 'Registration Confirmation', 'register_confirmation', {
 				registration: r,
-				config: config.application
+				config: config.application,
+				email: true
 			});
 
 			// render confirmation screen
