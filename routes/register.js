@@ -91,10 +91,15 @@ exports.calculate_total = function (camper_type_name, post) {
 };
 
 exports.render_landing = function (req, res, next, validation_error) {
+	var data = date.get_page_data();
+
+	if (!data.is_registration_open) {
+		return res.render('register_closed');
+	}
+
 	person.find({}, function (err, people) {
 		if (err) {
-			next(new Error(err));
-			return;
+			return next(new Error(err));
 		}
 
 		res.render('register', {
@@ -102,7 +107,7 @@ exports.render_landing = function (req, res, next, validation_error) {
 			config: config.application,
 			scripts: scripts,
 			validation_error: validation_error,
-			data: date.get_page_data(),
+			data: data,
 			people: people,
 			schema: schema.populate()
 		});
@@ -194,15 +199,5 @@ exports.routes = function (app) {
 
 	});
 
-	app.get('/email', function (req, res) {
-		//(to, subject, template_name, template_data, cb)
-		var r = registration.create({});
-
-		email.send('alexreardon@gmail.com', 'hello', 'register_confirmation', {
-			registration: r,
-			config: config
-		});
-		res.send('done');
-	});
 };
 
