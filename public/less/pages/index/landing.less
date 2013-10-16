@@ -14,7 +14,7 @@
 
 	h1, h2, h3, h4, h5, h6 {
 		 text-align: center;
-		 letter-spacing: -4px;
+		 letter-spacing: -3px;
 	 }
 
 	// Lord of the Rings
@@ -73,10 +73,6 @@
 
 	}
 
-	// Video
-	#landing_video {
-		.center-block();
-	}
 
 	h2 {
 
@@ -117,7 +113,8 @@
 		}
 
 		&:before {
-			.flag('/public/images/Banner_king.png', -1px * (@pic-width-calculate + 14px));
+			// 6px added because the font is dumb and the element was not aligned properly
+			.flag('/public/images/Banner_king.png', (-1px * (@pic-width-calculate + 14px)) + 6px);
 		}
 
 		&:after {

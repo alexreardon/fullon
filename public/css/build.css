@@ -4838,7 +4838,7 @@ footer img {
 #landing h5,
 #landing h6 {
   text-align: center;
-  letter-spacing: -4px;
+  letter-spacing: -3px;
 }
 #landing h1 img {
   width: 370px;
@@ -4893,11 +4893,6 @@ footer img {
   font-size: 14px;
   margin-top: -3px;
 }
-#landing #landing_video {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 #landing h2 {
   font-size: 62px;
   margin-top: 0px;
@@ -4914,7 +4909,7 @@ footer img {
 #landing h3:before {
   content: '';
   margin-top: -22px;
-  margin-left: -91px;
+  margin-left: -85px;
   width: 110px;
   height: 189px;
   position: absolute;

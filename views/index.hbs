@@ -228,21 +228,32 @@
 			Jesus is and what it means to follow him. It is also a week of "Full On" fun and activities, indoor and
 			outdoors, in a loving community.
 		</p>
-	</div>
-	<div class="col-md-6">
+
 		<h2>When?</h2>
 
 		<p>{{config.date_camp_start}}</p>
 
 		<p>Full On will take place on 1st-6th of January 2014.</p>
+
+		<h2>When do registrations close?</h2>
+
+		<p>
+			Registrations are currently
+			{{#if data.is_registration_open}}
+				<strong class="text-success">open.</strong>
+			{{else}}
+				<strong class="text-danger">closed.</strong>
+			{{/if}}
+
+		<p>
+			Registrations will close on {{config.date_register_end}}.
+			{{#if data.is_registration_open}} ({{data.days_to_registration_close}} days to go!){{/if}}
+		</p>
+
 	</div>
-</div>
-
-
-<h2>Where?</h2>
-
-<div class="row">
 	<div class="col-md-6">
+		<h2>Where?</h2>
+
 		<p>
 			It will be held at the picturesque <a href="http://www.youthworks.net/conferencecentres/port_hacking">Anglican
 			Youthworks Conference Centres at Port Hacking</a>, in the Royal National Park.
@@ -258,11 +269,20 @@
 			options and
 			catering facilities.
 		</p>
-	</div>
-	<div class="col-md-6">
+
 		<img id="img_campsite" class="img-responsive img-thumbnail" src="/public/images/campsite.jpg" alt="Campsite" />
 
 		<p class="text-center">Our beautiful waterside campsite</p>
+	</div>
+</div>
+
+
+<div class="row">
+	<div class="col-md-6">
+
+	</div>
+	<div class="col-md-6">
+
 	</div>
 </div>
 

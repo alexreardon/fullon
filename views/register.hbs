@@ -172,7 +172,6 @@
 
 		{{>input schema.basic.fields.first_name}}
 		{{>input schema.basic.fields.last_name}}
-		{{>input schema.basic.fields.email}}
 		{{>input schema.basic.fields.gender}}
 		{{>input schema.basic.fields.date_of_birth}}
 		{{>input schema.basic.fields.school_year}}
@@ -194,7 +193,8 @@
 	</div>
 </section>
 	{{! generic sections }}
-	{{>form_section schema.medical_contacts}}
+	{{>form_section schema.medical_organisations}}
+	{{>form_section schema.medical_emergency_contacts}}
 	{{>form_section schema.medical_info}}
 	{{>form_section schema.activities}}
 

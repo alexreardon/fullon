@@ -147,23 +147,14 @@ var data = {
 					min_length: 4,
 					max_length: 4
 				}
-			},
-			email: {
-				text: 'Email',
-				name: 'email',
-				type: 'text',
-				validation: {
-					required: true,
-					is_email: true
-				}
 			}
 		}
 
 	},
 
-	medical_contacts: {
-		name: 'medical_contacts',
-		text: 'Medical Contacts',
+	medical_organisations: {
+		name: 'medical_organisations',
+		text: 'Medical Organisations',
 		short_title: 'contacts',
 		fields: {
 			medicare_number: {
@@ -221,6 +212,54 @@ var data = {
 				}
 			}
 		}
+	},
+
+	medical_emergency_contacts: {
+		name: 'medical_emergency_contacts',
+		text: 'Emergency Contacts',
+		short_title: 'emergency',
+		fields: (function () {
+
+			var result = {};
+
+			for (var i = 1; i <= 2; i++) {
+				var required = (i === 1 ? true : false);
+
+				result['emergency_contact_name_' + i] = {
+					name: 'emergency_contact_name_' + i,
+					text: 'Emergency Contact #' + i,
+					type: 'text',
+					validation: {
+						required: required,
+						is_letters: true
+					}
+				};
+
+				result['emergency_contact_relationship_' + i] = {
+					name: 'emergency_contact_relationship_' + i,
+					text: 'What is their relationship to the camper?',
+					info: 'For example \'parent\', \'close family friend\' and so on',
+					type: 'text',
+					validation: {
+						required: required,
+						is_letters: true
+					}
+				};
+
+				result['emergency_contact_phone_' + i] = {
+					name: 'emergency_contact_phone_' + i,
+					text: 'What is their best contact number?',
+					type: 'text',
+					validation: {
+						required: required,
+						is_numbers: true
+					}
+				};
+			}
+
+			return result;
+
+		})()
 	},
 
 	medical_info: {
