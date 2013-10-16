@@ -554,7 +554,7 @@ fullon.routers.register = Backbone.Router.extend({
 			// enabled all disabled fields for submission (ie was not submitting items that where disabled)
 			self.$all_inputs.attr('disabled', false);
 
-			// disable all navigation buttons
+			// visually disable all navigation buttons
 			self.$back_buttons.addClass('disabled');
 			self.$next_buttons.addClass('disabled');
 
