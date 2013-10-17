@@ -15,24 +15,33 @@ var smtpTransport = nodemailer.createTransport('SMTP', {
 });
 
 //starts an async call - does not wait for success/failure
-exports.send = function (to, subject, template_name, template_data, cb) {
+exports.send = function (params){
+	/*
+	to, bcc*, subject, template_name, template_data, cb (* = optional)
+	 */
 
-	if(!templates[template_name]){
-		console.error('email template not found: ' + template_name);
-		if(cb){
-			cb('email template not found: ' + template_name);
+	if(!templates[params.template_name]){
+		console.error('email template not found: ' + params.template_name);
+		if(params.cb){
+			params.cb('email template not found: ' + params.template_name);
 		}
 		return;
 	}
 	//put on the end of the event queue
 	process.nextTick(function () {
+		// mandatory
 		var options = {
-			to: to,
-			subject: subject,
+			to: params.to,
+			subject: params.subject,
 			from: format('Full On <%s>', config.google_username),
-			html: templates[template_name](template_data || {}),
-			cb: cb
+			html: templates[params.template_name](params.template_data || {}),
+			cb: params.cb
 		};
+
+		//optional
+		if(params.bcc){
+			options.bcc = params.bcc;
+		}
 
 		smtpTransport.sendMail(options, function (err, response) {
 			console.log(format('sending email [to: "%s" subject: "%s"]', options.to, options.subject));
@@ -43,8 +52,8 @@ exports.send = function (to, subject, template_name, template_data, cb) {
 				console.log('success');
 			}
 
-			if (cb) {
-				cb(err, response);
+			if (options.cb) {
+				options.cb(err, response);
 			}
 		});
 	});

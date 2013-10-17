@@ -186,11 +186,17 @@ exports.routes = function (app) {
 			console.log(format('saved registration: %j', r.data));
 
 			// send confirmation email
-			//(to, subject, template_name, template_data, cb)
-			email.send(r.data.payer_email, 'Registration Confirmation', 'register_confirmation', {
-				registration: r,
-				config: config.application,
-				email: true
+			email.send({
+				to: r.data.payer_email,
+				subject: 'Registration Confirmation',
+				template_name: 'register_confirmation',
+				template_data: {
+					registration: r,
+					config: config.application,
+					email: true
+				},
+				// let admin's know that a registration has occurred
+				bcc: config.admin_emails
 			});
 
 			// render confirmation screen

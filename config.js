@@ -37,6 +37,9 @@ var config = {
 		sandbox_mode: process.env.fullon_paypal_sandbox_mode || true
 	},
 
+	// emails - used for bcc on confirmations
+	admin_emails: ['alexreardon@gmail.com', 'mikes@stphils.org.au'],
+
 	// public variables
 	application: {
 
