@@ -8,7 +8,7 @@ var expect = require('expect.js'),
 describe('Get Spreadsheet Data', function() {
 
 
-	describe('getPerson', function() {
+	describe('get_person', function() {
 
 		var firstname = 'Bob',
 			lastname = 'Smith',
@@ -36,19 +36,19 @@ describe('Get Spreadsheet Data', function() {
 		});
 
 		it('should find a match', function() {
-			var person = spreadsheet._getPerson(people, firstname, lastname);
+			var person = spreadsheet._get_person(people, firstname, lastname);
 			expect(person).to.equal(people[0]);
 		});
 
 		it('should not create a new person when a match is found', function() {
 
-			var person = spreadsheet._getPerson(people, 'Bob', 'Smith');
+			var person = spreadsheet._get_person(people, 'Bob', 'Smith');
 			expect(people).to.have.length(data.length);
 		});
 
 		it('should create a new person when a match is not found', function() {
 
-			var person = spreadsheet._getPerson(people, firstname + 'newText', lastname + 'newText');
+			var person = spreadsheet._get_person(people, firstname + 'newText', lastname + 'newText');
 			expect(people).to.have.length(data.length + 1);
 		});
 	});
@@ -104,7 +104,7 @@ describe('Get Spreadsheet Data', function() {
 		it('should update the sold amount for the seller', function() {
 
 
-			var people = spreadsheet._processSpreadsheet([data[0]]);
+			var people = spreadsheet._process_spreadsheet([data[0]]);
 
 			expect(people[0].prototype).to.be(person.prototype);
 			expect(people[0].data).to.have.property('sold', 1);
@@ -114,7 +114,7 @@ describe('Get Spreadsheet Data', function() {
 		it('should update the count of an existing person if they exist', function() {
 
 			var rows = [data[0], data[0]];
-			var people = spreadsheet._processSpreadsheet(rows);
+			var people = spreadsheet._process_spreadsheet(rows);
 
 			expect(people).to.have.length(1);
 			expect(people[0].data).to.have.property('sold', rows.length);
@@ -122,7 +122,7 @@ describe('Get Spreadsheet Data', function() {
 
 		it('should update the attributed amount to the seller if no attributed to name is given', function() {
 
-			var people = spreadsheet._processSpreadsheet([data[0]]);
+			var people = spreadsheet._process_spreadsheet([data[0]]);
 
 			expect(people[0].data).to.have.property('sold', 1);
 			expect(people[0].data).to.have.property('attributed', 1);
@@ -130,7 +130,7 @@ describe('Get Spreadsheet Data', function() {
 
 		it('should update the attributed amount for the attributed name and not for the seller', function() {
 
-			var people = spreadsheet._processSpreadsheet([data[2]]);
+			var people = spreadsheet._process_spreadsheet([data[2]]);
 
 			expect(people).to.have.length(2);
 
@@ -179,7 +179,7 @@ describe('Get Spreadsheet Data', function() {
 			var count = 0;
 
 			_.each(items, function(item) {
-				if(spreadsheet._processSpreadsheet([item]).length) {
+				if(spreadsheet._process_spreadsheet([item]).length) {
 					count++;
 				}
 			});
@@ -241,7 +241,7 @@ describe('Get Spreadsheet Data', function() {
 		it('should get data from google', function(done) {
 			this.timeout(timeout);
 
-			spreadsheet._getSpreadSheet(function(err, data) {
+			spreadsheet._get_spread_sheet(function(err, data) {
 				if(err) {
 					expect(false).to.be(true);
 					throw err;

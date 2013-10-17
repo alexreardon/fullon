@@ -47,34 +47,22 @@
 
 	.nav {
 		li {
-			&.done {
-				a {
-					color: @brand-success;
-				}
-
-			}
-
-			&.pending {
-
-				a {
-					color: orange;
-				}
-			}
-
-			&.partially_completed {
-
-				a {
-					color: pink;
-				}
-			}
-
 			a {
 				padding: 0 5px;
 			}
+			&.done a {
+				color: @brand-success;
+			}
+			&.pending a {
+				color: @gray-light;
+			}
+			&.partially_completed a {
+				color: @gray-dark;
+			}
+			// at bottom to give priority
+			&.active a {
+				color: @component-active-color;
+			}
 		}
-
-
 	}
-
-
 }
