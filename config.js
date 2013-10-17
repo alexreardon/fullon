@@ -34,7 +34,7 @@ var config = {
 		password: process.env.fullon_paypal_password || '1381729133',
 		signature: process.env.fullon_paypal_signature || 'An5ns1Kso7MWUdW4ErQKJJJ4qi4-AuUF7YBYnzvqG3J1tnJzoLJv0Fpj',
 		currency_code: 'AUD',
-		sandbox_mode: process.env.fullon_paypal_sandbox_mode || true
+		sandbox_mode: (process.env.fullon_paypal_sandbox_mode === 'on' ? true : false)
 	},
 
 	// emails - used for bcc on confirmations
