@@ -46,7 +46,11 @@ fullon.views.common = Backbone.View.extend({
 
 		// navbar close
 		this.$nav.find('a').on('click', function () {
-			this.$nav.find('.navbar-collapse').collapse('hide');
+			// only call collapse if menu is out
+			var $bar = this.$nav.find('.navbar-collapse');
+			if (!$bar.hasClass('collapse')) {
+				$bar.collapse('hide');
+			}
 		}.bind(this));
 
 	},
