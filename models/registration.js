@@ -30,6 +30,7 @@ registration.create_id = function (first_name, last_name) {
 	return format('%s-%s%s-%s', 'FO14', first_initial, last_initial, random);
 };
 
+
 registration.create = function (data, _id) {
 
 	var id = _id || this.create_id();

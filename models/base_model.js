@@ -4,6 +4,15 @@ var database = require('../util/db'),
 
 var base_model = Object.create(Object.prototype);
 
+base_model.create = function(options){
+	var self = Object.create(this);
+	self.data = options.data;
+	self.collection_name = options.collection_name;
+
+	// optional
+	// self.search TO DO DOOTOTOTOD ODO
+};
+
 base_model.create = function (data, collection_name, search_key_fields, _id) {
 	//'data' will be saved in the database
 	var self = Object.create(this);
@@ -49,8 +58,7 @@ base_model.save = function (cb, upsert) {
 
 			if (err) {
 				console.err(format('update failed: %j', err));
-				cb(err);
-				return;
+				return cb(err);
 			}
 			cb(null);
 
