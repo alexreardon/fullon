@@ -9,7 +9,7 @@ var express = require('express'),
 	locals = require('./util/locals'),
 	app = express();
 
-// VIEWS
+// Views
 app.set('views', __dirname + '/views');
 hbs.registerPartials(__dirname + '/views/partials');
 app.set('view engine', 'hbs');
@@ -19,24 +19,20 @@ _.each(helpers, function (val, key) {
 	hbs.registerHelper(key, val);
 });
 
-//middleware - features
-
+// Middleware - features
 app.use(express.logger('dev'));
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(config.cookie_secret));
 app.use(express.session());
 
-//static file serving
+// static file serving
 app.use('/public', express.static(path.join(__dirname, '/public')));
-
-//bootstrap data
-app.locals.bootstrap = JSON.stringify(locals.bootstrap);
 
 // middleware - flow
 app.use(app.router);
 
-// error handling
+// Error handling
 var errorLogger = function (err, req, res, next) {
 	console.error(err);
 	next(err);
@@ -54,28 +50,15 @@ app.use(errorLogger);
 app.use(error404);
 app.use(error500);
 
-//TODO: routeNotFound
-//app.use(routeNotFound);
+// Bootstrap data
+app.locals.bootstrap = JSON.stringify(locals.bootstrap);
 
-//development
-//if ('development' === app.get('env')) {
-//	app.use(express.errorHandler());
-//}
-
-//production
-
-//
-//if ('production' === app.get('env')) {
-//	//app.use(express.errorHandler());
-//	//app.use(errorHandler); TODO
-//}
-
-//load in routes
+// Load in routes
 _.each(fs.readdirSync('./routes'), function (file) {
 	require('./routes/' + file).routes(app);
 });
 
-//start the server
+// Start the server
 app.listen(config.port, function () {
 	console.log('Full On now listening on port ' + config.port);
 });

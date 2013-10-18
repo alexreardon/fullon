@@ -52,7 +52,7 @@ var data = {
 		short_title: 'basic',
 		fields: {
 			first_name: {
-				text: 'first name',
+				text: 'First name',
 				name: 'first_name',
 				type: 'text',
 				validation: {
@@ -61,7 +61,7 @@ var data = {
 				}
 			},
 			last_name: {
-				text: 'last name',
+				text: 'Last name',
 				name: 'last_name',
 				type: 'text',
 				validation: {
