@@ -16,7 +16,12 @@
 
 				<h2>One <em>Camp</em> to Rule them <em>All</em></h2>
 
-				<h3>{{config.date_camp_start}}</h3>
+				<div id="landing_flag_box">
+					<img class="junior_flag" src="/public/images/flags/senior.png" />
+
+					<h3>{{config.date_camp_start}}</h3>
+					<img class="senior_flag" src="/public/images/flags/junior.png" />
+				</div>
 				<h4>
 					{{#if data.is_camp_open}}
 						{{data.days_to_camp}} Days to Go

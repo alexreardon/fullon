@@ -11,11 +11,10 @@
 		background-image: none;
 	}
 
-
 	h1, h2, h3, h4, h5, h6 {
-		 text-align: center;
-		 letter-spacing: -3px;
-	 }
+		text-align: center;
+		letter-spacing: -3px;
+	}
 
 	// Lord of the Rings
 	h1 {
@@ -91,42 +90,65 @@
 
 	}
 
-	// date
-	h3 {
-		font-size: @fo-index-base-font-size;
-		text-shadow: 0px 0px 20px lighten(@fo-colour-white, 10%);
-		margin-top: 16px;
+	#landing_flag_box {
+		position: relative;
 
-		@pic-width: 110px;
-		@pic-width-calculate: (110px*0.7);
-
-		.flag(@url, @margin-left) {
-			content: '';
-			margin-top: -22px;
-			margin-left: @margin-left;
-			width: @pic-width;
-			height: 189px;
+		img {
+			width: 75px;
+			top: 0;
 			position: absolute;
-			background-image: url(@url);
-			background-repeat: no-repeat;
-			background-position: top left;
-			background-size: @pic-width-calculate;
+			left: 50%;
+			margin-top: -15px;
 
 			// don't show on small devices
 			@media (max-width: @screen-md-min) {
 				display: none;
 			}
-		}
 
-		&:before {
-			// 6px added because the font is dumb and the element was not aligned properly
-			.flag('/public/images/Banner_king.png', (-1px * (@pic-width-calculate + 14px)) + 6px);
-		}
+			&.junior_flag {
+				margin-left: -180px;
+			}
 
-		&:after {
-			.flag('/public/images/Dol_amroth.png', 14px);
+			&.senior_flag {
+				margin-left: 110px;
+			}
 		}
 	}
+
+	// date
+	h3 {
+		font-size: @fo-index-base-font-size;
+		text-shadow: 0px 0px 20px lighten(@fo-colour-white, 10%);
+		margin-top: 16px;
+	}
+	//
+	//		.flag(@url, @margin-left) {
+	//			content: '';
+	//			margin-top: -22px;
+	//			margin-left: @margin-left;
+	//			width: @pic-width;
+	//			height: 189px;
+	//			position: absolute;
+	//			background-image: url(@url);
+	//			background-repeat: no-repeat;
+	//			background-position: top left;
+	//			background-size: @pic-width-calculate;
+	//
+	//			// don't show on small devices
+	//			@media (max-width: @screen-md-min) {
+	//				display: none;
+	//			}
+	//		}
+	//
+	//		&:before {
+	//			// 6px added because the font is dumb and the element was not aligned properly
+	//			.flag('/public/images/Banner_king.png', (-1px * (@pic-width-calculate + 14px)) + 6px);
+	//		}
+	//
+	//		&:after {
+	//			.flag('/public/images/Dol_amroth.png', 14px);
+	//		}
+	//	}
 
 	// days to go
 	h4 {
