@@ -73,7 +73,7 @@
 
 	}
 
-
+	// One camp to rule them all
 	h2 {
 
 		font-size: @fo-index-base-font-size;
@@ -83,6 +83,12 @@
 			font-style: normal;
 			color: lighten(@fo-colour-white, 30%);
 		}
+
+		// make the two lines of text closer together
+		@media (max-width: @screen-md-max) {
+			line-height: (@fo-index-base-font-size - 12px);
+		}
+
 	}
 
 	// date
