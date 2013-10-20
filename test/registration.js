@@ -21,12 +21,12 @@ describe('registration', function () {
 	beforeEach(function () {
 		registrations = [];
 		_.each(data, function (item) {
-			registrations.push(registration.create(item));
+			registrations.push(registration.create({data: item}));
 		});
 	});
 
 	it('Should be an instance of base_model', function () {
-		var r = registration.create(data[0]);
+		var r = registration.create({data: data[0]});
 		expect(r.prototype).to.be(registration.prototype);
 		expect(r.prototype).to.be(base_model.prototype);
 	});

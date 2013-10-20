@@ -37,12 +37,12 @@ describe('person', function () {
 	beforeEach(function () {
 		people = [];
 		_.each(data, function (item) {
-			people.push(person.create(item));
+			people.push(person.create({data: item}));
 		});
 	});
 
 	it('Should be an instance of base_model', function () {
-		var p = person.create(data[0]);
+		var p = person.create({data: data[0]});
 		expect(p.prototype).to.be(person.prototype);
 		expect(p.prototype).to.be(base_model.prototype);
 	});
@@ -115,8 +115,8 @@ describe('person', function () {
 		it('should know how many boxes of chocolate the top family sold', function () {
 			var reardon_boxes = 0;
 
-			_.each(people, function(item){
-				if(item.data.lastname === 'Reardon'){
+			_.each(people, function (item) {
+				if (item.data.lastname === 'Reardon') {
 					reardon_boxes += item.data.sold;
 				}
 			});

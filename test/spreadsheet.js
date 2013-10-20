@@ -5,10 +5,9 @@ var expect = require('expect.js'),
 	database = require('../util/db'),
 	person = require('../models/person');
 
-describe('Get Spreadsheet Data', function() {
+describe('Get Spreadsheet Data', function () {
 
-
-	describe('get_person', function() {
+	describe('get_person', function () {
 
 		var firstname = 'Bob',
 			lastname = 'Smith',
@@ -28,32 +27,32 @@ describe('Get Spreadsheet Data', function() {
 			],
 			people;
 
-		beforeEach(function(){
+		beforeEach(function () {
 			people = [];
-			_.each(data, function(item){
-				people.push(person.create(item));
+			_.each(data, function (item) {
+				people.push(person.create({data: item}));
 			});
 		});
 
-		it('should find a match', function() {
+		it('should find a match', function () {
 			var person = spreadsheet._get_person(people, firstname, lastname);
 			expect(person).to.equal(people[0]);
 		});
 
-		it('should not create a new person when a match is found', function() {
+		it('should not create a new person when a match is found', function () {
 
 			var person = spreadsheet._get_person(people, 'Bob', 'Smith');
 			expect(people).to.have.length(data.length);
 		});
 
-		it('should create a new person when a match is not found', function() {
+		it('should create a new person when a match is not found', function () {
 
 			var person = spreadsheet._get_person(people, firstname + 'newText', lastname + 'newText');
 			expect(people).to.have.length(data.length + 1);
 		});
 	});
 
-	describe('Process data', function() {
+	describe('Process data', function () {
 
 		var data = [
 			{
@@ -100,9 +99,7 @@ describe('Get Spreadsheet Data', function() {
 			}
 		];
 
-
-		it('should update the sold amount for the seller', function() {
-
+		it('should update the sold amount for the seller', function () {
 
 			var people = spreadsheet._process_spreadsheet([data[0]]);
 
@@ -111,7 +108,7 @@ describe('Get Spreadsheet Data', function() {
 
 		});
 
-		it('should update the count of an existing person if they exist', function() {
+		it('should update the count of an existing person if they exist', function () {
 
 			var rows = [data[0], data[0]];
 			var people = spreadsheet._process_spreadsheet(rows);
@@ -120,7 +117,7 @@ describe('Get Spreadsheet Data', function() {
 			expect(people[0].data).to.have.property('sold', rows.length);
 		});
 
-		it('should update the attributed amount to the seller if no attributed to name is given', function() {
+		it('should update the attributed amount to the seller if no attributed to name is given', function () {
 
 			var people = spreadsheet._process_spreadsheet([data[0]]);
 
@@ -128,13 +125,13 @@ describe('Get Spreadsheet Data', function() {
 			expect(people[0].data).to.have.property('attributed', 1);
 		});
 
-		it('should update the attributed amount for the attributed name and not for the seller', function() {
+		it('should update the attributed amount for the attributed name and not for the seller', function () {
 
 			var people = spreadsheet._process_spreadsheet([data[2]]);
 
 			expect(people).to.have.length(2);
 
-			var seller = _.find(people, function(prsn) {
+			var seller = _.find(people, function (prsn) {
 				return (prsn.data.firstname === data[2].sellerfirstname &&
 					prsn.data.lastname === data[2].sellerlastname);
 			});
@@ -142,7 +139,7 @@ describe('Get Spreadsheet Data', function() {
 			expect(seller.data).to.have.property('sold', 1);
 			expect(seller.data).to.have.property('attributed', 0);
 
-			var beneficiary = _.find(people, function(prsn) {
+			var beneficiary = _.find(people, function (prsn) {
 				return (prsn.data.firstname === data[2].attributedfirstname &&
 					prsn.data.lastname === data[2].attributedlastname);
 			});
@@ -152,8 +149,7 @@ describe('Get Spreadsheet Data', function() {
 
 		});
 
-
-		it('should not process a row without required columns (date received, sellerfirstname, sellerlastname)', function() {
+		it('should not process a row without required columns (date received, sellerfirstname, sellerlastname)', function () {
 
 			var items = [
 				{},
@@ -178,20 +174,19 @@ describe('Get Spreadsheet Data', function() {
 
 			var count = 0;
 
-			_.each(items, function(item) {
-				if(spreadsheet._process_spreadsheet([item]).length) {
+			_.each(items, function (item) {
+				if (spreadsheet._process_spreadsheet([item]).length) {
 					count++;
 				}
 			});
 
 			expect(count).to.be(1);
 
-
 		});
 
 	});
 
-	describe('Save data', function() {
+	describe('Save data', function () {
 
 		var firstname = 'Bob',
 			lastname = 'Smith',
@@ -211,38 +206,35 @@ describe('Get Spreadsheet Data', function() {
 			],
 			people;
 
-		beforeEach(function(){
+		beforeEach(function () {
 			people = [];
-			_.each(data, function(item){
-				people.push(person.create(item));
+			_.each(data, function (item) {
+				people.push(person.create({data: item}));
 			});
 		});
 
-
-		afterEach(function(done) {
-			database.connect(function(db){
+		afterEach(function (done) {
+			database.connect(function (db) {
 				var collection = db.collection(person.collection_name);
 				collection.drop();
 				done();
 			});
 		});
 
-
-		it.skip('should persist saved people in the database', function(done) {
+		it.skip('should persist saved people in the database', function (done) {
 
 		});
 	});
 
-
-	describe.skip('Long running tests', function() {
+	describe.skip('Long running tests', function () {
 
 		var timeout = 10000; //10 seconds
 
-		it('should get data from google', function(done) {
+		it('should get data from google', function (done) {
 			this.timeout(timeout);
 
-			spreadsheet._get_spread_sheet(function(err, data) {
-				if(err) {
+			spreadsheet._get_spread_sheet(function (err, data) {
+				if (err) {
 					expect(false).to.be(true);
 					throw err;
 				}
@@ -251,11 +243,11 @@ describe('Get Spreadsheet Data', function() {
 			});
 		});
 
-		it('should run', function(done) {
+		it('should run', function (done) {
 			this.timeout(timeout);
 
-			spreadsheet.run(function(err) {
-				if(err) {
+			spreadsheet.run(function (err) {
+				if (err) {
 					expect(true).to.be(false);
 				}
 				expect(true).to.be(true);
@@ -264,6 +256,5 @@ describe('Get Spreadsheet Data', function() {
 		});
 
 	});
-
 
 });

@@ -30,13 +30,18 @@ registration.create_id = function (first_name, last_name) {
 	return format('%s-%s%s-%s', 'FO14', first_initial, last_initial, random);
 };
 
+// {data: {}, _id: string}
+registration.create = function (options) {
 
-registration.create = function (data, _id) {
-
-	var id = _id || this.create_id();
+	var id = options._id || this.create_id();
 	// only issue is that this could produce duplicates.
 	// mitigation: there will only be around 100-150 registrations.
-	return base_model.create.call(this, data, registration.collection_name, null, id);
+
+	return base_model.create.call(this, {
+		data: options.data,
+		collection_name: registration.collection_name,
+		_id: id
+	});
 };
 
 module.exports = registration;

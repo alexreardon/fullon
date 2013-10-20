@@ -4,30 +4,38 @@ var database = require('../util/db'),
 
 var base_model = Object.create(Object.prototype);
 
-base_model.create = function(options){
+// {data: {}, collection_name: string, search_key_fields: array, _id: string}
+base_model.create = function (options) {
+
 	var self = Object.create(this);
 	self.data = options.data;
 	self.collection_name = options.collection_name;
 
-	// optional
-	// self.search TO DO DOOTOTOTOD ODO
-};
-
-base_model.create = function (data, collection_name, search_key_fields, _id) {
-	//'data' will be saved in the database
-	var self = Object.create(this);
-	self.data = data;
-	self.collection_name = collection_name;
-
 	// optional fields
-	self.search_key_fields = search_key_fields;
-	self._id = _id;
+	self.search_key_fields = options.search_key_fields;
+	self._id = options._id;
 
-	//put any temporary data here - will not be saved
+	// temporary object data - won't be saved
 	self.temp = Object.create(null);
 
 	return self;
 };
+
+//base_model.create = function (data, collection_name, search_key_fields, _id) {
+//	//'data' will be saved in the database
+//	var self = Object.create(this);
+//	self.data = data;
+//	self.collection_name = collection_name;
+//
+//	// optional fields
+//	self.search_key_fields = search_key_fields;
+//	self._id = _id;
+//
+//	//put any temporary data here - will not be saved
+//	self.temp = Object.create(null);
+//
+//	return self;
+//};
 
 base_model.get_search_query = function () {
 	var query = Object.create(null);
@@ -103,7 +111,13 @@ base_model.find = function (query, cb, limit, sort, doc_only) {
 				var id = item._id || null;
 				delete item._id;
 
-				result.push(this.create(item, this.collection_name, this.search_key_fields, id));
+				result.push(this.create({
+					data: item,
+					collection_name: this.collection_name,
+					search_key_fields: this.search_key_fields,
+					_id: id
+				}));
+				//result.push(this.create(item, this.collection_name, this.search_key_fields, id));
 			}, this);
 
 			cb(null, result);

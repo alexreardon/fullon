@@ -167,7 +167,10 @@ exports.routes = function (app) {
 			return res.redirect('/');
 		}
 
-		var r = registration.create(req.session.pending_registration.data, req.session.pending_registration._id);
+		var r = registration.create({
+			data: req.session.pending_registration.data,
+			_id: req.session.pending_registration._id
+		});
 
 		r.save(function (err) {
 			// unset pending registration

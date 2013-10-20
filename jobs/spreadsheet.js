@@ -16,7 +16,7 @@ function get_person (people, firstname, lastname) {
 
 	//if none found - add it
 	if (!p) {
-		p = person.create({firstname: firstname, lastname: lastname});
+		p = person.create({data: {firstname: firstname, lastname: lastname}});
 		people.push(p);
 	}
 

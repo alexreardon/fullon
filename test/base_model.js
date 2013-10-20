@@ -80,7 +80,7 @@ describe.skip('Inheritence', function () {
 describe('Base Model', function () {
 
 	var collection_name = 'test',
-		searchKeys = ['firstname', 'lastname'],
+		search_keys = ['firstname', 'lastname'],
 		data;
 
 	function dropCollection (name, cb) {
@@ -110,7 +110,11 @@ describe('Base Model', function () {
 		var model;
 
 		beforeEach(function () {
-			model = base_model.create(data[0], collection_name, searchKeys);
+			model = base_model.create({
+				data: data[0],
+				collection_name: collection_name,
+				search_key_fields: search_keys
+			});
 		});
 
 		it('Should create new objects', function () {
@@ -122,7 +126,7 @@ describe('Base Model', function () {
 			expect(model).to.have.property('collection_name', collection_name);
 			expect(model).to.have.property('data', data[0]);
 			expect(model.temp).to.be.empty();
-			expect(model).to.have.property('search_key_fields', searchKeys);
+			expect(model).to.have.property('search_key_fields', search_keys);
 		});
 
 		it('Should create a valid search query based on search keys', function () {
@@ -200,8 +204,11 @@ describe('Base Model', function () {
 			it('should save multiple', function (done) {
 
 				var data = [
-					base_model.create(data, collection_name, searchKeys),
-					base_model.create(data, collection_name, searchKeys)
+					base_model.create({
+						data: data,
+						collection_name: collection_name,
+						search_key_fields: search_keys
+					})
 				];
 
 				model.save_multiple(data, function () {
@@ -222,7 +229,11 @@ describe('Base Model', function () {
 			_id = 'test123';
 
 		beforeEach(function () {
-			model = base_model.create(data[0], collection_name, null, _id);
+			model = base_model.create({
+				data: data[0],
+				collection_name: collection_name,
+				_id: _id
+			});
 		});
 
 		it('should have an id field', function () {
@@ -267,7 +278,12 @@ describe('Base Model', function () {
 			models = [];
 			var count = 0;
 			_.each(data, function (item, i) {
-				var model = base_model.create(item, collection_name, searchKeys);
+				var model = base_model.create({
+					data: item,
+					collection_name: collection_name,
+					search_key_fields: search_keys
+				});
+
 				models.push(model);
 				model.save(function () {
 					count++;

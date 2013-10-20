@@ -4,7 +4,7 @@ var expect = require('expect.js'),
 	S = require('string'),
 	registration = require('../models/registration');
 
-describe.only('Reporting Job', function () {
+describe('Reporting Job', function () {
 
 	describe('create csv rows', function () {
 
@@ -76,7 +76,7 @@ describe.only('Reporting Job', function () {
 			};
 
 		beforeEach(function(){
-			reg = registration.create(data);
+			reg = registration.create({data: data});
 		});
 
 		it('should put the id of the registation in the first column', function(){

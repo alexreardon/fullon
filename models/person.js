@@ -6,12 +6,16 @@ var person = Object.create(base_model);
 person.collection_name = 'people';
 person.search_keys = ['firstname', 'lastname'];
 
-person.create = function (data) {
+person.create = function (options) {
 
-	data.sold = data.sold || 0;
-	data.attributed = data.attributed || 0;
+	options.data.sold = options.data.sold || 0;
+	options.data.attributed = options.data.attributed || 0;
 
-	return base_model.create.call(this, data, person.collection_name, person.search_keys);
+	return base_model.create.call(this, {
+		data: options.data,
+		collection_name: person.collection_name,
+		search_key_fields: person.search_keys
+	});
 };
 
 person._calculate_positions = function (people) {
