@@ -1,5 +1,5 @@
-var helpers = require('../views/helpers'),
-	config = require('../config'),
+var helpers = require('../../views/helpers'),
+	config = require('../../config'),
 	expect = require('expect.js');
 
 describe('Field Generation', function () {

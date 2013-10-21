@@ -1,6 +1,6 @@
 var expect = require('expect.js'),
-	config = require('../config'),
-	validation = require('../util/validation'),
+	config = require('../../config'),
+	validation = require('../../util/validation'),
 	_ = require('underscore');
 
 describe('Validation', function () {

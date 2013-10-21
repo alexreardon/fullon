@@ -27,6 +27,7 @@ exports.send = function (params){
 		}
 		return;
 	}
+
 	//put on the end of the event queue
 	process.nextTick(function () {
 		// mandatory

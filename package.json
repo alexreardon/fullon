@@ -1,12 +1,12 @@
 {
   "name": "stphils-fullon2014",
   "subdomain": "stphils-fullon2014",
-  "version": "0.0.4",
+  "version": "1.0.1",
   "description": "st phils full on website",
-  "main": "app.js",
+  "main": "server.js",
   "scripts": {
-    "test": "grunt && mocha --reporter spec",
-    "start": "node app.js"
+    "test": "grunt && mocha --reporter spec test/**/*.js",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -56,6 +56,7 @@
     "grunt-contrib-concat": "~0.3.0",
     "grunt-contrib-handlebars": "~0.5.10",
     "grunt-nodemon": "~0.1.1",
-    "grunt-concurrent": "~0.3.1"
+    "grunt-concurrent": "~0.3.1",
+    "request": "~2.27.0"
   }
 }

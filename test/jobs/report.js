@@ -1,8 +1,8 @@
 var expect = require('expect.js'),
-	report = require('../jobs/report'),
+	report = require('../../jobs/report'),
 	_ = require('underscore'),
 	S = require('string'),
-	registration = require('../models/registration');
+	registration = require('../../models/registration');
 
 describe('Reporting Job', function () {
 

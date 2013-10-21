@@ -1,6 +1,6 @@
 var expect = require('expect.js'),
-	register = require('../routes/register'),
-	config = require('../config'),
+	register = require('../../routes/register'),
+	config = require('../../config'),
 	sinon = require('sinon'),
 	_ = require('underscore');
 

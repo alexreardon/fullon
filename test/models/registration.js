@@ -1,7 +1,7 @@
-var registration = require('../models/registration'),
-	base_model = require('../models/base_model'),
+var registration = require('../../models/registration'),
+	base_model = require('../../models/base_model'),
 	expect = require('expect.js'),
-	config = require('../config'),
+	config = require('../../config'),
 	_ = require('underscore');
 
 describe('registration', function () {

@@ -1,6 +1,6 @@
-var base_model = require('../models/base_model'),
+var base_model = require('../../models/base_model'),
 	expect = require('expect.js'),
-	database = require('../util/db'),
+	database = require('../../util/db'),
 	sinon = require('sinon'),
 	_ = require('underscore');
 

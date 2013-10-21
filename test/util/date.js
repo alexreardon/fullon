@@ -1,5 +1,5 @@
-var date = require('../util/date'),
-	config = require('../config'),
+var date = require('../../util/date'),
+	config = require('../../config'),
 	moment = require('moment'),
 	expect = require('expect.js');
 

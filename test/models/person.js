@@ -1,7 +1,7 @@
-var person = require('../models/person'),
-	base_model = require('../models/base_model'),
+var person = require('../../models/person'),
+	base_model = require('../../models/base_model'),
 	expect = require('expect.js'),
-	config = require('../config'),
+	config = require('../../config'),
 	_ = require('underscore');
 
 describe('person', function () {

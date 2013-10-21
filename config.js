@@ -38,7 +38,8 @@ var config = {
 	},
 
 	// emails - used for bcc on confirmations
-	admin_emails: ['alexreardon@gmail.com', 'mikes@stphils.org.au'],
+	// conditionally added - see below
+	admin_emails: [],
 
 	// public variables
 	application: {
@@ -138,6 +139,12 @@ var config = {
 if (process.env.NODE_ENV !== 'production') {
 	console.info('using development database');
 	config.db_connection = 'mongodb://127.0.0.1:27017/test';
+}
+
+// admin_emails
+config.admin_emails.push('alexreardon@gmail.com');
+if (process.env.NODE_ENV === 'production') {
+	config.admin_emails.push('mikes@stphils.org.au');
 }
 
 var errors = [];

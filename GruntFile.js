@@ -144,7 +144,7 @@ module.exports = function (grunt) {
 		nodemon: {
 			dev: {
 				options: {
-					file: 'app.js',
+					file: 'server.js',
 					watchedExtensions: ['js', 'hbs']
 				}
 			}
