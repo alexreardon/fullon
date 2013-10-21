@@ -10,7 +10,7 @@ function auth (req, res, next) {
 }
 
 function create_filename () {
-	return format('fullon2014-registrations-%s.csv', moment().format(config.application.date_format_long));
+	return format('registrations--%s.csv', moment().format(config.application.date_format_file));
 }
 
 exports.routes = function (app) {

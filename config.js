@@ -48,7 +48,8 @@ var config = {
 
 		// dates
 		date_format_short: 'DD.MM.YYYY',
-		date_format_long: 'YYYY-MM-DD HH:mm:ss',
+		date_format_long: 'DD.MM.YYYY HH:mm:ss', //TODO
+		date_format_file: 'YYYY-MM-DD--HH-mm-ss',
 
 		date_camp_start: '01.01.2014',
 		date_register_end: '15.12.2013',
