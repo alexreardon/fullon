@@ -85,7 +85,7 @@ exports.calculate_total = function (camper_type_name, post) {
 		total += parseFloat(post.donation);
 	}
 
-	console.log('total:', total);
+	//console.log('total:', total);
 	return total;
 
 };
@@ -121,19 +121,17 @@ exports.routes = function (app) {
 	});
 
 	app.post('/register', function (req, res, next) {
-		console.log(format('post data: %j', req.body));
-
 		var post = req.body;
 
 		// validate form
 		var invalid_fields = exports.get_invalid_fields(schema.populate(), post);
 		if (invalid_fields.length) {
 			console.warn('error validating form');
-			console.warn(invalid_fields);
+			//console.warn(invalid_fields);
 			return exports.render_landing(req, res, next, true);
 		}
 
-		console.log(format('successful post: %j', post));
+		//console.log(format('successful post: %j', post));
 
 		var total = exports.calculate_total(post.camper_type, post);
 
@@ -186,7 +184,7 @@ exports.routes = function (app) {
 				title: 'Confirmation'
 			};
 
-			console.log(format('saved registration: %j', r.data));
+			//console.log(format('saved registration: %j', r.data));
 
 			// send confirmation email
 			email.send({

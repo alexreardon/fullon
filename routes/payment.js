@@ -109,6 +109,7 @@ exports.routes = function (app) {
 	});
 
 	app.get('/payment/cancel', function (req, res, next) {
+		req.session.payment_params = null;
 		next(new Error('Sorry. Your submission has been cancelled. You will need to fill out your registration form again'));
 	});
 };

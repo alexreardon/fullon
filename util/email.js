@@ -15,7 +15,7 @@ var smtpTransport = nodemailer.createTransport('SMTP', {
 });
 
 //starts an async call - does not wait for success/failure
-exports.send = function (params){
+module.exports.send = function (params){
 	/*
 	to, bcc*, subject, template_name, template_data, cb (* = optional)
 	 */

@@ -21,6 +21,7 @@ _.each(helpers, function (val, key) {
 
 // Middleware - features
 app.use(express.logger('dev'));
+app.use(express.compress());
 app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser(config.cookie_secret));
