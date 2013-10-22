@@ -9,10 +9,10 @@
 	>
 
 	{{#if text}}
-		<label class="control-label{{#if validation.required}} required{{/if}}" for="{{name}}">{{text}}</label>
+		<label class="control-label{{#if validation.required}} required{{/if}}">{{text}}</label>
 	{{/if}}
 
-	<span class="validation_message hide">{{{get_validation_messages validation}}}</span>
+	<div class="validation_message hide">{{{get_validation_messages validation}}}</div>
 
 	{{{print_field this}}}
 
