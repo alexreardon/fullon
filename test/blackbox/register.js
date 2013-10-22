@@ -10,6 +10,9 @@ var expect = require('expect.js'),
 
 describe('Registration', function () {
 
+	// Some of these tests can take some time
+	this.timeout(10000);
+
 	var port = 8080,
 		server,
 		original_collection_name = registration.collection_name,

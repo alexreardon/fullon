@@ -19,7 +19,7 @@ _.each(helpers, function (val, key) {
 	hbs.registerHelper(key, val);
 });
 
-// Middleware - features
+// Middleware - Express
 app.use(express.logger('dev'));
 app.use(express.compress());
 app.use(express.bodyParser());
@@ -27,29 +27,29 @@ app.use(express.methodOverride());
 app.use(express.cookieParser(config.cookie_secret));
 app.use(express.session());
 
-// static file serving
+// Static file serving
 app.use('/public', express.static(path.join(__dirname, '/public')));
 
-// middleware - flow
+// Middleware - flow
 app.use(app.router);
 
-// Error handling
-var errorLogger = function (err, req, res, next) {
+// Error logging
+app.use(function (err, req, res, next) {
 	console.error(err);
 	next(err);
-};
-var error404 = function (req, res) {
+});
+
+// Route not found (404)
+app.use(function (req, res) {
 	res.status(404);
 	res.render('404', { url: req.url });
-};
-var error500 = function (err, req, res, next) {
+});
+
+// Server errors (500)
+app.use(function (err, req, res, next) {
 	res.status(500);
 	res.render('500', { error: err, env: app.get('env') });
-};
-
-app.use(errorLogger);
-app.use(error404);
-app.use(error500);
+});
 
 // Bootstrap data
 app.locals.bootstrap = JSON.stringify(locals.bootstrap);

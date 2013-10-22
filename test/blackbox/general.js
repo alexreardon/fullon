@@ -5,6 +5,8 @@ var expect = require('expect.js'),
 	app = require('../../app');
 
 describe('Routes - General', function () {
+	// Some of these tests can take some time
+	this.timeout(10000);
 
 	var port = 8080,
 		server;
