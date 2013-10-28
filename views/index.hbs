@@ -34,17 +34,27 @@
 
 			</div>
 			<div class="col-md-2">
-				{{#if data.is_earlybird_open }}
-					<a href="#discounts">
-						<div id="early_bird">
-							<div class="discount">${{config.discounts.earlybird.amount}} Off</div>
-							<h4 class="early_bird_title">Early Bird</h4>
-
-							<div class="days">{{data.days_to_earlybird_end}}</div>
-							<div class="day_to_go">Days to Go</div>
-						</div>
-					</a>
-				{{/if}}
+				<a href="#about">
+					<div class="fo_badge">
+						{{#if data.is_earlybird_open}}
+							<div class="fo_badge_row1">${{config.discounts.earlybird.amount}} Off</div>
+							<div class="fo_badge_row2">Early Bird</div>
+							<div class="fo_badge_row3">{{data.days_to_earlybird_end}}</div>
+							<div class="fo_badge_row4">Days to Go</div>
+						{{!-- no else if in handlebars --}}
+						{{else}}
+							{{#if data.is_registration_open}}
+								<div class="fo_badge_row1">Sign Up</div>
+								<div class="fo_badge_row2">Closes in</div>
+								<div class="fo_badge_row3">{{data.days_to_registration_close}}</div>
+								<div class="fo_badge_row4">Days</div>
+							{{else}}
+								<div class="fo_badge_row1">Sign Up</div>
+								<div class="fo_badge_row3">Closed</div>
+							{{/if}}
+						{{/if}}
+					</div>
+				</a>
 			</div>
 		</div>
 

@@ -27,9 +27,55 @@
 		}
 	}
 
+	.fo_badge {
+		.fo_badge_generator(100px);
+		.rotate(14deg);
+
+		padding-top: 2px;
+		margin-top: 10px;
+
+		//everything less than md has no background image
+		@media (max-width: @screen-md-min) {
+			.center-block();
+			margin-bottom: 20px;
+		}
+
+		.fo_badge_row1 {
+			font-family: @fo_font_header;
+			margin-top: 7px;
+			font-size: 15px;
+			letter-spacing: -1px;
+		}
+
+		// early bird title
+		.fo_badge_row2 {
+			padding-top: 7px;
+			font-family: @fo-font-cursive;
+			font-size: 16px;
+			margin: 0;
+			margin-top: -16px;
+			letter-spacing: 0px;
+		}
+
+		// days
+		.fo_badge_row3 {
+			font-family: @fo_font_header;
+			line-height: 35px;
+			font-size: 35px;
+		}
+		// to go
+		.fo_badge_row4 {
+			font-family: @fo_font_header;
+			line-height: @font-size-base; //14px
+			font-size: @font-size-base;
+			margin-top: -3px;
+		}
+
+	}
+
 	#early_bird {
 		.rotate(14deg);
-		.fo_badge(100px);
+		.fo_badge_generator(100px);
 
 		padding-top: 2px;
 		margin-top: 10px;
@@ -121,34 +167,6 @@
 		text-shadow: 0px 0px 20px lighten(@fo-colour-white, 10%);
 		margin-top: 16px;
 	}
-	//
-	//		.flag(@url, @margin-left) {
-	//			content: '';
-	//			margin-top: -22px;
-	//			margin-left: @margin-left;
-	//			width: @pic-width;
-	//			height: 189px;
-	//			position: absolute;
-	//			background-image: url(@url);
-	//			background-repeat: no-repeat;
-	//			background-position: top left;
-	//			background-size: @pic-width-calculate;
-	//
-	//			// don't show on small devices
-	//			@media (max-width: @screen-md-min) {
-	//				display: none;
-	//			}
-	//		}
-	//
-	//		&:before {
-	//			// 6px added because the font is dumb and the element was not aligned properly
-	//			.flag('/public/images/Banner_king.png', (-1px * (@pic-width-calculate + 14px)) + 6px);
-	//		}
-	//
-	//		&:after {
-	//			.flag('/public/images/Dol_amroth.png', 14px);
-	//		}
-	//	}
 
 	// days to go
 	h4 {
