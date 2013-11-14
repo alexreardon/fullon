@@ -40,14 +40,15 @@
 							<div class="fo_badge_row1">${{config.discounts.earlybird.amount}} Off</div>
 							<div class="fo_badge_row2">Early Bird</div>
 							<div class="fo_badge_row3">{{data.days_to_earlybird_end}}</div>
-							<div class="fo_badge_row4">Days to Go</div>
-						{{!-- no else if in handlebars --}}
+							{{! only add 's' if > 1 day to go}}
+							<div class="fo_badge_row4">Day{{#if_not_equal 1 data.days_to_earlybird_end}}s{{/if_not_equal}} to Go</div>
+						{{! no else if in handlebars }}
 						{{else}}
 							{{#if data.is_registration_open}}
 								<div class="fo_badge_row1">Sign Up</div>
 								<div class="fo_badge_row2">Closes in</div>
 								<div class="fo_badge_row3">{{data.days_to_registration_close}}</div>
-								<div class="fo_badge_row4">Days</div>
+								<div class="fo_badge_row4">Day{{#if_not_equal 1 data.days_to_registration_close}}s{{/if_not_equal}}</div>
 							{{else}}
 								<div class="fo_badge_row1">Sign Up</div>
 								<div class="fo_badge_row3">Closed</div>

@@ -88,7 +88,7 @@ module.exports = function (grunt) {
 				options: {
 					mangle: false,
 					compress: true,
-					report: 'gzip',
+					report: 'min',
 					banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
 						'<%= grunt.template.today("dd-mm-yyyy") %> */'
 				},
