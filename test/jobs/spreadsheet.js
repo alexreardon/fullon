@@ -1,11 +1,12 @@
 var expect = require('expect.js'),
+	sinon = require('sinon'),
 	spreadsheet = require('../../jobs/spreadsheet'),
 	config = require('../../config'),
 	_ = require('underscore'),
 	database = require('../../util/db'),
 	person = require('../../models/person');
 
-describe('Get Spreadsheet Data', function () {
+describe('Job - Get Spreadsheet Data', function () {
 
 	describe('get_person', function () {
 
@@ -183,7 +184,6 @@ describe('Get Spreadsheet Data', function () {
 			expect(count).to.be(1);
 
 		});
-
 	});
 
 	describe('Save data', function () {
@@ -223,6 +223,25 @@ describe('Get Spreadsheet Data', function () {
 
 		it.skip('should persist saved people in the database', function (done) {
 
+		});
+	});
+
+	describe('Trim whitespace', function () {
+		var firstname = 'Alex',
+			lastname = 'Reardon',
+			row;
+
+		beforeEach(function () {
+			row = {
+				sellerfirstname: ' ' + firstname + ' ', // leading and trailing space,
+				sellerlastname: ' ' + lastname + ' ' // leading and trailing space,
+			};
+		});
+
+		it('should trim whitespace', function () {
+			spreadsheet._trim_name_whitespaces(row);
+			expect(row.sellerfirstname).to.be(firstname);
+			expect(row.sellerlastname).to.be(lastname);
 		});
 	});
 

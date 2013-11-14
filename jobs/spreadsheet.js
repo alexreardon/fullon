@@ -44,6 +44,16 @@ function get_spread_sheet (cb) {
 
 }
 
+function trim_name_whitespaces (spreadsheet_row) {
+	spreadsheet_row.sellerfirstname = spreadsheet_row.sellerfirstname.trim();
+	spreadsheet_row.sellerlastname = spreadsheet_row.sellerlastname.trim();
+
+	if (spreadsheet_row.attributedfirstname && spreadsheet_row.attributedlastname) {
+		spreadsheet_row.attributedfirstname = spreadsheet_row.attributedfirstname.trim();
+		spreadsheet_row.attributedlastname = spreadsheet_row.attributedlastname.trim();
+	}
+}
+
 //Process Google Datat
 // -> spreadsheet -> array[person]
 function process_spreadsheet (rows) {
@@ -57,6 +67,9 @@ function process_spreadsheet (rows) {
 		if (!row.datereceived || !row.sellerfirstname || !row.sellerlastname) {
 			return false;
 		}
+
+		// trim whitespace on names
+		trim_name_whitespaces(row);
 
 		var seller = get_person(people, row.sellerfirstname, row.sellerlastname);
 		seller.data.sold++;
@@ -72,6 +85,8 @@ function process_spreadsheet (rows) {
 	return people;
 
 }
+
+
 
 //Application Flow
 
@@ -96,6 +111,7 @@ module.exports = {
 	//test api
 	_process_spreadsheet: process_spreadsheet,
 	_get_person: get_person,
-	_get_spread_sheet: get_spread_sheet
+	_get_spread_sheet: get_spread_sheet,
+	_trim_name_whitespaces: trim_name_whitespaces
 
 };
