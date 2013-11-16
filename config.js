@@ -92,8 +92,8 @@ var config = {
 				name: 'Early bird',
 				available_to: ['junior', 'senior', 'leader'],
 				amount: 20,
-				description: format('Register before %s', date_earlybird_end),
-				question: format('Are you registering before %s?', date_earlybird_end)
+				description: format('Register on or before %s', date_earlybird_end),
+				question: format('Are you registering on or before %s?', date_earlybird_end)
 			},
 			sibling: {
 				name: 'Sibling',
