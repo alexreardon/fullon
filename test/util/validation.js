@@ -75,6 +75,14 @@ describe('Validation', function () {
 			expect(validation.is_letters.fn(' ')).to.be(false);
 		});
 
+		it('should allow the "-" character', function () {
+			expect(validation.is_letters.fn('hello-world')).to.be(true);
+		});
+
+		it('should allow the "\'" character', function () {
+			expect(validation.is_letters.fn('O\'Reardon')).to.be(true);
+		});
+
 	});
 
 	describe('is_numbers', function () {
