@@ -37,6 +37,9 @@ var config = {
 		sandbox_mode: (process.env.fullon_paypal_sandbox_mode === 'on' ? true : false)
 	},
 
+	// late registration code (can be used to reactivate registrations)
+	late_registration_code: process.env.fullon_late_registration_code || '1234',
+
 	// emails - used for bcc on confirmations
 	// conditionally added - see below
 	admin_emails: [],

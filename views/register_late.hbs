@@ -1,0 +1,25 @@
+{{>header}}
+
+<section>
+	<div class="container">
+		<h1>Looking for a second chance?</h1>
+
+		<p class="text-center">
+			Please speak to Mike Smith (see <a href="/#contact">Contact</a>) if you like to register after the close date.
+			At his discretion he can provide you with an access code that will allow you to register late.
+		</p>
+
+		<form method="post" id="register_late_form">
+			<div class="form-group {{#if error}}has-error{{/if}}">
+
+				<label class="control-label required">Late registration code</label>
+
+				<div class="validation_message {{#unless error}}hide{{/unless}}">Invalid late registration code</div>
+				<input name="late_code" type="password" class="form-control" />
+			</div>
+		</form>
+
+	</div>
+</section>
+
+{{>footer}}

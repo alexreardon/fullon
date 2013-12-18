@@ -93,7 +93,10 @@ exports.calculate_total = function (camper_type_name, post) {
 exports.render_landing = function (req, res, next, validation_error) {
 	var data = date.get_page_data();
 
-	if (!data.is_registration_open) {
+	// render 'register_closed' if:
+	// 1. NOT late_registration_allowed AND
+	// 2. registration is closed
+	if (!req.session.late_registration_allowed && !data.is_registration_open) {
 		return res.render('register_closed');
 	}
 
@@ -206,6 +209,29 @@ exports.routes = function (app) {
 		});
 
 	});
+
+	// late registrations
+	app.get('/register/late', function (req, res) {
+
+		// if already allowed, just redirect to /register
+		if (req.session.late_registration_allowed) {
+			return res.redirect('/register');
+		}
+
+		res.render('register_late');
+	});
+
+	app.post('/register/late', function (req, res) {
+			var post = req.body;
+
+			if (post.late_code === config.late_registration_code) {
+				req.session.late_registration_allowed = true;
+				return res.redirect('/register');
+			}
+
+			res.render('register_late', { error: true });
+		}
+	);
 
 };
 
