@@ -6,7 +6,7 @@
 	"main": "server.js",
 	"scripts": {
 		"test": "grunt && mocha --reporter spec test/**/*.js",
-		"postinstall": "./node_modules/grunt/bin/grunt default",
+		"postinstall": "./node_modules/.bin/grunt default",
 		"start": "node server.js"
 	},
 	"repository": {
