@@ -17,3 +17,4 @@ node_modules
 #Custom Rules
 
 .idea/
+public/js/build/**/*.js
