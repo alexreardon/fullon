@@ -41,7 +41,6 @@
 		"string": "~1.6.0",
 		"nodetime": "~0.8.14",
 
-		// added grunt to dependencies for heroku deployment
 		"grunt-cli": "~0.1.12",
 		"grunt-contrib-jshint": "~0.6.2",
 		"grunt-contrib-less": "~0.7.0",
