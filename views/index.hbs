@@ -1,5 +1,67 @@
 {{>header}}
-<section id="landing" class="dark">
+<section id="reunion" class="light full_page">
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6">
+				<h3>My<strong>Sword</strong>&</h3>
+
+				<h3>My<strong>Bow</strong>&</h3>
+
+				<h3>My<strong>Axe</strong></h3>
+
+				<h1>Fullon<strong>Reunion</strong></h1>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-offset-3 col-md-6">
+				<p>
+					Come and share some good times with your fellow campers and leaders.
+				</p>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-offset-3 col-md-3">
+				<h2>Date?</h2>
+
+				<p>Sunday 23<sup>rd</sup> of February</p>
+
+				<h2>Time?</h2>
+
+				<p>
+					Festivities start at <strong>3pm</strong>. Followed by a 'full on' style service at
+					<strong>6:30pm</strong>.
+					The service will finish at around <strong>8pm</strong>.
+				</p>
+
+			</div>
+
+			<div class="col-md-3">
+				<h2>Where?</h2>
+
+				<p>
+					<a title="St Philip’s Eastwood Anglican Church" href="http://en.stphils.org.au/">St Philip’s
+						Eastwood Anglican Church</a>
+				</p>
+
+				<h2>What to bring?</h2>
+
+				<p>
+				<ul>
+					<li><strong>$10</strong> for entertainment and dinner</li>
+					<li>Swimmers (for the slide)</li>
+					<li>Towel</li>
+					<li>Dry clothes to get changed into</li>
+				</ul>
+				</p>
+			</div>
+		</div>
+	</div>
+</section>
+
+<section id="landing" class="dark full_page">
 	<div class="container">
 
 		<div class="row">
@@ -41,14 +103,17 @@
 							<div class="fo_badge_row2">Early Bird</div>
 							<div class="fo_badge_row3">{{data.days_to_earlybird_end}}</div>
 							{{! only add 's' if > 1 day to go}}
-							<div class="fo_badge_row4">Day{{#if_not_equal 1 data.days_to_earlybird_end}}s{{/if_not_equal}} to Go</div>
+							<div class="fo_badge_row4">Day{{#if_not_equal 1 data.days_to_earlybird_end}}
+								s{{/if_not_equal}} to Go
+							</div>
 						{{! no else if in handlebars }}
 						{{else}}
 							{{#if data.is_registration_open}}
 								<div class="fo_badge_row1">Sign Up</div>
 								<div class="fo_badge_row2">Closes in</div>
 								<div class="fo_badge_row3">{{data.days_to_registration_close}}</div>
-								<div class="fo_badge_row4">Day{{#if_not_equal 1 data.days_to_registration_close}}s{{/if_not_equal}}</div>
+								<div class="fo_badge_row4">Day{{#if_not_equal 1 data.days_to_registration_close}}
+									s{{/if_not_equal}}</div>
 							{{else}}
 								<div class="fo_badge_row1">Sign Up</div>
 								<div class="fo_badge_row3">Closed</div>
@@ -77,7 +142,7 @@
 						<th>Name</th>
 						<th>Boxes Sold</th>
 					</tr>
-						{{leaderboard people}}
+					{{leaderboard people}}
 				</table>
 
 			</div>
@@ -416,7 +481,7 @@
 			</thead>
 			<tbody>
 
-				{{#each config.camper_types}}
+			{{#each config.camper_types}}
 				<tr>
 					<td>{{@key}}
 						<p>
@@ -425,7 +490,7 @@
 					</td>
 					<td>${{fee}}</td>
 				</tr>
-				{{/each}}
+			{{/each}}
 
 			</tbody>
 		</table>
@@ -445,7 +510,7 @@
 			</tr>
 			</thead>
 			<tbody>
-				{{#each config.discounts}}
+			{{#each config.discounts}}
 				<tr>
 					<td class="name">
 						{{name}}
@@ -454,7 +519,7 @@
 					<td>${{amount}}</td>
 					<td>{{print_array available_to}}</td>
 				</tr>
-				{{/each}}
+			{{/each}}
 			</tbody>
 		</table>
 

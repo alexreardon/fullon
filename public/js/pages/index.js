@@ -1,7 +1,7 @@
 fullon.views.index = Backbone.View.extend({
 
 	initialize: function () {
-		this.$landing = $('#landing');
+		this.$full_page_sections = $('.full_page');
 
 		var throttled_resize = _.throttle(function () {
 			this.resize();
@@ -20,7 +20,7 @@ fullon.views.index = Backbone.View.extend({
 
 	resize: function () {
 		console.log('window resize - landing');
-		this.$landing.css('min-height', $(window).height());
+		this.$full_page_sections.css('min-height', $(window).height());
 	}
 
 });

@@ -1,0 +1,33 @@
+#reunion {
+
+	background-color: #4F84FF;
+
+	a {
+		color: @fo-colour-white;
+	}
+
+	.heading {
+		text-align: left;
+		letter-spacing: -2px;
+
+		strong {
+			color: @fo-colour-white;
+			font-weight: normal;
+			vertical-align: middle;
+		}
+	}
+
+	h3 {
+		.heading();
+		font-size: floor(@fo-index-base-font-size * 0.6);
+		line-height: 25px;
+		strong {
+			font-size: @fo-index-base-font-size;
+		}
+	}
+
+	h1 {
+		.heading();
+		margin-top: -11px;
+	}
+}
