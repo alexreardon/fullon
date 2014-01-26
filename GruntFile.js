@@ -170,4 +170,7 @@ module.exports = function (grunt) {
 	//Release
 	grunt.registerTask('default', ['jshint', 'less:prod', 'browserify', 'concat', 'uglify:prod']);
 
+	//Heroku
+	// grunt.registerTask('heroku:production', 'default');
+
 };
